@@ -15,11 +15,6 @@
     "cpp",
     "*.podspec",
     "!ios/build",
-    "!android/build",
-    "!android/gradle",
-    "!android/gradlew",
-    "!android/gradlew.bat",
-    "!android/local.properties",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__",
@@ -30,14 +25,16 @@
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
+    "clean": "del-cli example/android/build example/android/app/build example/ios/build lib",
     "prepare": "bob build",
     "release": "release-it"
   },
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "uitextview",
+    "select",
+    "selection"
   ],
   "repository": {
     "type": "git",
@@ -55,6 +52,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",
     "@evilmartians/lefthook": "^1.5.0",
+    "@react-native-community/eslint-config": "^3.2.0",
     "@react-native/eslint-config": "^0.73.1",
     "@release-it/conventional-changelog": "^5.0.0",
     "@types/jest": "^29.5.5",
@@ -116,20 +114,30 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@react-native",
+      "@react-native-community",
+      "plugin:react/recommended",
       "prettier"
     ],
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
     "rules": {
+      "react/no-unescaped-entities": 0,
+      "react-native/no-inline-styles": 0,
       "prettier/prettier": [
         "error",
         {
-          "quoteProps": "consistent",
-          "singleQuote": true,
-          "tabWidth": 2,
-          "trailingComma": "es5",
-          "useTabs": false
-        }
-      ]
+        "quoteProps": "consistent",
+        "singleQuote": true,
+        "tabWidth": 2,
+        "trailingComma": "none",
+        "useTabs": false,
+        "semi": false,
+        "arrowParens": "avoid",
+        "bracketSameLine": true,
+        "bracketSpacing": false
+      }]
     }
   },
   "eslintIgnore": [
@@ -140,8 +148,12 @@
     "quoteProps": "consistent",
     "singleQuote": true,
     "tabWidth": 2,
-    "trailingComma": "es5",
-    "useTabs": false
+    "trailingComma": "none",
+    "useTabs": false,
+    "semi": false,
+    "arrowParens": "avoid",
+    "bracketSameLine": true,
+    "bracketSpacing": false
   },
   "react-native-builder-bob": {
     "source": "src",
