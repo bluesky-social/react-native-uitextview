@@ -29,16 +29,17 @@ type RNUITextViewChildProps = TextProps & {
 }
 
 const RNUITextView =
-  UIManager.getViewManagerConfig('RNUITextView') != null
+  UIManager.getViewManagerConfig?.('RNUITextView') != null
     ? requireNativeComponent<RNUITextViewProps>('RNUITextView')
     : () => {
+        if (Platform.OS !== 'ios') return null
         throw new Error(LINKING_ERROR)
       }
 export const RNUITextViewChild =
-  UIManager.getViewManagerConfig &&
-  UIManager.getViewManagerConfig('RNUITextViewChild') != null
+  UIManager.getViewManagerConfig?.('RNUITextViewChild') != null
     ? requireNativeComponent<RNUITextViewChildProps>('RNUITextViewChild')
     : () => {
+        if (Platform.OS !== 'ios') return null
         throw new Error(LINKING_ERROR)
       }
 
