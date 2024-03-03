@@ -136,7 +136,10 @@ export function UITextView(
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isAncestor] = useTextAncestorContext()
 
-  if (!isAncestor && !props.uiTextView) {
+  // Even if the uiTextView prop is set, we can still default to using
+  // normal selection (i.e. base RN text) if the text doesn't need to be
+  // selectable
+  if (!props.selectable && !props.uiTextView && !isAncestor) {
     return <RNText {...props} />
   }
   return <UITextViewInner {...props} />
