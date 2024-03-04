@@ -134,8 +134,6 @@ class RNUITextView: UIView, UIGestureRecognizerDelegate {
       currIndex += childText.utf16.count
 
       if charIndex <= currIndex {
-        print(charIndex)
-        print(currIndex)
         return child
       }
     }
