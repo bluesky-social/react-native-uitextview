@@ -105,7 +105,7 @@ function UITextViewInner({
         {React.Children.toArray(children).map((c, index) => {
           if (React.isValidElement(c)) {
             return c
-          } else if (typeof c === 'string' || c === 'number') {
+          } else if (typeof c === 'string' || typeof c === 'number') {
             return (
               <RNUITextViewChild
                 key={index}
