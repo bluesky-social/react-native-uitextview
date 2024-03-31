@@ -8,7 +8,7 @@ class RNUITextViewShadow: RCTShadowView {
     }
   }
   @objc var allowsFontScaling: Bool = true
-  
+
   var attributedText: NSAttributedString = NSAttributedString()
   var frameSize: CGSize = CGSize()
 
@@ -87,24 +87,24 @@ class RNUITextViewShadow: RCTShadowView {
       guard let child = child as? RNUITextViewChildShadow else {
         return
       }
-      
+
       let scaledFontSize = self.allowsFontScaling ?
         UIFontMetrics.default.scaledValue(for: child.fontSize) : child.fontSize
-      let font = self.getFont(size: scaledFontSize, child: child)
+      let font = self.getFont(child)
 
       // Set some generic attributes that don't need ranges
       var attributes: [NSAttributedString.Key:Any] = [
         .font: font,
         .foregroundColor: child.color,
       ]
-      
+
       if child.textDecorationLine == .underline ||
          child.textDecorationLine == .underlineStrikethrough
       {
         attributes[.underlineStyle] = child.getTextDecorationStyle()
         attributes[.underlineColor] = child.getTextDecorationColor()
       }
-      
+
       if child.textDecorationLine == .strikethrough ||
          child.textDecorationLine == .underlineStrikethrough
       {
@@ -131,7 +131,7 @@ class RNUITextViewShadow: RCTShadowView {
           value: paragraphStyle,
           range: NSMakeRange(0, string.length)
         )
-        
+
         // To calcualte the size of the text without creating a new UILabel or UITextView, we have
         // to store this line height for later.
         self.lineHeight = child.lineHeight
@@ -164,14 +164,20 @@ class RNUITextViewShadow: RCTShadowView {
     self.frameSize = CGSize(width: CGFloat(maxWidth), height: CGFloat(CGFloat(totalLines) * self.lineHeight))
     return YGSize(width: Float(self.frameSize.width), height: Float(self.frameSize.height))
   }
-  
-  func getFont(size: CGFloat, child: RNUITextViewChildShadow) -> UIFont {
-    let font = UIFont.systemFont(ofSize: size, weight: child.getFontWeight())
-    
+
+  func getFont(_ child: RNUITextViewChildShadow?) -> UIFont {
+    guard let child = child else {
+      return UIFont.systemFont(ofSize: 16)
+    }
+
+    let scaledFontSize = self.allowsFontScaling ?
+      UIFontMetrics.default.scaledValue(for: child.fontSize) : child.fontSize
+    let font = UIFont.systemFont(ofSize: scaledFontSize, weight: child.getFontWeight())
+
     if child.fontStyle == "italic" {
       return font.italics()
     }
-    
+
     return font
   }
 }
@@ -186,7 +192,7 @@ extension UIFont {
       // the given traits couldn't be applied, return self
       return self
     }
-        
+
     // return a new font with the created font descriptor
     return UIFont(descriptor: fd, size: pointSize)
   }

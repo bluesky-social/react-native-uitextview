@@ -535,6 +535,19 @@ export default function App() {
               Press me Press me Press me Press me Press me Press me Press me
             </Text>
           </View>
+
+          <RNText style={styles.header}>Empty String</RNText>
+
+          <View>
+            <RNText style={styles.subheader}>Base</RNText>
+            {/* eslint-disable-next-line react/self-closing-comp */}
+            <RNText style={styles.text}></RNText>
+          </View>
+          <View>
+            <RNText style={styles.subheader}>UITextView</RNText>
+            {/* eslint-disable-next-line react/self-closing-comp */}
+            <Text style={styles.text} selectable uiTextView></Text>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
