@@ -7,6 +7,7 @@ class RNUITextViewChildShadow: RCTShadowView {
   @objc var fontSize: CGFloat = 16.0
   @objc var fontStyle: String = "normal"
   @objc var fontWeight: String = "normal"
+  @objc var fontFamily: String?
   @objc var letterSpacing: CGFloat = 0.0
   @objc var lineHeight: CGFloat = 0.0
   @objc var pointerEvents: NSString?

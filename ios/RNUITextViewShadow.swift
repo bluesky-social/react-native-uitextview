@@ -176,6 +176,8 @@ class RNUITextViewShadow: RCTShadowView {
 
     if child.fontStyle == "italic" {
       return font.italics()
+    } else if child.fontFamily != nil {
+      return UIFont(name: child.fontFamily!, size: scaledFontSize) ?? font
     }
 
     return font
