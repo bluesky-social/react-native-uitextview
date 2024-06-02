@@ -55,7 +55,7 @@ const textDefaults: TextProps = {
   selectable: true
 }
 
-function UITextViewInner({
+function UITextViewChild({
   style,
   children,
   ...rest
@@ -123,24 +123,24 @@ function UITextViewInner({
   }
 }
 
-export function UITextView(
+function UITextViewInner(
   props: TextProps & {
     uiTextView?: boolean
   }
 ) {
-  if (Platform.OS !== 'ios') {
-    return <RNText {...props} />
-  }
-
-  // This will never actually get called conditionally, so we don't need
-  // to worry about the warning
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isAncestor] = useTextAncestorContext()
 
   // Even if the uiTextView prop is set, we can still default to using
   // normal selection (i.e. base RN text) if the text doesn't need to be
   // selectable
   if ((!props.selectable || !props.uiTextView) && !isAncestor) {
+    return <RNText {...props} />
+  }
+  return <UITextViewChild {...props} />
+}
+
+export function UITextView(props: TextProps & {uiTextView?: boolean}) {
+  if (Platform.OS !== 'ios') {
     return <RNText {...props} />
   }
   return <UITextViewInner {...props} />
