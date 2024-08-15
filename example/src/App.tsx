@@ -1,23 +1,29 @@
-import { StyleSheet, View } from 'react-native';
-import { UitextviewView } from 'react-native-uitextview';
+import React from 'react'
+import {StyleSheet, View} from 'react-native'
+import {UITextView} from 'react-native-uitextview'
 
 export default function App() {
+  const [text] = React.useState('test')
+
   return (
     <View style={styles.container}>
-      <UitextviewView color="#32a852" style={styles.box} />
+      <UITextView style={styles.box} uiTextView={true} selectable={true}>
+        {text}
+      </UITextView>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   box: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 80,
     marginVertical: 20,
-  },
-});
+    backgroundColor: 'red'
+  }
+})

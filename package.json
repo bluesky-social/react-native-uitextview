@@ -65,6 +65,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",
     "@evilmartians/lefthook": "^1.5.0",
+    "@react-native-community/eslint-config": "^3.2.0",
     "@react-native/eslint-config": "^0.73.1",
     "@release-it/conventional-changelog": "^5.0.0",
     "@types/jest": "^29.5.5",
@@ -126,19 +127,29 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@react-native",
+      "@react-native-community",
+      "plugin:react/recommended",
       "prettier"
     ],
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
     "rules": {
-      "react/react-in-jsx-scope": "off",
+      "react/no-unescaped-entities": 0,
+      "react-native/no-inline-styles": 0,
       "prettier/prettier": [
         "error",
         {
           "quoteProps": "consistent",
           "singleQuote": true,
           "tabWidth": 2,
-          "trailingComma": "es5",
-          "useTabs": false
+          "trailingComma": "none",
+          "useTabs": false,
+          "semi": false,
+          "arrowParens": "avoid",
+          "bracketSameLine": true,
+          "bracketSpacing": false
         }
       ]
     }
@@ -151,8 +162,12 @@
     "quoteProps": "consistent",
     "singleQuote": true,
     "tabWidth": 2,
-    "trailingComma": "es5",
-    "useTabs": false
+    "trailingComma": "none",
+    "useTabs": false,
+    "semi": false,
+    "arrowParens": "avoid",
+    "bracketSameLine": true,
+    "bracketSpacing": false
   },
   "react-native-builder-bob": {
     "source": "src",
@@ -180,7 +195,7 @@
     ]
   },
   "codegenConfig": {
-    "name": "RNUitextviewViewSpec",
+    "name": "RNUITextViewSpec",
     "type": "components",
     "jsSrcsDir": "src"
   },

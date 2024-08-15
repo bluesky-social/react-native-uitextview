@@ -3,12 +3,13 @@
 #import <React/RCTViewComponentView.h>
 #import <UIKit/UIKit.h>
 
-#ifndef UitextviewViewNativeComponent_h
-#define UitextviewViewNativeComponent_h
+#ifndef RNUITextViewChildNativeComponent_h
+#define RNUITextViewChildNativeComponent_h
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UitextviewView : RCTViewComponentView
+@interface RNUITextViewChild : RCTViewComponentView
+
 @end
 
 NS_ASSUME_NONNULL_END
