@@ -1,11 +1,16 @@
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent'
 import type {ViewProps} from 'react-native'
-import type {Int32} from 'react-native/Libraries/Types/CodegenTypes'
+import type {
+  Int32,
+  WithDefault
+} from 'react-native/Libraries/Types/CodegenTypes'
+
+type EllipsizeMode = 'head' | 'middle' | 'tail' | 'clip'
 
 interface NativeProps extends ViewProps {
   numberOfLines?: Int32
   allowsFontScaling?: boolean
-  ellipsizeMode?: string
+  ellipsizeMode?: WithDefault<EllipsizeMode, 'tail'>
   selectable?: boolean
 }
 

@@ -91,8 +91,15 @@ using namespace facebook::react;
   }
 
   if (oldViewProps.ellipsizeMode != newViewProps.ellipsizeMode) {
-    // @TODO enum this
-    // _textView.textContainer.lineBreakMode = newViewProps.ellipsizeMode;
+    if (newViewProps.ellipsizeMode == RNUITextViewEllipsizeMode::Head) {
+      _textView.textContainer.lineBreakMode = NSLineBreakMode::NSLineBreakByTruncatingHead;
+    } else if (newViewProps.ellipsizeMode == RNUITextViewEllipsizeMode::Middle) {
+      _textView.textContainer.lineBreakMode = NSLineBreakMode::NSLineBreakByTruncatingMiddle;
+    } else if (newViewProps.ellipsizeMode == RNUITextViewEllipsizeMode::Tail) {
+      _textView.textContainer.lineBreakMode = NSLineBreakMode::NSLineBreakByTruncatingTail;
+    } else if (newViewProps.ellipsizeMode == RNUITextViewEllipsizeMode::Clip) {
+      _textView.textContainer.lineBreakMode = NSLineBreakMode::NSLineBreakByClipping;
+    }
   }
 
   [super updateProps:props oldProps:oldProps];
