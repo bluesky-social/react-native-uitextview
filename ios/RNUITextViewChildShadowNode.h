@@ -3,16 +3,14 @@
 #include <react/renderer/components/RNUITextViewSpec/EventEmitters.h>
 #include <react/renderer/components/RNUITextViewSpec/Props.h>
 #include <react/renderer/components/RNUITextViewSpec/States.h>
-#include <react/renderer/core/ConcreteShadowNode.h>
+#include <react/renderer/components/view/ConcreteViewShadowNode.h>
 
 namespace facebook::react {
 extern const char RNUITextViewChildComponentName[];
 
-class RNUITextViewChildShadowNode : public ConcreteShadowNode<
-  RNUITextViewChildComponentName,
-  ShadowNode,
-  RNUITextViewChildProps> {
- public:
-  using ConcreteShadowNode::ConcreteShadowNode;
-};
+using RNUITextViewChildShadowNode = ConcreteViewShadowNode<
+    RNUITextViewChildComponentName,
+    RNUITextViewChildProps,
+    RNUITextViewChildEventEmitter,
+    RNUITextViewChildState>;
 }

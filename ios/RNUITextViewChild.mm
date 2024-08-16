@@ -40,12 +40,12 @@ using namespace facebook::react;
 {
   const auto &oldViewProps = *std::static_pointer_cast<RNUITextViewChildProps const>(_props);
   const auto &newViewProps = *std::static_pointer_cast<RNUITextViewChildProps const>(props);
-  
+
   if (newViewProps.text != oldViewProps.text) {
     NSString *text = [NSString stringWithUTF8String:newViewProps.text.c_str()];
     _text = text;
   }
-  
+
   [super updateProps:props oldProps:oldProps];
 }
 
