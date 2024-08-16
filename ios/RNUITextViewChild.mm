@@ -18,6 +18,8 @@ using namespace facebook::react;
 
 @implementation RNUITextViewChild {
   NSString * _text;
+  RCTBubblingEventBlock _onPress;
+  RCTBubblingEventBlock _onLongPress;
 }
 
 + (ComponentDescriptorProvider)componentDescriptorProvider
@@ -45,6 +47,14 @@ using namespace facebook::react;
   }
   
   [super updateProps:props oldProps:oldProps];
+}
+
+- (void)setOnPress:(RCTBubblingEventBlock)onPress {
+  _onPress = onPress;
+}
+
+- (void)setOnLongPress:(RCTBubblingEventBlock)onLongPress {
+  _onLongPress = onLongPress;
 }
 
 Class<RCTComponentViewProtocol> RNUITextViewChildCls(void)

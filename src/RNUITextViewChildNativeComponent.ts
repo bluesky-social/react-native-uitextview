@@ -1,9 +1,15 @@
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent'
 import type {ColorValue, ViewProps} from 'react-native'
 import type {
+  BubblingEventHandler,
   Float,
+  Int32,
   WithDefault
 } from 'react-native/Libraries/Types/CodegenTypes'
+
+type TargetedEvent = {
+  target: Int32
+}
 
 type TextDecorationLine = 'none' | 'underline' | 'line-through'
 
@@ -21,6 +27,8 @@ interface NativeProps extends ViewProps {
   textDecorationLine?: WithDefault<TextDecorationLine, 'none'>
   textDecorationStyle?: WithDefault<TextDecorationStyle, 'solid'>
   textDecorationColor?: ColorValue
+  onPress?: BubblingEventHandler<TargetedEvent>
+  onLongPress?: BubblingEventHandler<TargetedEvent>
 }
 
 export default codegenNativeComponent<NativeProps>('RNUITextViewChild')

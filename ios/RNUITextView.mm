@@ -12,11 +12,11 @@
 
 using namespace facebook::react;
 
-@interface RNUITextView () <RCTRNUITextViewViewProtocol>
+@interface RNUITextView () <RCTRNUITextViewViewProtocol, UIGestureRecognizerDelegate>
 
 @end
 
-@implementation RNUITextView {
+@implementation RNUITextView{
   UIView * _view;
   UITextView * _textView;
   RNUITextViewShadowNode::ConcreteState::Shared _state;
@@ -43,6 +43,20 @@ using namespace facebook::react;
     _textView.textContainerInset = UIEdgeInsetsZero;
     _textView.textContainer.lineFragmentPadding = 0;
     [self addSubview:_textView];
+    
+    const auto longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                          action:@selector(handleLongPressIfNecessary:)
+    ];
+    longPressGestureRecognizer.delegate = self;
+    
+    const auto pressGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                action:@selector(handlePressIfNecessary:)
+    ];
+    pressGestureRecognizer.delegate = self;
+    [pressGestureRecognizer requireGestureRecognizerToFail:longPressGestureRecognizer];
+    
+    [_textView addGestureRecognizer:pressGestureRecognizer];
+    [_textView addGestureRecognizer:longPressGestureRecognizer];
   }
 
   return self;
@@ -102,23 +116,39 @@ using namespace facebook::react;
   [self setNeedsDisplay];
 }
 
+// Gesture recognizer delegate
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+  return YES;
+}
+
 // Touch events
 - (CGPoint)getLocationOfPress:(UIGestureRecognizer*)sender
 {
-  return [sender locationInView:self];
+  return [sender locationInView:_textView];
+}
+
+- (void)insertSubview:(UIView *)view atIndex:(NSInteger)index
+{
+  const auto className = NSStringFromClass([view class]);
+  printf("inserting subview: %s", className.UTF8String);
 }
 
 - (RNUITextViewChild*)getTouchChild:(CGPoint)location
 {
   const auto fullText = _textView.attributedText.string;
-  const auto charIndex = [_textView.layoutManager characterIndexForPoint:location 
+  const auto charIndex = [_textView.layoutManager characterIndexForPoint:location
                                                          inTextContainer:_textView.textContainer
                                 fractionOfDistanceBetweenInsertionPoints:nil
   ];
   
   int currIndex = -1;
+  printf("%d", self.subviews.count);
   for (UIView* child in self.subviews) {
+    const auto className = NSStringFromClass([child class]);
+    printf("%s", className.UTF8String);
     if (![child isKindOfClass:[RNUITextViewChild class]]) {
+      printf("not a child");
       continue;
     }
     
@@ -140,8 +170,18 @@ using namespace facebook::react;
   const auto location = [self getLocationOfPress:sender];
   const auto child = [self getTouchChild:location];
   
-  if (child) {
-    
+  if (child && child.onPress) {
+    child.onPress({});
+  }
+}
+
+- (void)handleLongPressIfNecessary:(UILongPressGestureRecognizer*)sender
+{
+  const auto location = [self getLocationOfPress:sender];
+  const auto child = [self getTouchChild:location];
+  
+  if (child && child.onLongPress) {
+    child.onLongPress({});
   }
 }
 
