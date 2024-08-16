@@ -53,9 +53,6 @@ using namespace facebook::react;
 - (void)updateState:(const facebook::react::State::Shared &)state oldState:(const facebook::react::State::Shared &)oldState
 {
   _state = std::static_pointer_cast<const RNUITextViewShadowNode::ConcreteState>(state);
-  
-  const auto attributedString = _state->getData().attributedString;
-  _textView.attributedText = RCTNSAttributedStringFromAttributedString(attributedString);
 
   // Redraw the rect for new text size
   [self setNeedsDisplay];
@@ -74,10 +71,10 @@ using namespace facebook::react;
     return;
   }
   
-  _textView.frame = _view.frame;
+  const auto attributedString = _state->getData().attributedString;
+  _textView.attributedText = RCTNSAttributedStringFromAttributedString(attributedString);
   
-  _view.backgroundColor = UIColor.redColor;
-  _textView.backgroundColor = UIColor.clearColor;
+  _textView.frame = _view.frame;
 }
 
 - (void)updateProps:(Props::Shared const &)props oldProps:(Props::Shared const &)oldProps
