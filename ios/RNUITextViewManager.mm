@@ -17,7 +17,6 @@ RCT_EXPORT_MODULE(RNUITextView)
 
 RCT_CUSTOM_VIEW_PROPERTY(color, NSString, UIView)
 {
-  [view setBackgroundColor: [Utils hexStringToColor:json]];
 }
 
 @end

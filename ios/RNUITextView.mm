@@ -9,7 +9,6 @@
 #import <react/renderer/textlayoutmanager/RCTAttributedTextUtils.h>
 
 #import "RCTFabricComponentsPlugins.h"
-#import "Utils.h"
 
 using namespace facebook::react;
 
@@ -33,11 +32,11 @@ using namespace facebook::react;
   if (self = [super initWithFrame:frame]) {
     static const auto defaultProps = std::make_shared<const RNUITextViewProps>();
     _props = defaultProps;
-        
+
     _view = [[UIView alloc] init];
     self.contentView = _view;
     self.clipsToBounds = true;
-    
+
     _textView = [[UITextView alloc] init];
     _textView.scrollEnabled = false;
     _textView.editable = false;
@@ -47,7 +46,7 @@ using namespace facebook::react;
     _textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self addSubview:_textView];
   }
-  
+
   return self;
 }
 
@@ -55,7 +54,7 @@ using namespace facebook::react;
 - (void)updateState:(const facebook::react::State::Shared &)state oldState:(const facebook::react::State::Shared &)oldState
 {
   _state = std::static_pointer_cast<const RNUITextViewShadowNode::ConcreteState>(state);
-  
+
   // Redraw the rect for new text size
   [self setNeedsDisplay];
 }
@@ -72,7 +71,7 @@ using namespace facebook::react;
   if (!_state) {
     return;
   }
-  
+
   const auto attributedString = _state->getData().attributedString;
   _textView.attributedText = RCTNSAttributedStringFromAttributedString(attributedString);
 }
@@ -81,15 +80,15 @@ using namespace facebook::react;
 {
   const auto &oldViewProps = *std::static_pointer_cast<RNUITextViewProps const>(_props);
   const auto &newViewProps = *std::static_pointer_cast<RNUITextViewProps const>(props);
-  
+
   if (oldViewProps.numberOfLines != newViewProps.numberOfLines) {
     _textView.textContainer.maximumNumberOfLines = newViewProps.numberOfLines;
   }
-  
+
   if (oldViewProps.selectable != newViewProps.selectable) {
     _textView.selectable = newViewProps.selectable;
   }
-  
+
   if (oldViewProps.ellipsizeMode != newViewProps.ellipsizeMode) {
     // @TODO enum this
     // _textView.textContainer.lineBreakMode = newViewProps.ellipsizeMode;

@@ -6,7 +6,7 @@
 #include <react/renderer/core/ConcreteShadowNode.h>
 
 namespace facebook::react {
-JSI_EXPORT extern const char RNUITextViewChildComponentName[];
+extern const char RNUITextViewChildComponentName[];
 
 class RNUITextViewChildShadowNode : public ConcreteShadowNode<
   RNUITextViewChildComponentName,

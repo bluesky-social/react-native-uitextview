@@ -17,7 +17,6 @@ using namespace facebook::react;
 @end
 
 @implementation RNUITextViewChild {
-  NSString *text;
 }
 
 + (ComponentDescriptorProvider)componentDescriptorProvider
