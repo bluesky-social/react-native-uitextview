@@ -73,10 +73,8 @@ using namespace facebook::react;
     return;
   }
   
-  auto attributedString = _state->getData().attributedString;
+  const auto attributedString = _state->getData().attributedString;
   _textView.attributedText = RCTNSAttributedStringFromAttributedString(attributedString);
-  
-  printf("Ready to draw: %s \n", _textView.attributedText.string.UTF8String);
 }
 
 - (void)updateProps:(Props::Shared const &)props oldProps:(Props::Shared const &)oldProps

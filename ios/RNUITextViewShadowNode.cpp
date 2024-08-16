@@ -17,7 +17,7 @@ RNUITextViewShadowNode::RNUITextViewShadowNode(
    const ShadowNode& sourceShadowNode,
    const ShadowNodeFragment& fragment
 ) : ConcreteViewShadowNode(sourceShadowNode, fragment) {
-  auto& sourceViewShadowNode = static_cast<const RNUITextViewShadowNode&>(sourceShadowNode);
+  const auto& sourceViewShadowNode = static_cast<const RNUITextViewShadowNode&>(sourceShadowNode);
   if (!fragment.children && !fragment.props && sourceViewShadowNode.getIsLayoutClean()) {
     cleanLayout();
   }
@@ -34,33 +34,31 @@ Size RNUITextViewShadowNode::measureContent(
     const auto contextContainer = getContextContainer();
     const auto textLayoutManager = std::make_shared<TextLayoutManager>(contextContainer);
     
-    auto size = textLayoutManager->measure(
+    return textLayoutManager->measure(
      AttributedStringBox{attributedString},
      _paragraphAttributes,
      textLayoutContext,
      layoutConstraints
     ).size;
-    return size;
 }
 
 void RNUITextViewShadowNode::layout(LayoutContext layoutContext) {
   ensureUnsealed();
   
-  auto &baseProps = getConcreteProps();
+  const auto &baseProps = getConcreteProps();
   auto paragraphAttributes = ParagraphAttributes{};
   paragraphAttributes.maximumNumberOfLines = baseProps.numberOfLines;
   // @TODO
   // paragraphAttributes.textBreakStrategy = baseProps.ellipsizeMode;
-  
+    
   auto baseTextAttributes = TextAttributes::defaultTextAttributes();
-  
-  auto baseAttributedString = AttributedString{};
   baseTextAttributes.fontSizeMultiplier = layoutContext.fontSizeMultiplier;
   baseTextAttributes.backgroundColor = baseProps.backgroundColor;
   
-  auto &children = getChildren();
+  auto baseAttributedString = AttributedString{};
+  const auto &children = getChildren();
   for (size_t i = 0; i < children.size(); i++) {
-    auto child = children[i].get();
+    const auto child = children[i].get();
     if (auto textViewChild = dynamic_cast<const RNUITextViewChildShadowNode *>(child)) {
       auto &props = textViewChild->getConcreteProps();
       auto fragment = AttributedString::Fragment{};
@@ -85,7 +83,7 @@ void RNUITextViewShadowNode::layout(LayoutContext layoutContext) {
     }
   }
   
-  auto &state = getStateData();
+  const auto &state = getStateData();
   if (state.attributedString == baseAttributedString) {
     return;
   }
