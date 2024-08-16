@@ -47,6 +47,37 @@ To run the example app on iOS:
 yarn example ios
 ```
 
+By default, the example is configured to build with the old architecture. To run the example with the new architecture, you can do the following:
+
+1. For Android, run:
+
+   ```sh
+   ORG_GRADLE_PROJECT_newArchEnabled=true yarn example android
+   ```
+
+2. For iOS, run:
+
+   ```sh
+   cd example/ios
+   RCT_NEW_ARCH_ENABLED=1 pod install
+   cd -
+   yarn example ios
+   ```
+
+If you are building for a different architecture than your previous build, make sure to remove the build folders first. You can run the following command to cleanup all build folders:
+
+```sh
+yarn clean
+```
+
+To confirm that the app is running with the new architecture, you can check the Metro logs for a message like this:
+
+```sh
+Running "UitextviewExample" with {"fabric":true,"initialProps":{"concurrentRoot":true},"rootTag":1}
+```
+
+Note the `"fabric":true` and `"concurrentRoot":true` properties.
+
 Make sure your code passes TypeScript and ESLint. Run the following to verify:
 
 ```sh

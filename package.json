@@ -1,12 +1,22 @@
 {
   "name": "react-native-uitextview",
-  "version": "1.1.8",
-  "description": "UITextView for React Native",
-  "main": "lib/commonjs/index",
-  "module": "lib/module/index",
-  "types": "lib/typescript/src/index.d.ts",
-  "react-native": "src/index",
-  "source": "src/index",
+  "version": "0.1.0",
+  "description": "UITextView support for iOS",
+  "source": "./src/index.tsx",
+  "main": "./lib/commonjs/index.js",
+  "module": "./lib/module/index.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./lib/typescript/module/src/index.d.ts",
+        "default": "./lib/module/index.js"
+      },
+      "require": {
+        "types": "./lib/typescript/commonjs/src/index.d.ts",
+        "default": "./lib/commonjs/index.js"
+      }
+    }
+  },
   "files": [
     "src",
     "lib",
@@ -15,6 +25,11 @@
     "cpp",
     "*.podspec",
     "!ios/build",
+    "!android/build",
+    "!android/gradle",
+    "!android/gradlew",
+    "!android/gradlew.bat",
+    "!android/local.properties",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__",
@@ -23,18 +38,16 @@
   "scripts": {
     "example": "yarn workspace react-native-uitextview-example",
     "test": "jest",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "clean": "del-cli example/android/build example/android/app/build example/ios/build lib",
+    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
     "prepare": "bob build",
     "release": "release-it"
   },
   "keywords": [
     "react-native",
     "ios",
-    "uitextview",
-    "select",
-    "selection"
+    "android"
   ],
   "repository": {
     "type": "git",
@@ -64,9 +77,9 @@
     "eslint-plugin-prettier": "^5.0.1",
     "jest": "^29.7.0",
     "prettier": "^3.0.3",
-    "react": "18.2.0",
-    "react-native": "0.73.5",
-    "react-native-builder-bob": "^0.23.2",
+    "react": "18.3.1",
+    "react-native": "0.75.0-rc.7",
+    "react-native-builder-bob": "^0.29.1",
     "release-it": "^15.0.0",
     "turbo": "^1.10.7",
     "typescript": "^5.2.2"
@@ -160,14 +173,34 @@
     "source": "src",
     "output": "lib",
     "targets": [
-      "commonjs",
-      "module",
+      [
+        "commonjs",
+        {
+          "esm": true
+        }
+      ],
+      [
+        "module",
+        {
+          "esm": true
+        }
+      ],
       [
         "typescript",
         {
-          "project": "tsconfig.build.json"
+          "project": "tsconfig.build.json",
+          "esm": true
         }
       ]
     ]
+  },
+  "codegenConfig": {
+    "name": "RNUITextViewSpec",
+    "type": "components",
+    "jsSrcsDir": "src"
+  },
+  "create-react-native-library": {
+    "type": "view-mixed",
+    "version": "0.40.0"
   }
 }

@@ -1,2 +1,1 @@
-import {UITextView} from './Text'
-export {UITextView}
+export * from './Text'
