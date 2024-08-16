@@ -23,7 +23,7 @@ RNUITextViewEventEmitter,
 RNUITextViewStateReal> {
 public:
   using ConcreteViewShadowNode::ConcreteViewShadowNode;
-
+  
   RNUITextViewShadowNode(
    const ShadowNode& sourceShadowNode,
    const ShadowNodeFragment& fragment
@@ -41,5 +41,8 @@ public:
   Size measureContent(
       const LayoutContext& layoutContext,
       const LayoutConstraints& layoutConstraints) const override;
+  
+private:
+  mutable AttributedString _attributedString;  
 };
 } // namespace facebook::React

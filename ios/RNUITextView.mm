@@ -43,7 +43,6 @@ using namespace facebook::react;
     _textView.textContainerInset = UIEdgeInsetsZero;
     _textView.textContainer.lineFragmentPadding = 0;
     // fill the parent view
-    _textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self addSubview:_textView];
   }
 
@@ -54,6 +53,9 @@ using namespace facebook::react;
 - (void)updateState:(const facebook::react::State::Shared &)state oldState:(const facebook::react::State::Shared &)oldState
 {
   _state = std::static_pointer_cast<const RNUITextViewShadowNode::ConcreteState>(state);
+  
+  const auto attributedString = _state->getData().attributedString;
+  _textView.attributedText = RCTNSAttributedStringFromAttributedString(attributedString);
 
   // Redraw the rect for new text size
   [self setNeedsDisplay];
@@ -71,9 +73,11 @@ using namespace facebook::react;
   if (!_state) {
     return;
   }
-
-  const auto attributedString = _state->getData().attributedString;
-  _textView.attributedText = RCTNSAttributedStringFromAttributedString(attributedString);
+  
+  _textView.frame = _view.frame;
+  
+  _view.backgroundColor = UIColor.redColor;
+  _textView.backgroundColor = UIColor.clearColor;
 }
 
 - (void)updateProps:(Props::Shared const &)props oldProps:(Props::Shared const &)oldProps
