@@ -1,6 +1,6 @@
 {
   "name": "react-native-uitextview",
-  "version": "1.2.0-alpha.0",
+  "version": "1.2.1",
   "description": "UITextView for React Native",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
