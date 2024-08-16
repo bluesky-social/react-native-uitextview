@@ -52,6 +52,7 @@ function UITextViewChild({
               return c
             } else if (typeof c === 'string' || typeof c === 'number') {
               return (
+                // @ts-expect-error @TODO fix this type
                 <RNUITextViewChildNativeComponent
                   key={index}
                   style={flattenedStyle}
@@ -73,6 +74,7 @@ function UITextViewChild({
             return c
           } else if (typeof c === 'string' || typeof c === 'number') {
             return (
+              // @ts-expect-error @TODO fix this type
               <RNUITextViewChildNativeComponent
                 key={index}
                 style={flattenedStyle}
