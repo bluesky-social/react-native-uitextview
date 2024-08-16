@@ -42,20 +42,10 @@ using namespace facebook::react;
     _textView.editable = false;
     _textView.textContainerInset = UIEdgeInsetsZero;
     _textView.textContainer.lineFragmentPadding = 0;
-    // fill the parent view
     [self addSubview:_textView];
   }
 
   return self;
-}
-
-// See RCTParagraphComponentView
-- (void)updateState:(const facebook::react::State::Shared &)state oldState:(const facebook::react::State::Shared &)oldState
-{
-  _state = std::static_pointer_cast<const RNUITextViewShadowNode::ConcreteState>(state);
-
-  // Redraw the rect for new text size
-  [self setNeedsDisplay];
 }
 
 // See RCTParagraphComponentView
@@ -103,6 +93,56 @@ using namespace facebook::react;
   }
 
   [super updateProps:props oldProps:oldProps];
+}
+
+// See RCTParagraphComponentView
+- (void)updateState:(const facebook::react::State::Shared &)state oldState:(const facebook::react::State::Shared &)oldState
+{
+  _state = std::static_pointer_cast<const RNUITextViewShadowNode::ConcreteState>(state);
+  [self setNeedsDisplay];
+}
+
+// Touch events
+- (CGPoint)getLocationOfPress:(UIGestureRecognizer*)sender
+{
+  return [sender locationInView:self];
+}
+
+- (RNUITextViewChild*)getTouchChild:(CGPoint)location
+{
+  const auto fullText = _textView.attributedText.string;
+  const auto charIndex = [_textView.layoutManager characterIndexForPoint:location 
+                                                         inTextContainer:_textView.textContainer
+                                fractionOfDistanceBetweenInsertionPoints:nil
+  ];
+  
+  int currIndex = -1;
+  for (UIView* child in self.subviews) {
+    if (![child isKindOfClass:[RNUITextViewChild class]]) {
+      continue;
+    }
+    
+    RNUITextViewChild* textChild = (RNUITextViewChild*)child;
+    
+    // This is UTF16 code units!!
+    currIndex += textChild.text.length;
+    
+    if (charIndex <= currIndex) {
+      return textChild;
+    }
+  }
+  
+  return nil;
+}
+
+- (void)handlePressIfNecessary:(UITapGestureRecognizer*)sender
+{
+  const auto location = [self getLocationOfPress:sender];
+  const auto child = [self getTouchChild:location];
+  
+  if (child) {
+    
+  }
 }
 
 Class<RCTComponentViewProtocol> RNUITextViewCls(void)

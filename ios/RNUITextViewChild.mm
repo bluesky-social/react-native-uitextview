@@ -17,6 +17,7 @@ using namespace facebook::react;
 @end
 
 @implementation RNUITextViewChild {
+  NSString * _text;
 }
 
 + (ComponentDescriptorProvider)componentDescriptorProvider
@@ -35,6 +36,14 @@ using namespace facebook::react;
 
 - (void)updateProps:(Props::Shared const &)props oldProps:(Props::Shared const &)oldProps
 {
+  const auto &oldViewProps = *std::static_pointer_cast<RNUITextViewChildProps const>(_props);
+  const auto &newViewProps = *std::static_pointer_cast<RNUITextViewChildProps const>(props);
+  
+  if (newViewProps.text != oldViewProps.text) {
+    NSString *text = [NSString stringWithUTF8String:newViewProps.text.c_str()];
+    _text = text;
+  }
+  
   [super updateProps:props oldProps:oldProps];
 }
 
