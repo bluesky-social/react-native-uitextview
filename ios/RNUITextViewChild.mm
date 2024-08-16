@@ -36,20 +36,7 @@ using namespace facebook::react;
 
 - (void)updateProps:(Props::Shared const &)props oldProps:(Props::Shared const &)oldProps
 {
-  const auto &oldViewProps = *std::static_pointer_cast<RNUITextViewChildProps const>(_props);
-  const auto &newViewProps = *std::static_pointer_cast<RNUITextViewChildProps const>(props);
-  
-  if (oldViewProps.text != newViewProps.text) {
-    text = [[NSString alloc] initWithUTF8String: newViewProps.text.c_str()];
-  }
-
   [super updateProps:props oldProps:oldProps];
-  
-  // Tell the superview to update its attributed string
-  if ([self.superview isKindOfClass:[RNUITextView class]]) {
-    RNUITextView *parent = (RNUITextView *)self.superview;
-    [parent setAttributedString];
-  }
 }
 
 Class<RCTComponentViewProtocol> RNUITextViewChildCls(void)

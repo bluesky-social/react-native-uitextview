@@ -10,8 +10,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RNUITextView : RCTViewComponentView
 
-- (void)setAttributedString;
-
 @end
 
 NS_ASSUME_NONNULL_END

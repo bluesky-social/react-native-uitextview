@@ -8,7 +8,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <UITextView style={styles.box} uiTextView={true} selectable={true}>
-        {text}
+        <UITextView>Test text!</UITextView>
+        <UITextView>More text!!</UITextView>
       </UITextView>
     </View>
   )
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   box: {
-    width: 80,
+    width: 100,
     height: 80,
     marginVertical: 20,
     backgroundColor: 'red'
