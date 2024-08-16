@@ -60,7 +60,6 @@ function UITextViewChild({
                 />
               )
             }
-
             return null
           })}
         </RNUITextViewNativeComponent>

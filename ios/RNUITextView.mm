@@ -25,7 +25,7 @@ using namespace facebook::react;
 
 + (ComponentDescriptorProvider)componentDescriptorProvider
 {
-    return concreteComponentDescriptorProvider<RNUITextViewComponentDescriptor>();
+  return concreteComponentDescriptorProvider<RNUITextViewComponentDescriptor>();
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -33,7 +33,7 @@ using namespace facebook::react;
   if (self = [super initWithFrame:frame]) {
     static const auto defaultProps = std::make_shared<const RNUITextViewProps>();
     _props = defaultProps;
-    
+        
     _view = [[UIView alloc] init];
     self.contentView = _view;
     self.clipsToBounds = true;

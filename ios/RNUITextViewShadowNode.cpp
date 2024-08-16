@@ -10,6 +10,9 @@ extern const char RNUITextViewComponentName[] = "RNUITextView";
 
 using Content = RNUITextViewShadowNode::Content;
 
+AttributedString _attributedString = AttributedString{};
+ParagraphAttributes _paragraphAttributes = ParagraphAttributes{};
+
 RNUITextViewShadowNode::RNUITextViewShadowNode(
    const ShadowNode& sourceShadowNode,
    const ShadowNodeFragment& fragment
@@ -20,13 +23,37 @@ RNUITextViewShadowNode::RNUITextViewShadowNode(
   }
 };
 
+Size RNUITextViewShadowNode::measureContent(
+  const LayoutContext& layoutContext,
+  const LayoutConstraints& layoutConstraints) const {
+    auto attributedString = _attributedString;
+    
+    TextLayoutContext textLayoutContext{};
+    textLayoutContext.pointScaleFactor = layoutContext.pointScaleFactor;
+    
+    const auto contextContainer = getContextContainer();
+    const auto textLayoutManager = std::make_shared<TextLayoutManager>(contextContainer);
+    
+    auto size = textLayoutManager->measure(
+     AttributedStringBox{attributedString},
+     _paragraphAttributes,
+     textLayoutContext,
+     layoutConstraints
+    ).size;
+    return size;
+}
+
 void RNUITextViewShadowNode::layout(LayoutContext layoutContext) {
   ensureUnsealed();
   
-  auto layoutMetrics = getLayoutMetrics();
+  auto &baseProps = getConcreteProps();
+  auto paragraphAttributes = ParagraphAttributes{};
+  paragraphAttributes.maximumNumberOfLines = baseProps.numberOfLines;
+  // @TODO
+  // paragraphAttributes.textBreakStrategy = baseProps.ellipsizeMode;
+  
   auto baseTextAttributes = TextAttributes::defaultTextAttributes();
   
-  auto &baseProps = getConcreteProps();
   auto baseAttributedString = AttributedString{};
   baseTextAttributes.fontSizeMultiplier = layoutContext.fontSizeMultiplier;
   baseTextAttributes.backgroundColor = baseProps.backgroundColor;
@@ -40,6 +67,7 @@ void RNUITextViewShadowNode::layout(LayoutContext layoutContext) {
       auto textAttributes = TextAttributes::defaultTextAttributes();
       
       textAttributes.fontSizeMultiplier = layoutContext.fontSizeMultiplier;
+      textAttributes.backgroundColor = props.backgroundColor;
       textAttributes.fontSize = props.fontSize;
       textAttributes.lineHeight = props.lineHeight;
       textAttributes.foregroundColor = props.color;
@@ -61,7 +89,8 @@ void RNUITextViewShadowNode::layout(LayoutContext layoutContext) {
   if (state.attributedString == baseAttributedString) {
     return;
   }
-  
+
+  _attributedString = baseAttributedString;
   setStateData(RNUITextViewStateReal{
     baseAttributedString
   });

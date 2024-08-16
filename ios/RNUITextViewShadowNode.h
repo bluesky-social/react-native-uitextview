@@ -3,9 +3,9 @@
 #include <react/renderer/components/RNUITextViewSpec/EventEmitters.h>
 #include <react/renderer/components/RNUITextViewSpec/Props.h>
 #include <react/renderer/components/view/ConcreteViewShadowNode.h>
+#include <react/renderer/textlayoutmanager/TextLayoutManager.h>
 #include <react/renderer/core/LayoutContext.h>
 #include <react/renderer/core/ShadowNode.h>
-#include <react/renderer/textlayoutmanager/TextLayoutManager.h>
 #include <jsi/jsi.h>
 
 namespace facebook::react {
@@ -26,8 +26,9 @@ public:
   using ConcreteViewShadowNode::ConcreteViewShadowNode;
   
   RNUITextViewShadowNode(
-                         const ShadowNode& sourceShadowNode,
-                         const ShadowNodeFragment& fragment);
+   const ShadowNode& sourceShadowNode,
+   const ShadowNodeFragment& fragment
+  );
   
   static ShadowNodeTraits BaseTraits() {
     auto traits = ConcreteViewShadowNode::BaseTraits();
@@ -37,6 +38,10 @@ public:
   }
   
   void layout(LayoutContext layoutContext) override;
+  
+  Size measureContent(
+      const LayoutContext& layoutContext,
+      const LayoutConstraints& layoutConstraints) const override;
   
   class Content final {
   public:

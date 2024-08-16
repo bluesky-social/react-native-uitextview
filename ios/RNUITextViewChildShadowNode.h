@@ -9,9 +9,9 @@ namespace facebook::react {
 JSI_EXPORT extern const char RNUITextViewChildComponentName[];
 
 class RNUITextViewChildShadowNode : public ConcreteShadowNode<
-                              RNUITextViewChildComponentName,
-                              ShadowNode,
-                              RNUITextViewChildProps> {
+  RNUITextViewChildComponentName,
+  ShadowNode,
+  RNUITextViewChildProps> {
  public:
   using ConcreteShadowNode::ConcreteShadowNode;
 };
