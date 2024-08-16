@@ -22,8 +22,15 @@ Size RNUITextViewShadowNode::measureContent(
     const auto &baseProps = getConcreteProps();
     auto paragraphAttributes = ParagraphAttributes{};
     paragraphAttributes.maximumNumberOfLines = baseProps.numberOfLines;
-    // @TODO
-    // paragraphAttributes.textBreakStrategy = baseProps.ellipsizeMode;
+    if (baseProps.ellipsizeMode == RNUITextViewEllipsizeMode::Head) {
+      paragraphAttributes.ellipsizeMode = EllipsizeMode::Head;
+    } else if (baseProps.ellipsizeMode == RNUITextViewEllipsizeMode::Middle) {
+      paragraphAttributes.ellipsizeMode = EllipsizeMode::Middle;
+    } else if (baseProps.ellipsizeMode == RNUITextViewEllipsizeMode::Tail) {
+      paragraphAttributes.ellipsizeMode = EllipsizeMode::Tail;
+    } else if (baseProps.ellipsizeMode == RNUITextViewEllipsizeMode::Clip) {
+      paragraphAttributes.ellipsizeMode = EllipsizeMode::Clip;
+    }
 
     auto baseTextAttributes = TextAttributes::defaultTextAttributes();
     baseTextAttributes.backgroundColor = baseProps.backgroundColor;
@@ -46,7 +53,24 @@ Size RNUITextViewShadowNode::measureContent(
         textAttributes.textShadowRadius = props.shadowRadius;
         textAttributes.letterSpacing = props.letterSpacing;
         textAttributes.textDecorationColor = props.textDecorationColor;
-        // @TODO add other line stuff here, needs enum
+        
+        if (props.textDecorationLine == RNUITextViewChildTextDecorationLine::LineThrough) {
+          textAttributes.textDecorationLineType = TextDecorationLineType::Strikethrough;
+        } else if (props.textDecorationLine == RNUITextViewChildTextDecorationLine::Underline) {
+          textAttributes.textDecorationLineType = TextDecorationLineType::Underline;
+        } else {
+          textAttributes.textDecorationLineType = TextDecorationLineType::None;
+        }
+        
+        if (props.textDecorationStyle == RNUITextViewChildTextDecorationStyle::Solid) {
+          textAttributes.textDecorationStyle = TextDecorationStyle::Solid;
+        } else if (props.textDecorationStyle == RNUITextViewChildTextDecorationStyle::Dotted) {
+          textAttributes.textDecorationStyle = TextDecorationStyle::Dotted;
+        } else if (props.textDecorationStyle == RNUITextViewChildTextDecorationStyle::Dashed) {
+          textAttributes.textDecorationStyle = TextDecorationStyle::Dashed;
+        } else if (props.textDecorationStyle == RNUITextViewChildTextDecorationStyle::Dotted) {
+          textAttributes.textDecorationStyle = TextDecorationStyle::Double;
+        }
 
         fragment.string = props.text;
         fragment.textAttributes = textAttributes;
