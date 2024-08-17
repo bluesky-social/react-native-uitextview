@@ -86,10 +86,11 @@ Size RNUITextViewShadowNode::measureContent(
     const auto textLayoutManager = std::make_shared<const TextLayoutManager>(getContextContainer());
         
     return textLayoutManager->measure(
-     AttributedStringBox{baseAttributedString},
-     paragraphAttributes,
-     textLayoutContext,
-     layoutConstraints
+      AttributedStringBox{baseAttributedString},
+      paragraphAttributes,
+      textLayoutContext,
+      layoutConstraints,
+      nullptr
     ).size;
 }
 
