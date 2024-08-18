@@ -15,12 +15,23 @@ type TextDecorationLine = 'none' | 'underline' | 'line-through'
 
 type TextDecorationStyle = 'solid' | 'double' | 'dotted' | 'dashed'
 
+export type NativeFontWeight =
+  | 'normal'
+  | 'bold'
+  | 'ultraLight'
+  | 'light'
+  | 'medium'
+  | 'semibold'
+  | 'heavy'
+
+type FontStyle = 'normal' | 'italic'
+
 interface NativeProps extends ViewProps {
   text: string
   color?: ColorValue
   fontSize?: Float
-  fontStyle?: string
-  fontWeight?: string
+  fontStyle?: WithDefault<FontStyle, 'normal'>
+  fontWeight?: WithDefault<NativeFontWeight, 'normal'>
   fontFamily?: string
   letterSpacing?: Float
   lineHeight?: Float

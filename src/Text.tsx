@@ -1,13 +1,14 @@
 import React from 'react'
 import {
+  Platform,
   StyleSheet,
-  type TextProps,
-  type ViewStyle,
   Text as RNText,
-  Platform
+  type TextProps,
+  type ViewStyle
 } from 'react-native'
 import RNUITextViewChildNativeComponent from './RNUITextViewChildNativeComponent'
 import RNUITextViewNativeComponent from './RNUITextViewNativeComponent'
+import {flattenStyles} from './util'
 
 const TextAncestorContext = React.createContext<[boolean, ViewStyle]>([
   false,
@@ -32,7 +33,7 @@ function UITextViewChild({
 
   // Flatten the styles, and apply the root styles when needed
   const flattenedStyle = React.useMemo(
-    () => StyleSheet.flatten([rootStyle, style]),
+    () => flattenStyles(rootStyle, style),
     [rootStyle, style]
   )
 

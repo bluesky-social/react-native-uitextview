@@ -54,6 +54,28 @@ Size RNUITextViewShadowNode::measureContent(
         textAttributes.letterSpacing = props.letterSpacing;
         textAttributes.textDecorationColor = props.textDecorationColor;
         
+        if (props.fontStyle == RNUITextViewChildFontStyle::Italic) {
+          textAttributes.fontStyle = FontStyle::Italic;
+        } else {
+          textAttributes.fontStyle = FontStyle::Normal;
+        }
+        
+        if (props.fontWeight == RNUITextViewChildFontWeight::Bold) {
+          textAttributes.fontWeight = FontWeight::Bold;
+        } else if (props.fontWeight == RNUITextViewChildFontWeight::UltraLight) {
+          textAttributes.fontWeight = FontWeight::UltraLight;
+        } else if (props.fontWeight == RNUITextViewChildFontWeight::Light) {
+          textAttributes.fontWeight = FontWeight::Light;
+        } else if (props.fontWeight == RNUITextViewChildFontWeight::Medium) {
+          textAttributes.fontWeight = FontWeight::Medium;
+        } else if (props.fontWeight == RNUITextViewChildFontWeight::Semibold) {
+          textAttributes.fontWeight = FontWeight::Semibold;
+        } else if (props.fontWeight == RNUITextViewChildFontWeight::Heavy) {
+          textAttributes.fontWeight = FontWeight::Heavy;
+        } else {
+          textAttributes.fontWeight = FontWeight::Regular;
+        }
+                
         if (props.textDecorationLine == RNUITextViewChildTextDecorationLine::LineThrough) {
           textAttributes.textDecorationLineType = TextDecorationLineType::Strikethrough;
         } else if (props.textDecorationLine == RNUITextViewChildTextDecorationLine::Underline) {
