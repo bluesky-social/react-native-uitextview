@@ -111,6 +111,10 @@ class RNUITextViewShadow: RCTShadowView {
         attributes[.strikethroughStyle] = child.getTextDecorationStyle()
         attributes[.strikethroughColor] = child.getTextDecorationColor()
       }
+      
+      if child.backgroundColor != nil {
+        attributes[.backgroundColor] = child.backgroundColor
+      }
 
       // Create the attributed string with the generic attributes
       let string = NSMutableAttributedString(string: child.text, attributes: attributes)

@@ -14,6 +14,7 @@ class RNUITextViewChildShadow: RCTShadowView {
   @objc var textDecorationLine: RCTTextDecorationLineType = .none
   @objc var textDecorationStyle: String = "solid"
   @objc var textDecorationColor: UIColor = .black
+  @objc var backgroundColor: UIColor?
 
   override func isYogaLeafNode() -> Bool {
     return true

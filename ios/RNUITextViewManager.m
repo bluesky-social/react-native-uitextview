@@ -24,6 +24,7 @@ RCT_REMAP_SHADOW_PROPERTY(pointerEvents, pointerEvents, NSString)
 RCT_REMAP_SHADOW_PROPERTY(textDecorationLine, textDecorationLine, RCTTextDecorationLineType)
 RCT_REMAP_SHADOW_PROPERTY(textDecorationStyle, textDecorationStyle, NSString)
 RCT_REMAP_SHADOW_PROPERTY(textDecorationColor, textDecorationColor, UIColor)
+RCT_REMAP_SHADOW_PROPERTY(backgroundColor, backgroundColor, UIColor)
 
 RCT_EXPORT_VIEW_PROPERTY(text, NSString)
 RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
