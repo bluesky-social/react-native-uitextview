@@ -131,6 +131,37 @@ export default function App() {
           </View>
 
           <View>
+            <RNText style={styles.subheader}>Base, backgroundColor</RNText>
+            <RNText style={[styles.text, styles.backgroundColor]}>
+              Hello world!
+            </RNText>
+            <RNText style={[styles.text]}>
+              Hello world!{' '}
+              <RNText style={[styles.text, styles.backgroundColor]}>
+                And more!
+              </RNText>
+            </RNText>
+          </View>
+          <View>
+            <Text style={styles.subheader}>UITextView, backgroundColor</Text>
+            <Text
+              selectable
+              uiTextView
+              style={[styles.text, styles.backgroundColor]}>
+              Hello world!
+            </Text>
+            <Text selectable uiTextView style={[styles.text]}>
+              Hello world!{' '}
+              <Text
+                selectable
+                uiTextView
+                style={[styles.text, styles.backgroundColor]}>
+                And more!
+              </Text>
+            </Text>
+          </View>
+
+          <View>
             <RNText style={styles.subheader}>Base, textDecorationLine</RNText>
             <RNText style={[styles.text, styles.underlined]}>
               Hello world!
@@ -633,5 +664,8 @@ const styles = StyleSheet.create({
   },
   lineHeight30: {
     lineHeight: 30
+  },
+  backgroundColor: {
+    backgroundColor: 'yellow'
   }
 })
