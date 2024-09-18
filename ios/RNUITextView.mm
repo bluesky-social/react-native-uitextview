@@ -3,6 +3,8 @@
 #import "RNUITextViewChild.h"
 #import "RNUITextViewComponentDescriptor.h"
 
+#import <React/RCTConversions.h>
+
 #import <react/renderer/components/RNUITextViewSpec/EventEmitters.h>
 #import <react/renderer/components/RNUITextViewSpec/Props.h>
 #import <react/renderer/components/RNUITextViewSpec/RCTComponentViewHelpers.h>
@@ -104,6 +106,14 @@ using namespace facebook::react;
     } else if (newViewProps.ellipsizeMode == RNUITextViewEllipsizeMode::Clip) {
       _textView.textContainer.lineBreakMode = NSLineBreakMode::NSLineBreakByClipping;
     }
+  }
+  
+  // I'm not sure if this is really the right way to handle this style. This means that the entire _view_ the text
+  // is in will have this background color applied. To apply it just to a particular part of a string, you'd need
+  // to do <Text><Text style={{backgroundColor: 'blue'}}>Hello</Text></Text>.
+  // This is how the base <Text> component works though, so we'll go with it for now. Can change later if we want.
+  if (oldViewProps.backgroundColor != newViewProps.backgroundColor) {
+    _textView.backgroundColor = RCTUIColorFromSharedColor(newViewProps.backgroundColor);
   }
 
   [super updateProps:props oldProps:oldProps];

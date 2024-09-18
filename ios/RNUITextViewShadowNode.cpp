@@ -93,6 +93,8 @@ Size RNUITextViewShadowNode::measureContent(
         } else if (props.textDecorationStyle == RNUITextViewChildTextDecorationStyle::Dotted) {
           textAttributes.textDecorationStyle = TextDecorationStyle::Double;
         }
+        
+        textAttributes.backgroundColor = props.backgroundColor;
 
         fragment.string = props.text;
         fragment.textAttributes = textAttributes;
@@ -111,8 +113,7 @@ Size RNUITextViewShadowNode::measureContent(
       AttributedStringBox{baseAttributedString},
       paragraphAttributes,
       textLayoutContext,
-      layoutConstraints,
-      nullptr
+      layoutConstraints
     ).size;
 }
 
