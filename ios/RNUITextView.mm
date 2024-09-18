@@ -47,13 +47,11 @@ using namespace facebook::react;
     [self addSubview:_textView];
 
     const auto longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                                                          action:@selector(handleLongPressIfNecessary:)
-    ];
+                                                                                          action:@selector(handleLongPressIfNecessary:)];
     longPressGestureRecognizer.delegate = self;
 
     const auto pressGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                action:@selector(handlePressIfNecessary:)
-    ];
+                                                                                action:@selector(handlePressIfNecessary:)];
     pressGestureRecognizer.delegate = self;
     [pressGestureRecognizer requireGestureRecognizerToFail:longPressGestureRecognizer];
 
@@ -168,9 +166,9 @@ using namespace facebook::react;
 {
   const auto location = [self getLocationOfPress:sender];
   const auto child = [self getTouchChild:location];
-
-  if (child && child.onPress) {
-    child.onPress({});
+  
+  if (child) {
+    [child onPress];
   }
 }
 
@@ -179,8 +177,8 @@ using namespace facebook::react;
   const auto location = [self getLocationOfPress:sender];
   const auto child = [self getTouchChild:location];
 
-  if (child && child.onLongPress) {
-    child.onLongPress({});
+  if (child) {
+    [child onLongPress];
   }
 }
 

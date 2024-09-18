@@ -45,16 +45,22 @@ using namespace facebook::react;
     NSString *text = [NSString stringWithUTF8String:newViewProps.text.c_str()];
     _text = text;
   }
-
+  
   [super updateProps:props oldProps:oldProps];
 }
 
-- (void)setOnPress:(RCTBubblingEventBlock)onPress {
-  _onPress = onPress;
+- (void)onPress {
+  if (_eventEmitter != nullptr) {
+    std::dynamic_pointer_cast<const facebook::react::RNUITextViewChildEventEmitter>(_eventEmitter)
+    ->onPress(facebook::react::RNUITextViewChildEventEmitter::OnPress{});
+  }
 }
-
-- (void)setOnLongPress:(RCTBubblingEventBlock)onLongPress {
-  _onLongPress = onLongPress;
+  
+- (void)onLongPress {
+  if (_eventEmitter != nullptr) {
+    std::dynamic_pointer_cast<const facebook::react::RNUITextViewChildEventEmitter>(_eventEmitter)
+    ->onLongPress(facebook::react::RNUITextViewChildEventEmitter::OnLongPress{});
+  }
 }
 
 Class<RCTComponentViewProtocol> RNUITextViewChildCls(void)

@@ -45,9 +45,9 @@ function UITextViewChild({
           {...rest}
           // ellipsizeMode={rest.ellipsizeMode ?? rest.lineBreakMode ?? 'tail'}
           style={[flattenedStyle]}
-          // onPress={undefined} // We want these to go to the children only
-          // onLongPress={undefined}
-        >
+          // @ts-expect-error Weirdness
+          onPress={undefined}
+          onLongPress={undefined}>
           {React.Children.toArray(children).map((c, index) => {
             if (React.isValidElement(c)) {
               return c

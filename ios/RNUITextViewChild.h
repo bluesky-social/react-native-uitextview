@@ -12,8 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface RNUITextViewChild : RCTViewComponentView
 
 @property (nonatomic, copy, nullable) NSString *text;
-@property (nonatomic, copy, nullable) RCTBubblingEventBlock onPress;
-@property (nonatomic, copy, nullable) RCTBubblingEventBlock onLongPress;
+
+- (void)onPress;
+- (void)onLongPress;
 
 @end
 
