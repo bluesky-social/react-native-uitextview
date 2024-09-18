@@ -7,7 +7,7 @@ import type {
   WithDefault
 } from 'react-native/Libraries/Types/CodegenTypes'
 
-type TargetedEvent = {
+interface TargetedEvent {
   target: Int32
 }
 
