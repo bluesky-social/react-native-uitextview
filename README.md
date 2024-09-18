@@ -31,6 +31,12 @@ block of text.
 
 ## Installation
 
+> [!WARNING]
+> The final version of this package that supports the old React Native architecture is `1.4.0`. All versions `2.x` and
+> higher support only the new architecture. Unfortunately I do not have time to maintain support for both architectures.
+> Version `1.4.0` however is stable and - aside from the still missing features from the base `<Text>` component, should
+> work the same as `2.x` and higher.
+
 ```sh
 yarn add react-native-uitextview
 cd ios
