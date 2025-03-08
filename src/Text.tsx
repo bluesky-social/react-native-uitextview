@@ -19,6 +19,7 @@ const LINKING_ERROR =
 export interface RNUITextViewProps extends TextProps {
   children: React.ReactNode
   style: ViewStyle[]
+  autoSelect: boolean
 }
 
 // These props are for each of the children native components
@@ -26,6 +27,16 @@ type RNUITextViewChildProps = TextProps & {
   text: string
   onTextPress?: (...args: any[]) => void
   onTextLongPress?: (...args: any[]) => void
+}
+
+interface UITextViewProps {
+  uiTextView?: boolean
+
+  /**
+   * auto select onmount
+   * @default false
+   */
+  autoSelect?: boolean
 }
 
 const RNUITextView =
@@ -58,10 +69,9 @@ const textDefaults: TextProps = {
 function UITextViewChild({
   style,
   children,
+  autoSelect = false,
   ...rest
-}: TextProps & {
-  uiTextView?: boolean
-}) {
+}: TextProps & UITextViewProps) {
   const [isAncestor, rootStyle] = useTextAncestorContext()
 
   // Flatten the styles, and apply the root styles when needed
@@ -78,6 +88,7 @@ function UITextViewChild({
           {...rest}
           ellipsizeMode={rest.ellipsizeMode ?? rest.lineBreakMode ?? 'tail'}
           style={[flattenedStyle]}
+          autoSelect={autoSelect}
           onPress={undefined} // We want these to go to the children only
           onLongPress={undefined}>
           {React.Children.toArray(children).map((c, index) => {
@@ -123,11 +134,7 @@ function UITextViewChild({
   }
 }
 
-function UITextViewInner(
-  props: TextProps & {
-    uiTextView?: boolean
-  }
-) {
+function UITextViewInner(props: TextProps & UITextViewProps) {
   const [isAncestor] = useTextAncestorContext()
 
   // Even if the uiTextView prop is set, we can still default to using
@@ -139,7 +146,7 @@ function UITextViewInner(
   return <UITextViewChild {...props} />
 }
 
-export function UITextView(props: TextProps & {uiTextView?: boolean}) {
+export function UITextView(props: TextProps & UITextViewProps) {
   if (Platform.OS !== 'ios') {
     return <RNText {...props} />
   }

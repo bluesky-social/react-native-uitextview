@@ -2,6 +2,10 @@ class RNUITextView: UIView, UIGestureRecognizerDelegate {
   let bridge: RCTBridge
   let textView: UITextView
 
+  private var hasAutoSelected = false
+  
+  @objc var autoSelect: Bool = false
+
   @objc var numberOfLines: Int = 0 {
     didSet {
       textView.textContainer.maximumNumberOfLines = numberOfLines
@@ -12,11 +16,13 @@ class RNUITextView: UIView, UIGestureRecognizerDelegate {
       textView.isSelectable = selectable
     }
   }
+
   @objc var ellipsizeMode: String = "tail" {
     didSet {
       textView.textContainer.lineBreakMode = self.getLineBreakMode()
     }
   }
+
   @objc var onTextLayout: RCTDirectEventBlock?
 
   init(bridge: RCTBridge) {
@@ -105,6 +111,19 @@ class RNUITextView: UIView, UIGestureRecognizerDelegate {
       onTextLayout([
         "lines": lines
       ])
+    }
+
+
+    if self.autoSelect && !hasAutoSelected {
+        hasAutoSelected = true
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.textView.becomeFirstResponder()
+            self.textView.selectedTextRange = self.textView.textRange(
+                from: self.textView.beginningOfDocument,
+                to: self.textView.endOfDocument
+            )
+      }
     }
   }
 

@@ -8,6 +8,7 @@ RCT_EXPORT_VIEW_PROPERTY(numberOfLines, NSInteger)
 RCT_EXPORT_VIEW_PROPERTY(onTextLayout, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(ellipsizeMode, NSString)
 RCT_EXPORT_VIEW_PROPERTY(selectable, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(autoSelect, BOOL)
 
 @end
 
