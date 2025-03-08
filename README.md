@@ -1,6 +1,17 @@
-![image](https://haileyok.com/content/images/size/w1920/2024/01/IMG_4730.jpeg)
+# @jeongshin/react-native-uitextview
+
+This package is a fork of [react-native-uitextview](https://github.com/bluesky-social/react-native-uitextview) created by [Hailey](https://github.com/haileyok) for the [Bluesky Social App](https://github.com/bluesky-social/social-app).
+
+## About This Fork
+
+This fork was created to implement custom modifications and improvements while maintaining the core functionality of the original library. All original credit goes to the creators and contributors of the original repository.
+
+> [!WARNING]  
+> This fork is based on react-native-uitextview [v1.4.0](https://github.com/bluesky-social/react-native-uitextview/releases/tag/v1.4.0)
+> therefore does not support React Native New Architecture.
 
 ### Note about support for this library
+
 This library was made for the
 [Bluesky Social App](https://github.com/bluesky-social/social-app). Support for this library
 is very much dependent on two factors:
@@ -43,9 +54,9 @@ React Native UITextView can - for the most part - be used as a drop-in replaceme
 for existing blocks of `Text`. However, there are a few limitations:
 
 - Children of `UITextView` may only be other UITextView children (base `Text` children
-will be converted to `UITextView` children, so you only need to adjust the wrapper).
-This means that things like in-line images are not supported as they are in the base
-React Native `Text` component.
+  will be converted to `UITextView` children, so you only need to adjust the wrapper).
+  This means that things like in-line images are not supported as they are in the base
+  React Native `Text` component.
 - A few styles have not yet been implemented, but all should be possible.
 
 ## Usage
@@ -60,7 +71,7 @@ will always be used. On iOS, the base React Native `Text` component will be used
 unless the `selectable` and the `uiTextView` props are both `true`.
 
 ```tsx
-import { UITextView as Text } from "react-native-uitextview";
+import {UITextView as Text} from 'react-native-uitextview'
 
 function SomeView() {
   return (
@@ -68,8 +79,7 @@ function SomeView() {
       <Text
         style={{color: 'green', lineHeight: 20, fontSize: 14}}
         selectable
-        uiTextView
-      >
+        uiTextView>
         This is some highlightable text! It uses UITextView
       </Text>
       <Text
@@ -82,8 +92,8 @@ function SomeView() {
         style={{color: 'red', lineHeight: 20, fontSize: 14}}
         uiTextView // Note we do not add the selectable prop
       >
-        This text still uses the base Text component. It can't be highlighted
-        or copied at all.
+        This text still uses the base Text component. It can't be highlighted or
+        copied at all.
       </Text>
     </View>
   )
@@ -99,8 +109,7 @@ add to a link.
   This is some text that's highlightable with{' '}
   <Text
     style={{color: 'blue', textDecorationLine: 'underline'}}
-    onPress={() => Linking.openURL('https://google.com')}
-  >
+    onPress={() => Linking.openURL('https://google.com')}>
     a link
   </Text>
   .

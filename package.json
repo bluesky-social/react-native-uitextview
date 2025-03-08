@@ -1,7 +1,7 @@
 {
-  "name": "react-native-uitextview",
-  "version": "1.4.0",
-  "description": "UITextView for React Native",
+  "name": "@jeongshin/react-native-uitextview",
+  "version": "1.4.1",
+  "description": "Enhanced UITextView for React Native with improved selection capabilities",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/src/index.d.ts",
@@ -38,16 +38,18 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bluesky-social/react-native-uitextview.git"
+    "url": "git+https://github.com/jeongshin/react-native-uitextview.git"
   },
-  "author": "Hailey <me@haileyok.com> (https://github.com/haileyok)",
+  "author": "jeongshin <contact@jeongshin.com> (https://github.com/jeongshin)",
+  "contributors": [],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bluesky-social/react-native-uitextview/issues"
+    "url": "https://github.com/jeongshin/react-native-uitextview/issues"
   },
-  "homepage": "https://github.com/bluesky-social/react-native-uitextview#readme",
+  "homepage": "https://github.com/jeongshin/react-native-uitextview#readme",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",
