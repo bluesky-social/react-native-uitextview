@@ -12,11 +12,11 @@ npm install react-native-uitextview
 
 
 ```js
-import { UitextviewView } from "react-native-uitextview";
+import { UITextView } from "react-native-uitextview";
 
 // ...
 
-<UitextviewView color="tomato" />
+<UITextView color="tomato" />
 ```
 
 
