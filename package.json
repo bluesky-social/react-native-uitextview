@@ -37,6 +37,7 @@
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
+    "prepare": "bob build",
     "release": "release-it"
   },
   "keywords": [
@@ -77,6 +78,7 @@
     "prettier": "^3.0.3",
     "react": "19.0.0",
     "react-native": "0.79.1",
+    "react-native-builder-bob": "^0.29.1",
     "release-it": "^19.0.1",
     "turbo": "^1.10.7",
     "typescript": "^5.2.2"
