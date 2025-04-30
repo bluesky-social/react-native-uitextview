@@ -79,7 +79,7 @@
     "react": "19.0.0",
     "react-native": "0.79.1",
     "react-native-builder-bob": "^0.40.6",
-    "release-it": "^17.10.0",
+    "release-it": "^19.0.1",
     "turbo": "^1.10.7",
     "typescript": "^5.2.2"
   },
@@ -109,7 +109,7 @@
       "tagName": "v${version}"
     },
     "npm": {
-      "publish": true
+      "publish": false
     },
     "github": {
       "release": true
@@ -129,25 +129,6 @@
     "tabWidth": 2,
     "trailingComma": "es5",
     "useTabs": false
-  },
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "codegen",
-      [
-        "module",
-        {
-          "esm": true
-        }
-      ],
-      [
-        "typescript",
-        {
-          "project": "tsconfig.build.json"
-        }
-      ]
-    ]
   },
   "codegenConfig": {
     "name": "RNUITextViewSpec",
