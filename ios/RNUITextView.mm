@@ -1,4 +1,3 @@
-#ifdef RCT_NEW_ARCH_ENABLED
 #import "RNUITextView.h"
 #import "RNUITextViewChild.h"
 #import "RNUITextViewComponentDescriptor.h"
@@ -76,12 +75,12 @@ using namespace facebook::react;
   }
 
   const auto &props = *std::static_pointer_cast<RNUITextViewProps const>(_props);
-  
+
   const auto attrString = _state->getData().attributedString;
   const auto convertedAttrString = RCTNSAttributedStringFromAttributedString(attrString);
   _textView.attributedText = convertedAttrString;
   _textView.frame = _view.frame;
-  
+
   const auto lines = new std::vector<std::string>();
   [_textView.layoutManager enumerateLineFragmentsForGlyphRange:NSMakeRange(0, convertedAttrString.string.length) usingBlock:^(CGRect rect,
                                                                                               CGRect usedRect,
@@ -90,12 +89,12 @@ using namespace facebook::react;
                                                                                               BOOL * _Nonnull stop) {
     const auto charRange = [self->_textView.layoutManager characterRangeForGlyphRange:glyphRange actualGlyphRange:nil];
     const auto line = [self->_textView.text substringWithRange:charRange];
-    
+
     if (props.numberOfLines && props.numberOfLines > 0 && lines->size() < props.numberOfLines) {
       lines->push_back(line.UTF8String);
     }
   }];
-  
+
   if (_eventEmitter != nullptr) {
     std::dynamic_pointer_cast<const facebook::react::RNUITextViewEventEmitter>(_eventEmitter)
     ->onTextLayout(facebook::react::RNUITextViewEventEmitter::OnTextLayout{static_cast<int>(self.tag), *lines});
@@ -126,7 +125,7 @@ using namespace facebook::react;
       _textView.textContainer.lineBreakMode = NSLineBreakMode::NSLineBreakByClipping;
     }
   }
-  
+
   // I'm not sure if this is really the right way to handle this style. This means that the entire _view_ the text
   // is in will have this background color applied. To apply it just to a particular part of a string, you'd need
   // to do <Text><Text style={{backgroundColor: 'blue'}}>Hello</Text></Text>.
@@ -134,7 +133,7 @@ using namespace facebook::react;
   if (oldViewProps.backgroundColor != newViewProps.backgroundColor) {
     _textView.backgroundColor = RCTUIColorFromSharedColor(newViewProps.backgroundColor);
   }
-  
+
   [super updateProps:props oldProps:oldProps];
 }
 
@@ -189,7 +188,7 @@ using namespace facebook::react;
 {
   const auto location = [self getLocationOfPress:sender];
   const auto child = [self getTouchChild:location];
-  
+
   if (child) {
     [child onPress];
   }
@@ -211,4 +210,3 @@ Class<RCTComponentViewProtocol> RNUITextViewCls(void)
 }
 
 @end
-#endif

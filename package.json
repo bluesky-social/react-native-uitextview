@@ -149,19 +149,16 @@
     ]
   },
   "codegenConfig": {
-    "name": "RNUitextviewViewSpec",
+    "name": "RNUITextViewSpec",
     "type": "all",
     "jsSrcsDir": "src",
     "outputDir": {
       "ios": "ios/generated",
       "android": "android/generated"
     },
-    "android": {
-      "javaPackageName": "com.uitextview"
-    },
     "ios": {
       "componentProvider": {
-        "UitextviewView": "UitextviewView"
+        "RNUITextView": "RNUITextView"
       }
     },
     "includesGeneratedCode": true
