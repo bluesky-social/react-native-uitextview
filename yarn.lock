@@ -10623,7 +10623,6 @@ __metadata:
     prettier: ^3.0.3
     react: 19.0.0
     react-native: 0.79.1
-    react-native-builder-bob: ^0.40.6
     release-it: ^19.0.1
     turbo: ^1.10.7
     typescript: ^5.2.2
