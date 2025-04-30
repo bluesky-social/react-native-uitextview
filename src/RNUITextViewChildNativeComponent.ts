@@ -4,7 +4,7 @@ import type {
   BubblingEventHandler,
   Float,
   Int32,
-  WithDefault
+  WithDefault,
 } from 'react-native/Libraries/Types/CodegenTypes'
 
 interface TargetedEvent {
@@ -38,6 +38,7 @@ interface NativeProps extends ViewProps {
   textDecorationLine?: WithDefault<TextDecorationLine, 'none'>
   textDecorationStyle?: WithDefault<TextDecorationStyle, 'solid'>
   textDecorationColor?: ColorValue
+  shadowRadius?: WithDefault<Float, 0>
   onPress?: BubblingEventHandler<TargetedEvent>
   onLongPress?: BubblingEventHandler<TargetedEvent>
 }

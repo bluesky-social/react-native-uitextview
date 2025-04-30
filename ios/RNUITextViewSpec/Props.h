@@ -110,6 +110,7 @@ class RNUITextViewChildProps final : public ViewProps {
   RNUITextViewChildTextDecorationLine textDecorationLine{RNUITextViewChildTextDecorationLine::None};
   RNUITextViewChildTextDecorationStyle textDecorationStyle{RNUITextViewChildTextDecorationStyle::Solid};
   SharedColor textDecorationColor{};
+  Float shadowRadius{0.0};
 };
 
 enum class RNUITextViewEllipsizeMode { Head, Middle, Tail, Clip };

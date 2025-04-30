@@ -23,19 +23,20 @@ export default defineConfig([
       'prettier/prettier': [
         'error',
         {
+          semi: false,
+          arrowParens: 'avoid',
+          bracketSameLine: true,
+          bracketSpacing: false,
           quoteProps: 'consistent',
           singleQuote: true,
           tabWidth: 2,
-          trailingComma: 'es5',
+          trailingComma: 'all',
           useTabs: false,
         },
       ],
     },
   },
   {
-    ignores: [
-      'node_modules/',
-      'lib/'
-    ],
+    ignores: ['node_modules/', 'lib/'],
   },
 ]);

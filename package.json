@@ -129,10 +129,14 @@
     }
   },
   "prettier": {
+    "semi": false,
+    "arrowParens": "avoid",
+    "bracketSameLine": true,
+    "bracketSpacing": false,
     "quoteProps": "consistent",
     "singleQuote": true,
     "tabWidth": 2,
-    "trailingComma": "es5",
+    "trailingComma": "all",
     "useTabs": false
   },
   "codegenConfig": {
@@ -145,7 +149,8 @@
     },
     "ios": {
       "componentProvider": {
-        "RNUITextView": "RNUITextView"
+        "RNUITextView": "RNUITextView",
+        "RNUITextViewChild": "RNUITextViewChild"
       }
     },
     "includesGeneratedCode": true

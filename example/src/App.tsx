@@ -6,7 +6,7 @@ import {
   Text as RNText,
   SafeAreaView,
   ScrollView,
-  Alert
+  Alert,
 } from 'react-native'
 import {UITextView as Text} from 'react-native-uitextview'
 
@@ -47,7 +47,7 @@ export default function App() {
 
           <View>
             <RNText style={styles.subheader}>RN-UITextView, selectable:</RNText>
-            <Text selectable style={styles.text}>
+            <Text selectable uiTextView style={styles.text}>
               Hello world!
             </Text>
           </View>
@@ -176,7 +176,7 @@ export default function App() {
               style={[
                 styles.text,
                 styles.underlinedStrikethrough,
-                styles.decorationDashed
+                styles.decorationDashed,
               ]}>
               Hello world!
             </RNText>
@@ -184,7 +184,7 @@ export default function App() {
               style={[
                 styles.text,
                 styles.underlinedStrikethrough,
-                styles.decorationDotted
+                styles.decorationDotted,
               ]}>
               Hello world!
             </RNText>
@@ -192,7 +192,7 @@ export default function App() {
               style={[
                 styles.text,
                 styles.underlinedStrikethrough,
-                styles.decorationDouble
+                styles.decorationDouble,
               ]}>
               Hello world!
             </RNText>
@@ -200,7 +200,7 @@ export default function App() {
               style={[
                 styles.text,
                 styles.underlinedStrikethrough,
-                styles.decorationColored
+                styles.decorationColored,
               ]}>
               Hello world!
             </RNText>
@@ -237,7 +237,7 @@ export default function App() {
                 style={[
                   styles.text,
                   styles.underlinedStrikethrough,
-                  styles.decorationDashed
+                  styles.decorationDashed,
                 ]}>
                 Hello world!
               </Text>
@@ -249,7 +249,7 @@ export default function App() {
                 style={[
                   styles.text,
                   styles.underlinedStrikethrough,
-                  styles.decorationDotted
+                  styles.decorationDotted,
                 ]}>
                 Hello world!
               </Text>
@@ -261,7 +261,7 @@ export default function App() {
                 style={[
                   styles.text,
                   styles.underlinedStrikethrough,
-                  styles.decorationDouble
+                  styles.decorationDouble,
                 ]}>
                 Hello world!
               </Text>
@@ -273,7 +273,7 @@ export default function App() {
                 style={[
                   styles.text,
                   styles.underlinedStrikethrough,
-                  styles.decorationColored
+                  styles.decorationColored,
                 ]}>
                 Hello world!
               </Text>
@@ -589,83 +589,83 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
   box: {
     width: 60,
     height: 60,
-    marginVertical: 20
+    marginVertical: 20,
   },
   spacer: {
-    height: 10
+    height: 10,
   },
   header: {
     fontSize: 26,
     fontWeight: 'bold',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   subheader: {
     fontSize: 22,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   text: {
-    fontSize: 18
+    fontSize: 18,
   },
   coloredBlue: {
-    color: 'blue'
+    color: 'blue',
   },
   coloredHex: {
-    color: '#804102'
+    color: '#804102',
   },
   coloredHexShort: {
-    color: '#804'
+    color: '#804',
   },
   coloredHsl: {
-    color: 'hsl(0, 100%, 50%)'
+    color: 'hsl(0, 100%, 50%)',
   },
   underlined: {
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
   },
   strikethrough: {
-    textDecorationLine: 'line-through'
+    textDecorationLine: 'line-through',
   },
   underlinedStrikethrough: {
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
   },
   decorationSolid: {
-    textDecorationStyle: 'solid'
+    textDecorationStyle: 'solid',
   },
   decorationDashed: {
-    textDecorationStyle: 'dashed'
+    textDecorationStyle: 'dashed',
   },
   decorationDotted: {
-    textDecorationStyle: 'dotted'
+    textDecorationStyle: 'dotted',
   },
   decorationDouble: {
-    textDecorationStyle: 'double'
+    textDecorationStyle: 'double',
   },
   decorationColored: {
-    textDecorationColor: 'blue'
+    textDecorationColor: 'blue',
   },
   fontSize20: {
-    fontSize: 20
+    fontSize: 20,
   },
   fontSize30: {
-    fontSize: 30
+    fontSize: 30,
   },
   fontItalic: {
-    fontStyle: 'italic'
+    fontStyle: 'italic',
   },
   fontBold: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   lineHeight10: {
-    lineHeight: 10
+    lineHeight: 10,
   },
   lineHeight30: {
-    lineHeight: 30
+    lineHeight: 30,
   },
   backgroundColor: {
-    backgroundColor: 'yellow'
-  }
+    backgroundColor: 'yellow',
+  },
 })

@@ -29,7 +29,8 @@ RNUITextViewChildProps::RNUITextViewChildProps(
     lineHeight(convertRawProp(context, rawProps, "lineHeight", sourceProps.lineHeight, {0.0})),
     textDecorationLine(convertRawProp(context, rawProps, "textDecorationLine", sourceProps.textDecorationLine, {RNUITextViewChildTextDecorationLine::None})),
     textDecorationStyle(convertRawProp(context, rawProps, "textDecorationStyle", sourceProps.textDecorationStyle, {RNUITextViewChildTextDecorationStyle::Solid})),
-    textDecorationColor(convertRawProp(context, rawProps, "textDecorationColor", sourceProps.textDecorationColor, {}))
+    textDecorationColor(convertRawProp(context, rawProps, "textDecorationColor", sourceProps.textDecorationColor, {})),
+    shadowRadius(convertRawProp(context, rawProps, "shadowRadius", sourceProps.shadowRadius, {0.0}))
       {}
 RNUITextViewProps::RNUITextViewProps(
     const PropsParserContext &context,
