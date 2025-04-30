@@ -4,9 +4,9 @@
 
 #import <React/RCTConversions.h>
 
-#import <react/renderer/components/RNUITextViewSpec/EventEmitters.h>
-#import <react/renderer/components/RNUITextViewSpec/Props.h>
-#import <react/renderer/components/RNUITextViewSpec/RCTComponentViewHelpers.h>
+#import <react-native-uitextview/EventEmitters.h>
+#import <react-native-uitextview/Props.h>
+#import <react-native-uitextview/RCTComponentViewHelpers.h>
 #import <react/renderer/textlayoutmanager/RCTAttributedTextUtils.h>
 
 #import "RCTFabricComponentsPlugins.h"

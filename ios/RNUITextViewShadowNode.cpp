@@ -99,7 +99,7 @@ Size RNUITextViewShadowNode::measureContent(
         fragment.string = props.text;
         fragment.textAttributes = textAttributes;
 
-        baseAttributedString.appendFragment(fragment);
+        baseAttributedString.appendFragment(std::move(fragment));
       }
     }
     
