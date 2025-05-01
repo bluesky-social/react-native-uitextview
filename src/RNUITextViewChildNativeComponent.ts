@@ -43,4 +43,6 @@ interface NativeProps extends ViewProps {
   onLongPress?: BubblingEventHandler<TargetedEvent>
 }
 
-export default codegenNativeComponent<NativeProps>('RNUITextViewChild')
+export default codegenNativeComponent<NativeProps>('RNUITextViewChild', {
+  excludedPlatforms: ['android'],
+})
