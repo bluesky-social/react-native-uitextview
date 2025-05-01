@@ -3,19 +3,22 @@ import type {NativeFontWeight} from './RNUITextViewChildNativeComponent'
 
 export function flattenStyles(
   rootStyle: TextStyle,
-  style: StyleProp<TextStyle>
+  style: StyleProp<TextStyle>,
 ) {
   const flattenedStyle = StyleSheet.flatten([rootStyle, style]) as TextStyle
   return {
     ...flattenedStyle,
-    fontWeight: fontWeightToNativeProp(flattenedStyle.fontWeight ?? 'normal')
+    fontWeight: fontWeightToNativeProp(flattenedStyle.fontWeight ?? 'normal'),
+    shadowOffset: flattenedStyle.shadowOffset
+      ? flattenedStyle.shadowOffset
+      : {width: 0, height: 0},
   }
 }
 
 // Codegen doesn't like using integer values for enums (c++ L) so we'll conver them to the proper native prop
 // value before returning flattened styles.
 function fontWeightToNativeProp(
-  fontWeight: TextStyle['fontWeight']
+  fontWeight: TextStyle['fontWeight'],
 ): NativeFontWeight {
   switch (fontWeight) {
     case 'normal':

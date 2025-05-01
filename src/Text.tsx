@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text as RNText,
   type TextProps,
-  type ViewStyle
+  type ViewStyle,
 } from 'react-native'
 import RNUITextViewChildNativeComponent from './RNUITextViewChildNativeComponent'
 import RNUITextViewNativeComponent from './RNUITextViewNativeComponent'
@@ -12,12 +12,12 @@ import {flattenStyles} from './util'
 
 const TextAncestorContext = React.createContext<[boolean, ViewStyle]>([
   false,
-  StyleSheet.create({})
+  StyleSheet.create({}),
 ])
 
 const textDefaults: TextProps = {
   allowFontScaling: true,
-  selectable: true
+  selectable: true,
 }
 
 const useTextAncestorContext = () => React.useContext(TextAncestorContext)
@@ -34,7 +34,7 @@ function UITextViewChild({
   // Flatten the styles, and apply the root styles when needed
   const flattenedStyle = React.useMemo(
     () => flattenStyles(rootStyle, style),
-    [rootStyle, style]
+    [rootStyle, style],
   )
 
   if (!isAncestor) {
@@ -95,7 +95,7 @@ function UITextViewChild({
 function UITextViewInner(
   props: TextProps & {
     uiTextView?: boolean
-  }
+  },
 ) {
   const [isAncestor] = useTextAncestorContext()
 
