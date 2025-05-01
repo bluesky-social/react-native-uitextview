@@ -1,7 +1,7 @@
 #pragma once
 
-#include <react-native-uitextview/EventEmitters.h>
-#include <react-native-uitextview/Props.h>
+#include <react/renderer/components/RNUITextViewSpec/EventEmitters.h>
+#include <react/renderer/components/RNUITextViewSpec/Props.h>
 #include <react/renderer/components/view/ConcreteViewShadowNode.h>
 #include <react/renderer/textlayoutmanager/TextLayoutManager.h>
 #include <react/renderer/core/LayoutContext.h>
