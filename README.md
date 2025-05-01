@@ -18,9 +18,9 @@ Thank you!
 
 # React Native UITextView
 
-The `Text` implementation in React Native uses `UILabel` on iOS. Unfortunately, this prevents
-the user from being able to highlight text for selection. The only copy behavior that is
-possible is to copy the entire block of text.
+The `Text` implementation in React Native much more closely resembles `UILabel` on iOS. Unfortunately, this prevents
+the user from being able to highlight text for selection. The only copy behavior that is possible is to copy the
+entire block of text.
 
 `UITextView` however allows a user to highlight portions of the text block for copying,
 translation, or other native capabilities.
@@ -36,6 +36,12 @@ block of text.
 > higher support only the new architecture. Unfortunately I do not have time to maintain support for both architectures.
 > Version `1.4.0` however is stable and - aside from the still missing features from the base `<Text>` component, should
 > work the same as `2.x` and higher.
+
+> [!NOTE]
+> Version 2.0.0 of `react-native-uitextview` is tested against and used in production with React Nave 0.79. No other versions
+> are officially supported. As there have been a number of changes to the text layout engine in the new architecture, things
+> may be broken if you are not using this version of React Native with this package. Generally, these problems are inside of
+> `RNUITextViewShadowNode.cpp`.
 
 ```sh
 yarn add react-native-uitextview
@@ -124,7 +130,6 @@ affect the proper functioning of the component in Bluesky will not be merged.
 Some ideas for great contributions that we do not have time to properly implement:
 
 - Full support for all RN styles
-- Fabric support
 - Accessibility improvements
 
 ## License
