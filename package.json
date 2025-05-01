@@ -141,19 +141,14 @@
   },
   "codegenConfig": {
     "name": "RNUITextViewSpec",
-    "type": "all",
+    "type": "components",
     "jsSrcsDir": "src",
-    "outputDir": {
-      "ios": "ios/generated",
-      "android": "android/generated"
-    },
     "ios": {
       "componentProvider": {
         "RNUITextView": "RNUITextView",
         "RNUITextViewChild": "RNUITextViewChild"
       }
-    },
-    "includesGeneratedCode": true
+    }
   },
   "create-react-native-library": {
     "languages": "kotlin-objc",
