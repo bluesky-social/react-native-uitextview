@@ -4,10 +4,7 @@ const project = (() => {
     const {configureProjects} = require('react-native-test-app')
 
     return configureProjects({
-      android: {
-        sourceDir: path.join('example', 'android'),
-        manifestPath: path.join(__dirname, 'example', 'android'),
-      },
+      android: {},
       ios: {
         sourceDir: path.join('example', 'ios'),
       },

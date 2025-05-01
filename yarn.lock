@@ -4235,6 +4235,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rnx-kit/react-native-host@npm:^0.5.0":
+  version: 0.5.6
+  resolution: "@rnx-kit/react-native-host@npm:0.5.6"
+  peerDependencies:
+    react-native: ">=0.66"
+  checksum: 5ea8472afa70ac0dcb75268cac77a76c73a3b95b4f9de678e122a81222e88073689e463f0daacacf8e75261395fb364f5b2d62c53a4f3ab019df0d068c1764f4
+  languageName: node
+  linkType: hard
+
+"@rnx-kit/tools-node@npm:^3.0.0":
+  version: 3.0.2
+  resolution: "@rnx-kit/tools-node@npm:3.0.2"
+  checksum: 9ece015d4d489950916a1ba9fff91bd2751f0a2d280aaab6c4d156a7be96a1fe4b88da76499540b006c9df15f316dec3ade5de84f87f814ede67513ca5aa0b49
+  languageName: node
+  linkType: hard
+
+"@rnx-kit/tools-react-native@npm:^2.0.1":
+  version: 2.1.0
+  resolution: "@rnx-kit/tools-react-native@npm:2.1.0"
+  dependencies:
+    "@rnx-kit/tools-node": ^3.0.0
+  checksum: 8ec9d4267704de0dda9592b408a56cef918ebd212d3f85f29bfeaa45d3f1f9a818a6c19347d8a1dce432bd921dd9c1346e3ec025aed35f7e045ecfd5101cc9be
+  languageName: node
+  linkType: hard
+
 "@sideway/address@npm:^4.1.5":
   version: 4.1.5
   resolution: "@sideway/address@npm:4.1.5"
@@ -4759,7 +4784,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:^8.11.0":
+"ajv@npm:^8.0.0, ajv@npm:^8.11.0":
   version: 8.17.1
   resolution: "ajv@npm:8.17.1"
   dependencies:
@@ -5632,7 +5657,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cliui@npm:^8.0.1":
+"cliui@npm:^8.0.0, cliui@npm:^8.0.1":
   version: 8.0.1
   resolution: "cliui@npm:8.0.1"
   dependencies:
@@ -7244,7 +7269,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:^4.4.1":
+"fast-xml-parser@npm:^4.0.0, fast-xml-parser@npm:^4.4.1":
   version: 4.5.3
   resolution: "fast-xml-parser@npm:4.5.3"
   dependencies:
@@ -11488,7 +11513,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prompts@npm:^2.0.1, prompts@npm:^2.4.2":
+"prompts@npm:^2.0.1, prompts@npm:^2.4.0, prompts@npm:^2.4.2":
   version: 2.4.2
   resolution: "prompts@npm:2.4.2"
   dependencies:
@@ -11666,6 +11691,43 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-test-app@npm:4.0.4":
+  version: 4.0.4
+  resolution: "react-native-test-app@npm:4.0.4"
+  dependencies:
+    "@rnx-kit/react-native-host": ^0.5.0
+    "@rnx-kit/tools-react-native": ^2.0.1
+    ajv: ^8.0.0
+    cliui: ^8.0.0
+    fast-xml-parser: ^4.0.0
+    prompts: ^2.4.0
+    semver: ^7.3.5
+    uuid: ^10.0.0
+  peerDependencies:
+    "@callstack/react-native-visionos": 0.73 - 0.76
+    "@expo/config-plugins": ">=5.0"
+    react: 18.1 - 19.0
+    react-native: 0.70 - 0.76 || >=0.77.0-0 <0.77.0
+    react-native-macos: ^0.0.0-0 || 0.71 - 0.76
+    react-native-windows: ^0.0.0-0 || 0.70 - 0.76
+  peerDependenciesMeta:
+    "@callstack/react-native-visionos":
+      optional: true
+    "@expo/config-plugins":
+      optional: true
+    react-native-macos:
+      optional: true
+    react-native-windows:
+      optional: true
+  bin:
+    configure-test-app: scripts/configure.mjs
+    init: scripts/init.mjs
+    init-test-app: scripts/init.mjs
+    install-windows-test-app: windows/test-app.mjs
+  checksum: e0f3de0c3f0f17e23edf05801b628a9cfbb9680035769758c5ff8a94588f0a1655c1978fc1aa1ceb07cbf1bad7ce5efd20fb68267a36993f4382cbf348ae07ed
+  languageName: node
+  linkType: hard
+
 "react-native-uitextview-example@workspace:example":
   version: 0.0.0-use.local
   resolution: "react-native-uitextview-example@workspace:example"
@@ -11709,6 +11771,7 @@ __metadata:
     react: 19.0.0
     react-native: 0.79.1
     react-native-builder-bob: ^0.29.1
+    react-native-test-app: 4.0.4
     release-it: ^19.0.1
     turbo: ^1.10.7
     typescript: ^5.2.2
@@ -13467,6 +13530,15 @@ __metadata:
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: c81095493225ecfc28add49c106ca4f09cdf56bc66731aa8dabc2edbbccb1e1bfe2de6a115e5c6a380d3ea166d1636410b62ef216bb07b3feb1cfde1d95d5080
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "uuid@npm:10.0.0"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 4b81611ade2885d2313ddd8dc865d93d8dccc13ddf901745edca8f86d99bc46d7a330d678e7532e7ebf93ce616679fb19b2e3568873ac0c14c999032acb25869
   languageName: node
   linkType: hard
 

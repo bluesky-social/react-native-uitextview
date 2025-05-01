@@ -84,6 +84,7 @@
     "react": "19.0.0",
     "react-native": "0.79.1",
     "react-native-builder-bob": "^0.29.1",
+    "react-native-test-app": "4.0.4",
     "release-it": "^19.0.1",
     "turbo": "^1.10.7",
     "typescript": "^5.2.2"
@@ -141,7 +142,7 @@
   },
   "codegenConfig": {
     "name": "RNUITextViewSpec",
-    "type": "components",
+    "type": "all",
     "jsSrcsDir": "src",
     "ios": {
       "componentProvider": {
