@@ -9,6 +9,9 @@ export function flattenStyles(
   return {
     ...flattenedStyle,
     fontWeight: fontWeightToNativeProp(flattenedStyle.fontWeight ?? 'normal'),
+    backgroundColor: flattenedStyle.backgroundColor
+      ? flattenedStyle.backgroundColor
+      : 'transparent',
     shadowOffset: flattenedStyle.shadowOffset
       ? flattenedStyle.shadowOffset
       : {width: 0, height: 0},
