@@ -66,6 +66,10 @@ using namespace facebook::react;
 {
   [super prepareForRecycle];
   _state.reset();
+  
+  // Reset the frame to zero so that when it properly lays out on the next use
+  _textView.frame = CGRectZero;
+  _textView.attributedText = nil;
 }
 
 - (void)drawRect:(CGRect)rect

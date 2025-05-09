@@ -63,6 +63,10 @@ using namespace facebook::react;
   }
 }
 
++ (BOOL)shouldBeRecycled {
+  return NO;
+}
+
 Class<RCTComponentViewProtocol> RNUITextViewChildCls(void)
 {
     return RNUITextViewChild.class;
