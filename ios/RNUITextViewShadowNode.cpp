@@ -53,6 +53,7 @@ Size RNUITextViewShadowNode::measureContent(
         textAttributes.textShadowRadius = props.shadowRadius;
         textAttributes.letterSpacing = props.letterSpacing;
         textAttributes.textDecorationColor = props.textDecorationColor;
+        textAttributes.fontFamily = props.fontFamily;
         
         if (props.fontStyle == RNUITextViewChildFontStyle::Italic) {
           textAttributes.fontStyle = FontStyle::Italic;
