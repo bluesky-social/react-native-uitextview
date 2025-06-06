@@ -1,7 +1,7 @@
 #pragma once
 
-#include <react-native-uitextview/EventEmitters.h>
-#include <react-native-uitextview/Props.h>
+#include "generated/RNUITextViewSpec/EventEmitters.h"
+#include "generated/RNUITextViewSpec/Props.h"
 #include <react/renderer/components/view/ConcreteViewShadowNode.h>
 #include <react/renderer/textlayoutmanager/TextLayoutManager.h>
 #include <react/renderer/core/LayoutContext.h>
@@ -23,7 +23,7 @@ RNUITextViewEventEmitter,
 RNUITextViewStateReal> {
 public:
   using ConcreteViewShadowNode::ConcreteViewShadowNode;
-  
+
   RNUITextViewShadowNode(
    const ShadowNode& sourceShadowNode,
    const ShadowNodeFragment& fragment
@@ -41,8 +41,8 @@ public:
   Size measureContent(
       const LayoutContext& layoutContext,
       const LayoutConstraints& layoutConstraints) const override;
-  
+
 private:
-  mutable AttributedString _attributedString;  
+  mutable AttributedString _attributedString;
 };
 } // namespace facebook::React
