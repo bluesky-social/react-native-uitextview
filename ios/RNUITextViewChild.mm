@@ -3,9 +3,9 @@
 #import "RNUITextView.h"
 #import "RNUITextViewChildComponentDescriptor.h"
 
-#import <react-native-uitextview/EventEmitters.h>
-#import <react-native-uitextview/Props.h>
-#import <react-native-uitextview/RCTComponentViewHelpers.h>
+#import "generated/RNUITextViewSpec/EventEmitters.h"
+#import "generated/RNUITextViewSpec/Props.h"
+#import "generated/RNUITextViewSpec/RCTComponentViewHelpers.h"
 
 #import "RCTFabricComponentsPlugins.h"
 #import "Utils.h"
@@ -45,7 +45,7 @@ using namespace facebook::react;
     NSString *text = [NSString stringWithUTF8String:newViewProps.text.c_str()];
     _text = text;
   }
-  
+
   [super updateProps:props oldProps:oldProps];
 }
 
@@ -55,7 +55,7 @@ using namespace facebook::react;
     ->onPress(facebook::react::RNUITextViewChildEventEmitter::OnPress{});
   }
 }
-  
+
 - (void)onLongPress {
   if (_eventEmitter != nullptr) {
     std::dynamic_pointer_cast<const facebook::react::RNUITextViewChildEventEmitter>(_eventEmitter)

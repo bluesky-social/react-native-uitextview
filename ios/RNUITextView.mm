@@ -1,12 +1,12 @@
 #import "RNUITextView.h"
 #import "RNUITextViewChild.h"
+#import "RNUITextViewShadowNode.h"
 #import "RNUITextViewComponentDescriptor.h"
-
 #import <React/RCTConversions.h>
 
-#import <react-native-uitextview/EventEmitters.h>
-#import <react-native-uitextview/Props.h>
-#import <react-native-uitextview/RCTComponentViewHelpers.h>
+#import "generated/RNUITextViewSpec/EventEmitters.h"
+#import "generated/RNUITextViewSpec/Props.h"
+#import "generated/RNUITextViewSpec/RCTComponentViewHelpers.h"
 #import <react/renderer/textlayoutmanager/RCTAttributedTextUtils.h>
 
 #import "RCTFabricComponentsPlugins.h"
@@ -66,7 +66,7 @@ using namespace facebook::react;
 {
   [super prepareForRecycle];
   _state.reset();
-  
+
   // Reset the frame to zero so that when it properly lays out on the next use
   _textView.frame = CGRectZero;
   _textView.attributedText = nil;
