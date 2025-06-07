@@ -141,12 +141,7 @@
     },
     "android": {
       "javaPackageName": "xyz.blueskyweb.rnuitextview"
-    },
-    "outputDir": {
-      "android": "android/generated",
-      "ios": "ios/generated"
-    },
-    "includesGeneratedCode": true
+    }
   },
   "create-react-native-library": {
     "languages": "kotlin-objc",

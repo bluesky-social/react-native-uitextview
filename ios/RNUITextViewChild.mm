@@ -1,11 +1,9 @@
-#ifdef RCT_NEW_ARCH_ENABLED
 #import "RNUITextViewChild.h"
 #import "RNUITextView.h"
 #import "RNUITextViewChildComponentDescriptor.h"
-
-#import "generated/RNUITextViewSpec/EventEmitters.h"
-#import "generated/RNUITextViewSpec/Props.h"
-#import "generated/RNUITextViewSpec/RCTComponentViewHelpers.h"
+#import <react/renderer/components/RNUITextViewSpec/EventEmitters.h>
+#import <react/renderer/components/RNUITextViewSpec/Props.h>
+#import <react/renderer/components/RNUITextViewSpec/RCTComponentViewHelpers.h>
 
 #import "RCTFabricComponentsPlugins.h"
 #import "Utils.h"
