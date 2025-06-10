@@ -141,7 +141,7 @@ class RNUITextViewProps final : public ViewProps {
 #pragma mark - Props
 
   int numberOfLines{0};
-  bool allowsFontScaling{false};
+  bool allowFontScaling{false};
   RNUITextViewEllipsizeMode ellipsizeMode{RNUITextViewEllipsizeMode::Tail};
   bool selectable{false};
 };

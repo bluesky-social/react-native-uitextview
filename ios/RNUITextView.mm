@@ -81,7 +81,31 @@ using namespace facebook::react;
   const auto &props = *std::static_pointer_cast<RNUITextViewProps const>(_props);
 
   const auto attrString = _state->getData().attributedString;
-  const auto convertedAttrString = RCTNSAttributedStringFromAttributedString(attrString);
+  auto convertedAttrString = RCTNSAttributedStringFromAttributedString(attrString);
+
+  if (props.allowsFontScaling) {
+    NSMutableAttributedString *mutableString = [convertedAttrString mutableCopy];
+    [mutableString beginEditing];
+    [mutableString enumerateAttribute:NSFontAttributeName
+                                inRange:NSMakeRange(0, mutableString.length)
+                                options:0
+                             usingBlock:^(id value, NSRange range, BOOL * _Nonnull stop) {
+      if (value) {
+        UIFont *font = (UIFont *)value;
+        UIFont *scaledFont = nil;
+        if (@available(iOS 11.0, *)) {
+          scaledFont = [[UIFontMetrics defaultMetrics] scaledFontForFont:font];
+        } else {
+          CGFloat scale = [UIFont preferredFontForTextStyle:UIFontTextStyleBody].pointSize / [UIFont systemFontSize];
+          scaledFont = [font fontWithSize:font.pointSize * scale];
+        }
+        [mutableString addAttribute:NSFontAttributeName value:scaledFont range:range];
+      }
+    }];
+    [mutableString endEditing];
+    convertedAttrString = [mutableString copy];
+  }
+
   _textView.attributedText = convertedAttrString;
   _textView.frame = _view.frame;
 
@@ -116,6 +140,12 @@ using namespace facebook::react;
 
   if (oldViewProps.selectable != newViewProps.selectable) {
     _textView.selectable = newViewProps.selectable;
+  }
+
+  if (oldViewProps.allowFontScaling != newViewProps.allowFontScaling) {
+    if (@available(iOS 11.0, *)) {
+      _textView.adjustsFontForContentSizeCategory = newViewProps.allowFontScaling;
+    }
   }
 
   if (oldViewProps.ellipsizeMode != newViewProps.ellipsizeMode) {

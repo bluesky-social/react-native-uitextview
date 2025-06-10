@@ -3,7 +3,7 @@ import type {ViewProps} from 'react-native'
 import type {
   BubblingEventHandler,
   Int32,
-  WithDefault
+  WithDefault,
 } from 'react-native/Libraries/Types/CodegenTypes'
 
 interface TargetedEvent {
@@ -18,12 +18,12 @@ type EllipsizeMode = 'head' | 'middle' | 'tail' | 'clip'
 
 interface NativeProps extends ViewProps {
   numberOfLines?: Int32
-  allowsFontScaling?: boolean
+  allowFontScaling?: boolean
   ellipsizeMode?: WithDefault<EllipsizeMode, 'tail'>
   selectable?: boolean
   onTextLayout?: BubblingEventHandler<TextLayoutEvent>
 }
 
 export default codegenNativeComponent<NativeProps>('RNUITextView', {
-  excludedPlatforms: ['android']
+  excludedPlatforms: ['android'],
 })

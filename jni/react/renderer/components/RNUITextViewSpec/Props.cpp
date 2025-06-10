@@ -38,7 +38,7 @@ RNUITextViewProps::RNUITextViewProps(
     const RawProps &rawProps): ViewProps(context, sourceProps, rawProps),
 
     numberOfLines(convertRawProp(context, rawProps, "numberOfLines", sourceProps.numberOfLines, {0})),
-    allowsFontScaling(convertRawProp(context, rawProps, "allowsFontScaling", sourceProps.allowsFontScaling, {false})),
+    allowFontScaling(convertRawProp(context, rawProps, "allowFontScaling", sourceProps.allowFontScaling, {false})),
     ellipsizeMode(convertRawProp(context, rawProps, "ellipsizeMode", sourceProps.ellipsizeMode, {RNUITextViewEllipsizeMode::Tail})),
     selectable(convertRawProp(context, rawProps, "selectable", sourceProps.selectable, {false}))
       {}
