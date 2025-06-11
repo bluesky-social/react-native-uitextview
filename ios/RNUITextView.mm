@@ -83,7 +83,7 @@ using namespace facebook::react;
   const auto attrString = _state->getData().attributedString;
   auto convertedAttrString = RCTNSAttributedStringFromAttributedString(attrString);
 
-  if (props.allowsFontScaling) {
+  if (props.allowFontScaling) {
     NSMutableAttributedString *mutableString = [convertedAttrString mutableCopy];
     [mutableString beginEditing];
     [mutableString enumerateAttribute:NSFontAttributeName
