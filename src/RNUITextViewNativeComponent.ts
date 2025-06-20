@@ -18,7 +18,7 @@ type EllipsizeMode = 'head' | 'middle' | 'tail' | 'clip'
 
 interface NativeProps extends ViewProps {
   numberOfLines?: Int32
-  allowFontScaling?: boolean
+  allowFontScaling?: WithDefault<boolean, true>
   ellipsizeMode?: WithDefault<EllipsizeMode, 'tail'>
   selectable?: boolean
   onTextLayout?: BubblingEventHandler<TextLayoutEvent>
