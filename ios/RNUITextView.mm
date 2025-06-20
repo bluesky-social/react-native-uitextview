@@ -80,30 +80,7 @@ using namespace facebook::react;
   const auto &props = *std::static_pointer_cast<RNUITextViewProps const>(_props);
 
   const auto attrString = _state->getData().attributedString;
-  auto convertedAttrString = RCTNSAttributedStringFromAttributedString(attrString);
-
-  if (props.allowFontScaling) {
-    NSMutableAttributedString *mutableString = [convertedAttrString mutableCopy];
-    [mutableString beginEditing];
-    [mutableString enumerateAttribute:NSFontAttributeName
-                                inRange:NSMakeRange(0, mutableString.length)
-                                options:0
-                             usingBlock:^(id value, NSRange range, BOOL * _Nonnull stop) {
-      if (value) {
-        UIFont *font = (UIFont *)value;
-        UIFont *scaledFont = nil;
-        if (@available(iOS 11.0, *)) {
-          scaledFont = [[UIFontMetrics defaultMetrics] scaledFontForFont:font];
-        } else {
-          CGFloat scale = [UIFont preferredFontForTextStyle:UIFontTextStyleBody].pointSize / [UIFont systemFontSize];
-          scaledFont = [font fontWithSize:font.pointSize * scale];
-        }
-        [mutableString addAttribute:NSFontAttributeName value:scaledFont range:range];
-      }
-    }];
-    [mutableString endEditing];
-    convertedAttrString = [mutableString copy];
-  }
+  const auto convertedAttrString = RCTNSAttributedStringFromAttributedString(attrString);
 
   _textView.attributedText = convertedAttrString;
   _textView.frame = _view.frame;
