@@ -71,4 +71,3 @@ Class<RCTComponentViewProtocol> RNUITextViewChildCls(void)
 }
 
 @end
-#endif
