@@ -2,6 +2,10 @@ require "json"
 
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
 
+# Detect whether the new architecture / Fabric is enabled
+new_arch_enabled = ENV['RCT_NEW_ARCH_ENABLED'] == '1'
+
+
 Pod::Spec.new do |s|
   s.name         = "react-native-uitextview"
   s.version      = package["version"]
@@ -13,9 +17,18 @@ Pod::Spec.new do |s|
   s.platforms    = { :ios => min_ios_version_supported }
   s.source       = { :git => "https://github.com/bluesky-social/react-native-uitextview.git", :tag => "#{s.version}" }
 
-  s.source_files = "ios/**/*.{h,m,mm,cpp}"
+  # Include module‑authored Obj‑C/Obj‑C++ plus the C++ files that Codegen
+  # writes to build/generated/ios during `pod install`
+  s.source_files = [
+    "ios/**/*.{h,mm,cpp}",
+  ]
 
-  s.private_header_files = "ios/**/*.h"
+  install_modules_dependencies(s)
 
- install_modules_dependencies(s)
+  # ---------- Fabric Components (when using frameworks) ----------
+  if ENV['USE_FRAMEWORKS'] != nil && new_arch_enabled
+    add_dependency(s, "React-FabricComponents", :additional_framework_paths => [
+      "react/renderer/textlayoutmanager/platform/ios",
+    ])
+  end
 end

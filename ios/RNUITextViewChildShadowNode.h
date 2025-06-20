@@ -1,8 +1,8 @@
 #pragma once
 
-#include "generated/RNUITextViewSpec/EventEmitters.h"
-#include "generated/RNUITextViewSpec/Props.h"
-#include "generated/RNUITextViewSpec/States.h"
+#include <react/renderer/components/RNUITextViewSpec/EventEmitters.h>
+#include <react/renderer/components/RNUITextViewSpec/Props.h>
+#include <react/renderer/components/RNUITextViewSpec/States.h>
 #include <react/renderer/components/view/ConcreteViewShadowNode.h>
 
 namespace facebook::react {
