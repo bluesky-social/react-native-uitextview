@@ -32,6 +32,12 @@ Size RNUITextViewShadowNode::measureContent(
 
     auto baseTextAttributes = TextAttributes::defaultTextAttributes();
     baseTextAttributes.backgroundColor = baseProps.backgroundColor;
+    baseTextAttributes.allowFontScaling = baseProps.allowFontScaling;
+    
+    Float fontSizeMultiplier = 1.0;
+    if (baseTextAttributes.allowFontScaling) {
+      fontSizeMultiplier = layoutContext.fontSizeMultiplier;
+    }
     
     auto baseAttributedString = AttributedString{};
     const auto &children = getChildren();
@@ -42,9 +48,10 @@ Size RNUITextViewShadowNode::measureContent(
         auto fragment = AttributedString::Fragment{};
         auto textAttributes = TextAttributes::defaultTextAttributes();
 
+        textAttributes.allowFontScaling = baseProps.allowFontScaling;
         textAttributes.backgroundColor = props.backgroundColor;
-        textAttributes.fontSize = props.fontSize;
-        textAttributes.lineHeight = props.lineHeight;
+        textAttributes.fontSize = props.fontSize * fontSizeMultiplier;
+        textAttributes.lineHeight = props.lineHeight * fontSizeMultiplier;
         textAttributes.foregroundColor = props.color;
         textAttributes.textShadowColor = props.shadowColor;
         textAttributes.textShadowOffset = props.shadowOffset;
