@@ -6,8 +6,6 @@
 
 namespace facebook::react {
 
-extern const char RNUITextViewComponentName[] = "RNUITextView";
-
 RNUITextViewShadowNode::RNUITextViewShadowNode(
    const ShadowNode& sourceShadowNode,
    const ShadowNodeFragment& fragment

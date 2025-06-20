@@ -1,14 +1,13 @@
 #import "RNUITextView.h"
-#import "RNUITextViewChild.h"
 #import "RNUITextViewShadowNode.h"
 #import "RNUITextViewComponentDescriptor.h"
+#import "RNUITextViewChild.h"
 #import <React/RCTConversions.h>
 
-#import "generated/RNUITextViewSpec/EventEmitters.h"
-#import "generated/RNUITextViewSpec/Props.h"
-#import "generated/RNUITextViewSpec/RCTComponentViewHelpers.h"
 #import <react/renderer/textlayoutmanager/RCTAttributedTextUtils.h>
-
+#import <react/renderer/components/RNUITextViewSpec/EventEmitters.h>
+#import <react/renderer/components/RNUITextViewSpec/Props.h>
+#import <react/renderer/components/RNUITextViewSpec/RCTComponentViewHelpers.h>
 #import "RCTFabricComponentsPlugins.h"
 
 using namespace facebook::react;
