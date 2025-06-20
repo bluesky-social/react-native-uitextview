@@ -3,6 +3,7 @@
 #import "RNUITextViewComponentDescriptor.h"
 #import "RNUITextViewChild.h"
 #import <React/RCTConversions.h>
+
 #import <react/renderer/textlayoutmanager/RCTAttributedTextUtils.h>
 #import <react/renderer/components/RNUITextViewSpec/EventEmitters.h>
 #import <react/renderer/components/RNUITextViewSpec/Props.h>
@@ -64,7 +65,7 @@ using namespace facebook::react;
 {
   [super prepareForRecycle];
   _state.reset();
-  
+
   // Reset the frame to zero so that when it properly lays out on the next use
   _textView.frame = CGRectZero;
   _textView.attributedText = nil;
