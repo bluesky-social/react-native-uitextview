@@ -81,6 +81,7 @@ using namespace facebook::react;
 
   const auto attrString = _state->getData().attributedString;
   const auto convertedAttrString = RCTNSAttributedStringFromAttributedString(attrString);
+
   _textView.attributedText = convertedAttrString;
   _textView.frame = _view.frame;
 
@@ -115,6 +116,12 @@ using namespace facebook::react;
 
   if (oldViewProps.selectable != newViewProps.selectable) {
     _textView.selectable = newViewProps.selectable;
+  }
+
+  if (oldViewProps.allowFontScaling != newViewProps.allowFontScaling) {
+    if (@available(iOS 11.0, *)) {
+      _textView.adjustsFontForContentSizeCategory = newViewProps.allowFontScaling;
+    }
   }
 
   if (oldViewProps.ellipsizeMode != newViewProps.ellipsizeMode) {
