@@ -10,16 +10,16 @@
     "build:ios": "cd ios && xcodebuild -workspace UitextviewExample.xcworkspace -scheme UitextviewExample -configuration Debug -sdk iphonesimulator CC=clang CPLUSPLUS=clang++ LD=clang LDPLUSPLUS=clang++ GCC_OPTIMIZATION_LEVEL=0 GCC_PRECOMPILE_PREFIX_HEADER=YES ASSETCATALOG_COMPILER_OPTIMIZATION=time DEBUG_INFORMATION_FORMAT=dwarf COMPILER_INDEX_STORE_ENABLE=NO"
   },
   "dependencies": {
-    "react": "18.2.0",
-    "react-native": "0.73.5"
+    "react": "19.1.0",
+    "react-native": "0.81.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",
-    "@react-native/babel-preset": "0.73.21",
-    "@react-native/metro-config": "0.73.5",
-    "@react-native/typescript-config": "0.73.1",
+    "@react-native/babel-preset": "^0.81.4",
+    "@react-native/metro-config": "^0.81.4",
+    "@react-native/typescript-config": "^0.81.4",
     "babel-plugin-module-resolver": "^5.0.0"
   },
   "engines": {
