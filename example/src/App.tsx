@@ -354,6 +354,57 @@ export default function App() {
           </View>
 
           <View>
+            <Text style={styles.subheader}>
+              Base, lineHeight fractional fontsize
+            </Text>
+            <View style={{flexDirection: 'row'}}>
+              {Array.from({length: 6}).map((_, i1) => (
+                <View key={i1}>
+                  {Array.from({length: 11}).map((__, i2) => (
+                    <RNText
+                      key={i2}
+                      selectable
+                      style={[
+                        {lineHeight: 23},
+                        {fontSize: 15 + i1 + i2 * 0.1},
+                        {width: 50},
+                        styles.debug
+                      ]}>
+                      {15 + i1 + i2 * 0.1}
+                    </RNText>
+                  ))}
+                </View>
+              ))}
+            </View>
+          </View>
+
+          <View>
+            <Text style={styles.subheader}>
+              UITextView, lineHeight fractional fontsize
+            </Text>
+            <View style={{flexDirection: 'row'}}>
+              {Array.from({length: 6}).map((_, i1) => (
+                <View key={i1}>
+                  {Array.from({length: 11}).map((__, i2) => (
+                    <Text
+                      key={i2}
+                      selectable
+                      uiTextView
+                      style={[
+                        {lineHeight: 23},
+                        {fontSize: 15 + i1 + i2 * 0.1},
+                        {width: 50},
+                        styles.debug
+                      ]}>
+                      {15 + i1 + i2 * 0.1}
+                    </Text>
+                  ))}
+                </View>
+              ))}
+            </View>
+          </View>
+
+          <View>
             <RNText style={styles.subheader}>Base, inherits</RNText>
             <RNText style={[styles.text, styles.underlined]}>
               A really long string so that{' '}
@@ -667,5 +718,9 @@ const styles = StyleSheet.create({
   },
   backgroundColor: {
     backgroundColor: 'yellow'
+  },
+  debug: {
+    borderColor: 'red',
+    borderWidth: 1
   }
 })
