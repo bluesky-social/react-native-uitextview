@@ -100,6 +100,18 @@ Size RNUITextViewShadowNode::measureContent(
           textAttributes.textDecorationStyle = TextDecorationStyle::Double;
         }
         
+        if (baseProps.textAlign == RNUITextViewTextAlign::Left) {
+          textAttributes.alignment = TextAlignment::Left;
+        } else if (baseProps.textAlign == RNUITextViewTextAlign::Right) {
+          textAttributes.alignment = TextAlignment::Right;
+        } else if (baseProps.textAlign == RNUITextViewTextAlign::Center) {
+          textAttributes.alignment = TextAlignment::Center;
+        } else if (baseProps.textAlign == RNUITextViewTextAlign::Justify) {
+          textAttributes.alignment = TextAlignment::Justified;
+        } else if (baseProps.textAlign == RNUITextViewTextAlign::Auto) {
+          textAttributes.alignment = TextAlignment::Natural;
+        }
+        
         textAttributes.backgroundColor = props.backgroundColor;
 
         fragment.string = props.text;
