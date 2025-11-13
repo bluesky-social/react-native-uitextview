@@ -16,13 +16,10 @@ interface TextLayoutEvent extends TargetedEvent {
 
 type EllipsizeMode = 'head' | 'middle' | 'tail' | 'clip'
 
-type TextAlign = 'auto' | 'left' | 'right' | 'center' | 'justify'
-
 interface NativeProps extends ViewProps {
   numberOfLines?: Int32
   allowFontScaling?: WithDefault<boolean, true>
   ellipsizeMode?: WithDefault<EllipsizeMode, 'tail'>
-  textAlign?: WithDefault<TextAlign, 'auto'>
   selectable?: boolean
   onTextLayout?: BubblingEventHandler<TextLayoutEvent>
 }

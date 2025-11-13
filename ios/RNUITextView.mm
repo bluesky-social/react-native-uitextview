@@ -136,19 +136,6 @@ using namespace facebook::react;
     }
   }
   
-  if (oldViewProps.textAlign != newViewProps.textAlign) {
-    if (newViewProps.textAlign == RNUITextViewTextAlign::Left) {
-      _textView.textAlignment = NSTextAlignmentLeft;
-    } else if (newViewProps.textAlign == RNUITextViewTextAlign::Right) {
-      _textView.textAlignment = NSTextAlignmentRight;
-    } else if (newViewProps.textAlign == RNUITextViewTextAlign::Center) {
-      _textView.textAlignment = NSTextAlignmentCenter;
-    } else if (newViewProps.textAlign == RNUITextViewTextAlign::Justify) {
-      _textView.textAlignment = NSTextAlignmentJustified;
-    } else if (newViewProps.textAlign == RNUITextViewTextAlign::Auto) {
-      _textView.textAlignment = NSTextAlignmentNatural;
-    }
-  }
 
   // I'm not sure if this is really the right way to handle this style. This means that the entire _view_ the text
   // is in will have this background color applied. To apply it just to a particular part of a string, you'd need
