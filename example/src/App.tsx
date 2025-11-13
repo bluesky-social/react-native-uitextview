@@ -26,9 +26,9 @@ export default function App() {
   }, [])
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <ScrollView style={{flex: 1, paddingHorizontal: 10}}>
-        <View style={{gap: 20, paddingBottom: 200}}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.box}>
           <RNText style={styles.header}>React Native UITextView Example</RNText>
 
           <View>
@@ -647,10 +647,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
   },
+  scrollView: {
+    flex: 1,
+    paddingHorizontal: 10,
+  },
   box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
+    gap: 20,
+    paddingBottom: 200,
   },
   spacer: {
     height: 10,
