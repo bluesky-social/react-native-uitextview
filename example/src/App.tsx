@@ -65,7 +65,7 @@ export default function App() {
 
           <View>
             <RNText style={styles.subheader}>
-              RN-UITextView, selectable, highlightable, aligned to Left:{' '}
+              RN-UITextView, selectable, highlightable, aligned to left:
             </RNText>
             <Text style={[styles.text, styles.alignLeft]} selectable uiTextView>
               Hello world!
@@ -74,7 +74,7 @@ export default function App() {
 
           <View>
             <RNText style={styles.subheader}>
-              RN-UITextView, selectable, highlightable, aligned to Right:{' '}
+              RN-UITextView, selectable, highlightable, aligned to right:
             </RNText>
             <Text
               style={[styles.text, styles.alignRight]}
@@ -86,7 +86,7 @@ export default function App() {
 
           <View>
             <RNText style={styles.subheader}>
-              RN-UITextView, selectable, highlightable, aligned to Center:{' '}
+              RN-UITextView, selectable, highlightable, aligned to center:
             </RNText>
             <Text
               style={[styles.text, styles.alignCenter]}
@@ -98,7 +98,7 @@ export default function App() {
 
           <View>
             <RNText style={styles.subheader}>
-              RN-UITextView, selectable, highlightable, aligned to Justify:{' '}
+              RN-UITextView, selectable, highlightable, aligned to justify:
             </RNText>
             <Text
               style={[styles.text, styles.alignJustify]}
@@ -110,7 +110,7 @@ export default function App() {
 
           <View>
             <RNText style={styles.subheader}>
-              RN-UITextView, selectable, highlightable, aligned to Auto:{' '}
+              RN-UITextView, selectable, highlightable, auto aligned:
             </RNText>
             <Text style={[styles.text, styles.alignAuto]} selectable uiTextView>
               Hello world!
