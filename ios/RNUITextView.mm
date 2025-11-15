@@ -228,13 +228,13 @@ using namespace facebook::react;
     NSInteger start = selectedRange.location;
     NSInteger end = selectedRange.location + selectedRange.length;
 
-    if (__DEV__) {
-      NSLog(@"[RNUITextView] Selection changed: location=%lu, length=%lu, start=%ld, end=%ld",
-            (unsigned long)selectedRange.location,
-            (unsigned long)selectedRange.length,
-            (long)start,
-            (long)end);
-    }
+#if DEBUG
+    NSLog(@"[RNUITextView] Selection changed: location=%lu, length=%lu, start=%ld, end=%ld",
+          (unsigned long)selectedRange.location,
+          (unsigned long)selectedRange.length,
+          (long)start,
+          (long)end);
+#endif
 
     std::dynamic_pointer_cast<const facebook::react::RNUITextViewEventEmitter>(_eventEmitter)
       ->onSelectionChange(facebook::react::RNUITextViewEventEmitter::OnSelectionChange{
@@ -243,9 +243,9 @@ using namespace facebook::react;
         static_cast<int>(end)
       });
   } @catch (NSException *exception) {
-    if (__DEV__) {
-      NSLog(@"[RNUITextView] Error in textViewDidChangeSelection: %@", exception.reason);
-    }
+#if DEBUG
+    NSLog(@"[RNUITextView] Error in textViewDidChangeSelection: %@", exception.reason);
+#endif
   }
 }
 
