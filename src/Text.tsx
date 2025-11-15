@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import {
   Platform,
   StyleSheet,
@@ -25,9 +25,13 @@ const useTextAncestorContext = () => React.useContext(TextAncestorContext)
 function UITextViewChild({
   style,
   children,
+  onSelectionChange,
   ...rest
 }: TextProps & {
   uiTextView?: boolean
+  onSelectionChange?: (event: {
+    nativeEvent: {target: number; start: number; end: number}
+  }) => void
 }) {
   const [isAncestor, rootStyle] = useTextAncestorContext()
 
@@ -35,6 +39,16 @@ function UITextViewChild({
   const flattenedStyle = React.useMemo(
     () => flattenStyles(rootStyle, style),
     [rootStyle, style],
+  )
+
+  // Wrap onSelectionChange in useCallback to prevent unnecessary re-renders
+  const handleSelectionChange = useCallback(
+    (event: {
+      nativeEvent: {target: number; start: number; end: number}
+    }) => {
+      onSelectionChange?.(event)
+    },
+    [onSelectionChange],
   )
 
   if (!isAncestor) {
@@ -45,6 +59,7 @@ function UITextViewChild({
           {...rest}
           // ellipsizeMode={rest.ellipsizeMode ?? rest.lineBreakMode ?? 'tail'}
           style={[flattenedStyle]}
+          onSelectionChange={handleSelectionChange}
           // @ts-expect-error Weirdness
           onPress={undefined}
           onLongPress={undefined}>
@@ -95,6 +110,9 @@ function UITextViewChild({
 function UITextViewInner(
   props: TextProps & {
     uiTextView?: boolean
+    onSelectionChange?: (event: {
+      nativeEvent: {target: number; start: number; end: number}
+    }) => void
   },
 ) {
   const [isAncestor] = useTextAncestorContext()
@@ -108,7 +126,31 @@ function UITextViewInner(
   return <UITextViewChild {...props} />
 }
 
-export function UITextView(props: TextProps & {uiTextView?: boolean}) {
+export function UITextView(
+  props: TextProps & {
+    uiTextView?: boolean
+    /**
+     * Callback fired when text selection changes.
+     * Only available on iOS when using uiTextView={true}.
+     * 
+     * @example
+     * ```tsx
+     * <UITextView
+     *   uiTextView={true}
+     *   onSelectionChange={(event) => {
+     *     const {start, end} = event.nativeEvent;
+     *     console.log(`Selected range: ${start}-${end}`);
+     *   }}
+     * >
+     *   Selectable text
+     * </UITextView>
+     * ```
+     */
+    onSelectionChange?: (event: {
+      nativeEvent: {target: number; start: number; end: number}
+    }) => void
+  },
+) {
   if (Platform.OS !== 'ios') {
     return <RNText {...props} />
   }

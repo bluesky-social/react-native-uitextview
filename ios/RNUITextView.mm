@@ -12,7 +12,7 @@
 
 using namespace facebook::react;
 
-@interface RNUITextView () <RCTRNUITextViewViewProtocol, UIGestureRecognizerDelegate>
+@interface RNUITextView () <RCTRNUITextViewViewProtocol, UIGestureRecognizerDelegate, UITextViewDelegate>
 
 @end
 
@@ -42,6 +42,7 @@ using namespace facebook::react;
     _textView.editable = false;
     _textView.textContainerInset = UIEdgeInsetsZero;
     _textView.textContainer.lineFragmentPadding = 0;
+    _textView.delegate = self;
     [self addSubview:_textView];
 
     const auto longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
@@ -211,6 +212,40 @@ using namespace facebook::react;
 
   if (child) {
     [child onLongPress];
+  }
+}
+
+// MARK: - UITextViewDelegate
+
+- (void)textViewDidChangeSelection:(UITextView *)textView
+{
+  if (!_eventEmitter) {
+    return;
+  }
+
+  @try {
+    NSRange selectedRange = textView.selectedRange;
+    NSInteger start = selectedRange.location;
+    NSInteger end = selectedRange.location + selectedRange.length;
+
+    if (__DEV__) {
+      NSLog(@"[RNUITextView] Selection changed: location=%lu, length=%lu, start=%ld, end=%ld",
+            (unsigned long)selectedRange.location,
+            (unsigned long)selectedRange.length,
+            (long)start,
+            (long)end);
+    }
+
+    std::dynamic_pointer_cast<const facebook::react::RNUITextViewEventEmitter>(_eventEmitter)
+      ->onSelectionChange(facebook::react::RNUITextViewEventEmitter::OnSelectionChange{
+        static_cast<int>(self.tag),
+        static_cast<int>(start),
+        static_cast<int>(end)
+      });
+  } @catch (NSException *exception) {
+    if (__DEV__) {
+      NSLog(@"[RNUITextView] Error in textViewDidChangeSelection: %@", exception.reason);
+    }
   }
 }
 
