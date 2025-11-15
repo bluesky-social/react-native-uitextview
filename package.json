@@ -3,8 +3,9 @@
   "version": "2.1.0-rc.0",
   "description": "UITextView for React Native",
   "source": "./src/index.tsx",
-  "main": "./lib/commonjs/index.js",
-  "types": "./lib/typescript/commonjs/src/index.d.ts",
+  "main": "./src/index.tsx",
+  "types": "./src/index.tsx",
+  "module": "./src/index.tsx",
   "files": [
     "src",
     "lib",
