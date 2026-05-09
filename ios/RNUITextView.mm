@@ -85,7 +85,7 @@ using namespace facebook::react;
   _textView.attributedText = convertedAttrString;
   _textView.frame = _view.frame;
 
-  const auto lines = new std::vector<std::string>();
+  __block std::vector<std::string> lines;
   [_textView.layoutManager enumerateLineFragmentsForGlyphRange:NSMakeRange(0, convertedAttrString.string.length) usingBlock:^(CGRect rect,
                                                                                               CGRect usedRect,
                                                                                               NSTextContainer * _Nonnull textContainer,
@@ -93,15 +93,12 @@ using namespace facebook::react;
                                                                                               BOOL * _Nonnull stop) {
     const auto charRange = [self->_textView.layoutManager characterRangeForGlyphRange:glyphRange actualGlyphRange:nil];
     const auto line = [self->_textView.text substringWithRange:charRange];
-
-    if (props.numberOfLines && props.numberOfLines > 0 && lines->size() < props.numberOfLines) {
-      lines->push_back(line.UTF8String);
-    }
+    lines.push_back(line.UTF8String);
   }];
 
   if (_eventEmitter != nullptr) {
     std::dynamic_pointer_cast<const facebook::react::RNUITextViewEventEmitter>(_eventEmitter)
-    ->onTextLayout(facebook::react::RNUITextViewEventEmitter::OnTextLayout{static_cast<int>(self.tag), *lines});
+    ->onTextLayout(facebook::react::RNUITextViewEventEmitter::OnTextLayout{static_cast<int>(self.tag), lines});
   };
 }
 
