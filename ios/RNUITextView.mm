@@ -20,6 +20,7 @@ using namespace facebook::react;
   UIView * _view;
   UITextView * _textView;
   RNUITextViewShadowNode::ConcreteState::Shared _state;
+  UITapGestureRecognizer * _outsideTapRecognizer;
 }
 
 + (ComponentDescriptorProvider)componentDescriptorProvider
@@ -55,9 +56,29 @@ using namespace facebook::react;
 
     [_textView addGestureRecognizer:pressGestureRecognizer];
     [_textView addGestureRecognizer:longPressGestureRecognizer];
+
+    _outsideTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                    action:@selector(handleOutsideTap:)];
+    _outsideTapRecognizer.cancelsTouchesInView = NO;
+    _outsideTapRecognizer.delegate = self;
   }
 
   return self;
+}
+
+- (void)didMoveToWindow
+{
+  [super didMoveToWindow];
+  if (self.window) {
+    [self.window addGestureRecognizer:_outsideTapRecognizer];
+  } else {
+    [_outsideTapRecognizer.view removeGestureRecognizer:_outsideTapRecognizer];
+  }
+}
+
+- (void)dealloc
+{
+  [_outsideTapRecognizer.view removeGestureRecognizer:_outsideTapRecognizer];
 }
 
 // See RCTParagraphComponentView
@@ -160,6 +181,32 @@ using namespace facebook::react;
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
   return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+  if (gestureRecognizer == _outsideTapRecognizer) {
+    UIWindow *window = touch.window;
+    if (!window) {
+      return NO;
+    }
+    UIView *hitView = [window hitTest:[touch locationInView:nil] withEvent:nil];
+    return ![hitView isDescendantOfView:self];
+  }
+  return YES;
+}
+
+- (void)handleOutsideTap:(UITapGestureRecognizer *)sender
+{
+  // Defer past the current event loop turn so any in-flight edit-menu action
+  // (Copy / Define / Look Up / …) reads the live selection before we clear it.
+  UITextView *textView = _textView;
+  dispatch_async(dispatch_get_main_queue(), ^{
+    UITextRange *range = textView.selectedTextRange;
+    if (range != nil && !range.isEmpty) {
+      textView.selectedTextRange = nil;
+    }
+  });
 }
 
 // MARK: - Touch handling
