@@ -71,6 +71,18 @@ using namespace facebook::react;
   _textView.attributedText = nil;
 }
 
+- (void)layoutSubviews
+{
+  [super layoutSubviews];
+  // _textView's frame is assigned inside drawRect, which only fires when
+  // state changes. Trigger a redraw whenever the host frame moves out from
+  // under it (rotation, parent relayout) so the text view resizes and
+  // onTextLayout re-fires with the new line wrapping.
+  if (!CGRectEqualToRect(_textView.frame, _view.frame)) {
+    [self setNeedsDisplay];
+  }
+}
+
 - (void)drawRect:(CGRect)rect
 {
   if (!_state) {
