@@ -10,6 +10,25 @@ import {
 } from 'react-native'
 import {UITextView as Text} from 'react-native-uitextview'
 
+// Regression fixture for #42 / PR #45. Poppins-Regular has typoLineGap=100
+// (per OS/2 table), so without the fix UITextView renders each line ~10% taller
+// than RCTTextLayoutManager measured. With clipsToBounds=true on the wrapper,
+// the cumulative drift clips lines off the bottom. Red border = View bounds.
+const CUSTOM_FONT_PARAGRAPH =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod ' +
+  'tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, ' +
+  'quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo ' +
+  'consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse ' +
+  'cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
+  'non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ' +
+  'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, ' +
+  'turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis ' +
+  'sollicitudin mauris. Integer in mauris eu nibh euismod gravida. ' +
+  'Phasellus a est. Phasellus magna. In hac habitasse platea dictumst. ' +
+  'Curabitur at lacus ac velit ornare lobortis. Curabitur a felis in nunc ' +
+  'fringilla tristique. Morbi mattis ullamcorper velit. ' +
+  'Last line goes here with descenders: gypsy jumping pyramid pygmy.'
+
 export default function App() {
   const [baseNumLines, setBaseNumLines] = React.useState(1)
   const [baseLayoutNumLines, setBaseLayoutNumLines] = React.useState(0)
@@ -635,6 +654,21 @@ export default function App() {
             {/* eslint-disable-next-line react/self-closing-comp */}
             <Text style={styles.text} selectable uiTextView></Text>
           </View>
+
+          <RNText style={styles.fixtureHeader}>
+            #42 fixture — Poppins, lineGap=100/1000
+          </RNText>
+          <RNText style={styles.fixtureLabel}>Base RN-Text:</RNText>
+          <RNText style={[styles.customFontText, styles.fixtureBorder]}>
+            {CUSTOM_FONT_PARAGRAPH}
+          </RNText>
+          <RNText style={styles.fixtureLabel}>UITextView:</RNText>
+          <Text
+            selectable
+            uiTextView
+            style={[styles.customFontText, styles.fixtureBorder]}>
+            {CUSTOM_FONT_PARAGRAPH}
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -741,5 +775,21 @@ const styles = StyleSheet.create({
   },
   backgroundColor: {
     backgroundColor: 'yellow',
+  },
+  customFontText: {
+    fontFamily: 'Poppins',
+    fontSize: 11,
+  },
+  fixtureBorder: {
+    borderWidth: 1,
+    borderColor: 'red',
+  },
+  fixtureHeader: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  fixtureLabel: {
+    fontSize: 13,
+    fontWeight: '600',
   },
 })

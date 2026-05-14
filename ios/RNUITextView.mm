@@ -42,6 +42,8 @@ using namespace facebook::react;
     _textView.editable = false;
     _textView.textContainerInset = UIEdgeInsetsZero;
     _textView.textContainer.lineFragmentPadding = 0;
+    // Must match RCTTextLayoutManager, which measures with usesFontLeading = NO.
+    _textView.layoutManager.usesFontLeading = NO;
     [self addSubview:_textView];
 
     const auto longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
