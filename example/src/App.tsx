@@ -48,23 +48,6 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <View style={styles.box}>
-          <RNText style={styles.fixtureHeader}>
-            #42 fixture — Poppins, lineGap=100/1000
-          </RNText>
-          <RNText style={styles.fixtureLabel}>Base RN-Text:</RNText>
-          <RNText style={[styles.customFontText, styles.fixtureBorder]}>
-            {CUSTOM_FONT_PARAGRAPH}
-          </RNText>
-          <RNText style={styles.fixtureLabel}>
-            UITextView (bottom clipped pre-fix):
-          </RNText>
-          <Text
-            selectable
-            uiTextView
-            style={[styles.customFontText, styles.fixtureBorder]}>
-            {CUSTOM_FONT_PARAGRAPH}
-          </Text>
-
           <RNText style={styles.header}>React Native UITextView Example</RNText>
 
           <View>
@@ -671,6 +654,21 @@ export default function App() {
             {/* eslint-disable-next-line react/self-closing-comp */}
             <Text style={styles.text} selectable uiTextView></Text>
           </View>
+
+          <RNText style={styles.fixtureHeader}>
+            #42 fixture — Poppins, lineGap=100/1000
+          </RNText>
+          <RNText style={styles.fixtureLabel}>Base RN-Text:</RNText>
+          <RNText style={[styles.customFontText, styles.fixtureBorder]}>
+            {CUSTOM_FONT_PARAGRAPH}
+          </RNText>
+          <RNText style={styles.fixtureLabel}>UITextView:</RNText>
+          <Text
+            selectable
+            uiTextView
+            style={[styles.customFontText, styles.fixtureBorder]}>
+            {CUSTOM_FONT_PARAGRAPH}
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
