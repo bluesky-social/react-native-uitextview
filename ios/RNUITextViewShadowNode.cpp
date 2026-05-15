@@ -94,7 +94,7 @@ Size RNUITextViewShadowNode::measureContent(
           textAttributes.textDecorationStyle = TextDecorationStyle::Dotted;
         } else if (props.textDecorationStyle == RNUITextViewChildTextDecorationStyle::Dashed) {
           textAttributes.textDecorationStyle = TextDecorationStyle::Dashed;
-        } else if (props.textDecorationStyle == RNUITextViewChildTextDecorationStyle::Dotted) {
+        } else if (props.textDecorationStyle == RNUITextViewChildTextDecorationStyle::Double) {
           textAttributes.textDecorationStyle = TextDecorationStyle::Double;
         }
         
