@@ -121,6 +121,7 @@ using namespace facebook::react;
   _textView.frame = _view.frame;
 
   __block std::vector<std::string> lines;
+  const int maxLines = props.numberOfLines;
   [_textView.layoutManager enumerateLineFragmentsForGlyphRange:NSMakeRange(0, convertedAttrString.string.length) usingBlock:^(CGRect rect,
                                                                                               CGRect usedRect,
                                                                                               NSTextContainer * _Nonnull textContainer,
@@ -129,6 +130,11 @@ using namespace facebook::react;
     const auto charRange = [self->_textView.layoutManager characterRangeForGlyphRange:glyphRange actualGlyphRange:nil];
     const auto line = [self->_textView.text substringWithRange:charRange];
     lines.push_back(line.UTF8String);
+    // enumerateLineFragments overshoots maximumNumberOfLines by one on iOS
+    // 18, so cap explicitly.
+    if (maxLines > 0 && lines.size() >= (size_t)maxLines) {
+      *stop = YES;
+    }
   }];
 
   if (_eventEmitter != nullptr) {
