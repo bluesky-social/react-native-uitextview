@@ -44,6 +44,8 @@ function fontWeightToNativeProp(
     case 'regular':
       return 'normal'
     case 500:
+    case '500':
+    case 'medium':
       return 'medium'
     case 600:
     case '600':
