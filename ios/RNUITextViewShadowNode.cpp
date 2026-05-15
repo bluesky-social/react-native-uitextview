@@ -12,8 +12,6 @@ RNUITextViewShadowNode::RNUITextViewShadowNode(
 ) : ConcreteViewShadowNode(sourceShadowNode, fragment) {
 };
 
-AttributedString _attributedString = AttributedString{};
-
 Size RNUITextViewShadowNode::measureContent(
   const LayoutContext& layoutContext,
   const LayoutConstraints& layoutConstraints) const {
