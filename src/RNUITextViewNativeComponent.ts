@@ -35,7 +35,7 @@ interface NativeProps extends ViewProps {
   onTextLayout?: BubblingEventHandler<TextLayoutEvent>
   /**
    * Callback fired when the text selection changes.
-   * 
+   *
    * @example
    * ```tsx
    * <UITextView

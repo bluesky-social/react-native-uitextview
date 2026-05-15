@@ -20,6 +20,7 @@ using namespace facebook::react;
   UIView * _view;
   UITextView * _textView;
   RNUITextViewShadowNode::ConcreteState::Shared _state;
+  UITapGestureRecognizer * _outsideTapRecognizer;
 }
 
 + (ComponentDescriptorProvider)componentDescriptorProvider
@@ -43,6 +44,8 @@ using namespace facebook::react;
     _textView.textContainerInset = UIEdgeInsetsZero;
     _textView.textContainer.lineFragmentPadding = 0;
     _textView.delegate = self;
+    // Must match RCTTextLayoutManager, which measures with usesFontLeading = NO.
+    _textView.layoutManager.usesFontLeading = NO;
     [self addSubview:_textView];
 
     const auto longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
@@ -56,9 +59,29 @@ using namespace facebook::react;
 
     [_textView addGestureRecognizer:pressGestureRecognizer];
     [_textView addGestureRecognizer:longPressGestureRecognizer];
+
+    _outsideTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                    action:@selector(handleOutsideTap:)];
+    _outsideTapRecognizer.cancelsTouchesInView = NO;
+    _outsideTapRecognizer.delegate = self;
   }
 
   return self;
+}
+
+- (void)didMoveToWindow
+{
+  [super didMoveToWindow];
+  if (self.window) {
+    [self.window addGestureRecognizer:_outsideTapRecognizer];
+  } else {
+    [_outsideTapRecognizer.view removeGestureRecognizer:_outsideTapRecognizer];
+  }
+}
+
+- (void)dealloc
+{
+  [_outsideTapRecognizer.view removeGestureRecognizer:_outsideTapRecognizer];
 }
 
 // See RCTParagraphComponentView
@@ -70,6 +93,18 @@ using namespace facebook::react;
   // Reset the frame to zero so that when it properly lays out on the next use
   _textView.frame = CGRectZero;
   _textView.attributedText = nil;
+}
+
+- (void)layoutSubviews
+{
+  [super layoutSubviews];
+  // _textView's frame is assigned inside drawRect, which only fires when
+  // state changes. Trigger a redraw whenever the host frame moves out from
+  // under it (rotation, parent relayout) so the text view resizes and
+  // onTextLayout re-fires with the new line wrapping.
+  if (!CGRectEqualToRect(_textView.frame, _view.frame)) {
+    [self setNeedsDisplay];
+  }
 }
 
 - (void)drawRect:(CGRect)rect
@@ -86,7 +121,8 @@ using namespace facebook::react;
   _textView.attributedText = convertedAttrString;
   _textView.frame = _view.frame;
 
-  const auto lines = new std::vector<std::string>();
+  __block std::vector<std::string> lines;
+  const int maxLines = props.numberOfLines;
   [_textView.layoutManager enumerateLineFragmentsForGlyphRange:NSMakeRange(0, convertedAttrString.string.length) usingBlock:^(CGRect rect,
                                                                                               CGRect usedRect,
                                                                                               NSTextContainer * _Nonnull textContainer,
@@ -94,15 +130,17 @@ using namespace facebook::react;
                                                                                               BOOL * _Nonnull stop) {
     const auto charRange = [self->_textView.layoutManager characterRangeForGlyphRange:glyphRange actualGlyphRange:nil];
     const auto line = [self->_textView.text substringWithRange:charRange];
-
-    if (props.numberOfLines && props.numberOfLines > 0 && lines->size() < props.numberOfLines) {
-      lines->push_back(line.UTF8String);
+    lines.push_back(line.UTF8String);
+    // enumerateLineFragments overshoots maximumNumberOfLines by one on iOS
+    // 18, so cap explicitly.
+    if (maxLines > 0 && lines.size() >= (size_t)maxLines) {
+      *stop = YES;
     }
   }];
 
   if (_eventEmitter != nullptr) {
     std::dynamic_pointer_cast<const facebook::react::RNUITextViewEventEmitter>(_eventEmitter)
-    ->onTextLayout(facebook::react::RNUITextViewEventEmitter::OnTextLayout{static_cast<int>(self.tag), *lines});
+    ->onTextLayout(facebook::react::RNUITextViewEventEmitter::OnTextLayout{static_cast<int>(self.tag), lines});
   };
 }
 
@@ -136,6 +174,7 @@ using namespace facebook::react;
       _textView.textContainer.lineBreakMode = NSLineBreakMode::NSLineBreakByClipping;
     }
   }
+  
 
   // I'm not sure if this is really the right way to handle this style. This means that the entire _view_ the text
   // is in will have this background color applied. To apply it just to a particular part of a string, you'd need
@@ -160,6 +199,32 @@ using namespace facebook::react;
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
   return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+  if (gestureRecognizer == _outsideTapRecognizer) {
+    UIWindow *window = touch.window;
+    if (!window) {
+      return NO;
+    }
+    UIView *hitView = [window hitTest:[touch locationInView:nil] withEvent:nil];
+    return ![hitView isDescendantOfView:self];
+  }
+  return YES;
+}
+
+- (void)handleOutsideTap:(UITapGestureRecognizer *)sender
+{
+  // Defer past the current event loop turn so any in-flight edit-menu action
+  // (Copy / Define / Look Up / …) reads the live selection before we clear it.
+  UITextView *textView = _textView;
+  dispatch_async(dispatch_get_main_queue(), ^{
+    UITextRange *range = textView.selectedTextRange;
+    if (range != nil && !range.isEmpty) {
+      textView.selectedTextRange = nil;
+    }
+  });
 }
 
 // MARK: - Touch handling
@@ -219,34 +284,23 @@ using namespace facebook::react;
 
 - (void)textViewDidChangeSelection:(UITextView *)textView
 {
-  if (!_eventEmitter) {
+  if (_eventEmitter == nullptr) {
     return;
   }
 
-  @try {
-    NSRange selectedRange = textView.selectedRange;
-    NSInteger start = selectedRange.location;
-    NSInteger end = selectedRange.location + selectedRange.length;
-
-#if DEBUG
-    NSLog(@"[RNUITextView] Selection changed: location=%lu, length=%lu, start=%ld, end=%ld",
-          (unsigned long)selectedRange.location,
-          (unsigned long)selectedRange.length,
-          (long)start,
-          (long)end);
-#endif
-
-    std::dynamic_pointer_cast<const facebook::react::RNUITextViewEventEmitter>(_eventEmitter)
-      ->onSelectionChange(facebook::react::RNUITextViewEventEmitter::OnSelectionChange{
-        static_cast<int>(self.tag),
-        static_cast<int>(start),
-        static_cast<int>(end)
-      });
-  } @catch (NSException *exception) {
-#if DEBUG
-    NSLog(@"[RNUITextView] Error in textViewDidChangeSelection: %@", exception.reason);
-#endif
+  const NSRange selectedRange = textView.selectedRange;
+  if (selectedRange.location == NSNotFound) {
+    return;
   }
+
+  // Fires on programmatic selection changes too (e.g. the outside-tap clear
+  // in handleOutsideTap:), so JS will see a synthetic empty-range event then.
+  std::dynamic_pointer_cast<const facebook::react::RNUITextViewEventEmitter>(_eventEmitter)
+    ->onSelectionChange(facebook::react::RNUITextViewEventEmitter::OnSelectionChange{
+      static_cast<int>(self.tag),
+      static_cast<int>(selectedRange.location),
+      static_cast<int>(selectedRange.location + selectedRange.length),
+    });
 }
 
 Class<RCTComponentViewProtocol> RNUITextViewCls(void)

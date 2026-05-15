@@ -160,10 +160,13 @@ The `onSelectionChange` event provides the following properties:
 
 ### Notes
 
-- The event fires immediately when selection changes, providing instant feedback
 - Works correctly with multibyte characters (e.g., Arabic, emojis)
 - Only available on iOS when using `uiTextView={true}`
-- The event fires even when selection is cleared (start === end)
+- The event fires even when selection is cleared (`start === end`), including
+  when the library clears it itself on a tap outside the text view
+- The event fires on every selection-edge adjustment — dragging a selection
+  handle to extend by a few characters will fire many times. Consumers driving
+  expensive work off this event should debounce
 
 ## Contributing
 

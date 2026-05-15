@@ -12,8 +12,6 @@ RNUITextViewShadowNode::RNUITextViewShadowNode(
 ) : ConcreteViewShadowNode(sourceShadowNode, fragment) {
 };
 
-AttributedString _attributedString = AttributedString{};
-
 Size RNUITextViewShadowNode::measureContent(
   const LayoutContext& layoutContext,
   const LayoutConstraints& layoutConstraints) const {
@@ -96,8 +94,20 @@ Size RNUITextViewShadowNode::measureContent(
           textAttributes.textDecorationStyle = TextDecorationStyle::Dotted;
         } else if (props.textDecorationStyle == RNUITextViewChildTextDecorationStyle::Dashed) {
           textAttributes.textDecorationStyle = TextDecorationStyle::Dashed;
-        } else if (props.textDecorationStyle == RNUITextViewChildTextDecorationStyle::Dotted) {
+        } else if (props.textDecorationStyle == RNUITextViewChildTextDecorationStyle::Double) {
           textAttributes.textDecorationStyle = TextDecorationStyle::Double;
+        }
+        
+        if (props.textAlign == RNUITextViewChildTextAlign::Left) {
+          textAttributes.alignment = TextAlignment::Left;
+        } else if (props.textAlign == RNUITextViewChildTextAlign::Right) {
+          textAttributes.alignment = TextAlignment::Right;
+        } else if (props.textAlign == RNUITextViewChildTextAlign::Center) {
+          textAttributes.alignment = TextAlignment::Center;
+        } else if (props.textAlign == RNUITextViewChildTextAlign::Justify) {
+          textAttributes.alignment = TextAlignment::Justified;
+        } else if (props.textAlign == RNUITextViewChildTextAlign::Auto) {
+          textAttributes.alignment = TextAlignment::Natural;
         }
         
         textAttributes.backgroundColor = props.backgroundColor;

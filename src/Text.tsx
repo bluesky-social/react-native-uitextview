@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react'
+import React from 'react'
 import {
   Platform,
   StyleSheet,
@@ -22,33 +22,32 @@ const textDefaults: TextProps = {
 
 const useTextAncestorContext = () => React.useContext(TextAncestorContext)
 
-function UITextViewChild({
-  style,
-  children,
-  onSelectionChange,
-  ...rest
-}: TextProps & {
+/**
+ * Event fired by `onSelectionChange`. `start`/`end` are 0-based UTF-16 indices
+ * into the rendered string. `start === end` means the selection was cleared.
+ */
+export type SelectionChangeEvent = {
+  nativeEvent: {target: number; start: number; end: number}
+}
+
+type UITextViewProps = TextProps & {
   uiTextView?: boolean
-  onSelectionChange?: (event: {
-    nativeEvent: {target: number; start: number; end: number}
-  }) => void
-}) {
+  /**
+   * Fired when the native text selection changes. Only fires on iOS when
+   * `uiTextView` is true. Note: fires on every selection-edge adjustment
+   * (e.g. dragging a selection handle), so consumers driving expensive work
+   * off this event should debounce.
+   */
+  onSelectionChange?: (event: SelectionChangeEvent) => void
+}
+
+function UITextViewChild({style, children, ...rest}: UITextViewProps) {
   const [isAncestor, rootStyle] = useTextAncestorContext()
 
   // Flatten the styles, and apply the root styles when needed
   const flattenedStyle = React.useMemo(
     () => flattenStyles(rootStyle, style),
     [rootStyle, style],
-  )
-
-  // Wrap onSelectionChange in useCallback to prevent unnecessary re-renders
-  const handleSelectionChange = useCallback(
-    (event: {
-      nativeEvent: {target: number; start: number; end: number}
-    }) => {
-      onSelectionChange?.(event)
-    },
-    [onSelectionChange],
   )
 
   if (!isAncestor) {
@@ -59,7 +58,6 @@ function UITextViewChild({
           {...rest}
           // ellipsizeMode={rest.ellipsizeMode ?? rest.lineBreakMode ?? 'tail'}
           style={[flattenedStyle]}
-          onSelectionChange={handleSelectionChange}
           // @ts-expect-error Weirdness
           onPress={undefined}
           onLongPress={undefined}>
@@ -107,14 +105,7 @@ function UITextViewChild({
   }
 }
 
-function UITextViewInner(
-  props: TextProps & {
-    uiTextView?: boolean
-    onSelectionChange?: (event: {
-      nativeEvent: {target: number; start: number; end: number}
-    }) => void
-  },
-) {
+function UITextViewInner(props: UITextViewProps) {
   const [isAncestor] = useTextAncestorContext()
 
   // Even if the uiTextView prop is set, we can still default to using
@@ -126,31 +117,7 @@ function UITextViewInner(
   return <UITextViewChild {...props} />
 }
 
-export function UITextView(
-  props: TextProps & {
-    uiTextView?: boolean
-    /**
-     * Callback fired when text selection changes.
-     * Only available on iOS when using uiTextView={true}.
-     * 
-     * @example
-     * ```tsx
-     * <UITextView
-     *   uiTextView={true}
-     *   onSelectionChange={(event) => {
-     *     const {start, end} = event.nativeEvent;
-     *     console.log(`Selected range: ${start}-${end}`);
-     *   }}
-     * >
-     *   Selectable text
-     * </UITextView>
-     * ```
-     */
-    onSelectionChange?: (event: {
-      nativeEvent: {target: number; start: number; end: number}
-    }) => void
-  },
-) {
+export function UITextView(props: UITextViewProps) {
   if (Platform.OS !== 'ios') {
     return <RNText {...props} />
   }
