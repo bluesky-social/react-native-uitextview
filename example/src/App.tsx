@@ -43,17 +43,17 @@ function SelectionChangeDemo() {
   const [range, setRange] = React.useState<{start: number; end: number} | null>(
     null,
   )
-  const body =
-    'Select some of this text and watch the indices update below. ' +
-    'The event also fires when the selection is cleared.'
+  const body = '😀😀 Hello 你好 مرحبا 🎉'
+  const selected = range ? body.substring(range.start, range.end) : null
   return (
     <View>
       <RNText style={styles.selectionRangeLabel}>
         {range
-          ? `start=${range.start} end=${range.end} (${
-              range.end - range.start
-            } chars)`
+          ? `start=${range.start} end=${range.end}`
           : '(no selection events yet)'}
+      </RNText>
+      <RNText style={styles.selectionRangeLabel}>
+        substring: {selected != null ? `"${selected}"` : '(none)'}
       </RNText>
       <Text
         selectable
