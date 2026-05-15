@@ -12,7 +12,7 @@
 
 using namespace facebook::react;
 
-@interface RNUITextView () <RCTRNUITextViewViewProtocol, UIGestureRecognizerDelegate>
+@interface RNUITextView () <RCTRNUITextViewViewProtocol, UIGestureRecognizerDelegate, UITextViewDelegate>
 
 @end
 
@@ -21,6 +21,7 @@ using namespace facebook::react;
   UITextView * _textView;
   RNUITextViewShadowNode::ConcreteState::Shared _state;
   UITapGestureRecognizer * _outsideTapRecognizer;
+  BOOL _suppressSelectionChange;
 }
 
 + (ComponentDescriptorProvider)componentDescriptorProvider
@@ -43,6 +44,7 @@ using namespace facebook::react;
     _textView.editable = false;
     _textView.textContainerInset = UIEdgeInsetsZero;
     _textView.textContainer.lineFragmentPadding = 0;
+    _textView.delegate = self;
     // Must match RCTTextLayoutManager, which measures with usesFontLeading = NO.
     _textView.layoutManager.usesFontLeading = NO;
     [self addSubview:_textView];
@@ -117,8 +119,31 @@ using namespace facebook::react;
   const auto attrString = _state->getData().attributedString;
   const auto convertedAttrString = RCTNSAttributedStringFromAttributedString(attrString);
 
-  _textView.attributedText = convertedAttrString;
-  _textView.frame = _view.frame;
+  // Setting attributedText clears any active text selection, and re-assigning
+  // the frame triggers a layout flush that has the same effect. Bail out
+  // entirely when nothing actually changed so a JS-side state update made in
+  // response to onSelectionChange doesn't deselect what the user is selecting.
+  const BOOL textChanged = ![_textView.attributedText isEqualToAttributedString:convertedAttrString];
+  const BOOL frameChanged = !CGRectEqualToRect(_textView.frame, _view.frame);
+  if (!textChanged && !frameChanged) {
+    return;
+  }
+  if (textChanged) {
+    // Reassigning attributedText clears any active selection. Save it and
+    // restore after, while suppressing the synthetic textViewDidChangeSelection
+    // events the clear-then-restore would otherwise produce — those would
+    // round-trip to JS and re-trigger this same path, causing a loop.
+    const NSRange savedRange = _textView.selectedRange;
+    _suppressSelectionChange = YES;
+    _textView.attributedText = convertedAttrString;
+    if (savedRange.length > 0 && NSMaxRange(savedRange) <= _textView.attributedText.length) {
+      _textView.selectedRange = savedRange;
+    }
+    _suppressSelectionChange = NO;
+  }
+  if (frameChanged) {
+    _textView.frame = _view.frame;
+  }
 
   __block std::vector<std::string> lines;
   const int maxLines = props.numberOfLines;
@@ -277,6 +302,32 @@ using namespace facebook::react;
   if (child) {
     [child onLongPress];
   }
+}
+
+// MARK: - UITextViewDelegate
+
+- (void)textViewDidChangeSelection:(UITextView *)textView
+{
+  if (_suppressSelectionChange) {
+    return;
+  }
+  if (_eventEmitter == nullptr) {
+    return;
+  }
+
+  const NSRange selectedRange = textView.selectedRange;
+  if (selectedRange.location == NSNotFound) {
+    return;
+  }
+
+  // Fires on programmatic selection changes too (e.g. the outside-tap clear
+  // in handleOutsideTap:), so JS will see a synthetic empty-range event then.
+  std::dynamic_pointer_cast<const facebook::react::RNUITextViewEventEmitter>(_eventEmitter)
+    ->onSelectionChange(facebook::react::RNUITextViewEventEmitter::OnSelectionChange{
+      static_cast<int>(self.tag),
+      static_cast<int>(selectedRange.location),
+      static_cast<int>(selectedRange.location + selectedRange.length),
+    });
 }
 
 Class<RCTComponentViewProtocol> RNUITextViewCls(void)

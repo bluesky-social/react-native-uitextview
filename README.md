@@ -119,6 +119,55 @@ add to a link.
 </Text>
 ```
 
+## Selection Detection
+
+`UITextView` supports native selection change events via the `onSelectionChange` callback.
+This provides real-time notifications when the user selects or deselects text, eliminating
+the need for polling-based selection detection.
+
+### Usage
+
+```tsx
+import { UITextView as Text } from "react-native-uitextview";
+
+function SelectableText() {
+  const [selectedText, setSelectedText] = React.useState('');
+
+  return (
+    <Text
+      selectable
+      uiTextView
+      onSelectionChange={(event) => {
+        const {start, end} = event.nativeEvent;
+        // Extract selected text from your content string
+        const text = content.substring(start, end);
+        setSelectedText(text);
+      }}
+    >
+      Selectable text content
+    </Text>
+  );
+}
+```
+
+### Event Properties
+
+The `onSelectionChange` event provides the following properties:
+
+- `nativeEvent.target` - The view tag identifier
+- `nativeEvent.start` - The start index of the selected range (0-based)
+- `nativeEvent.end` - The end index of the selected range (0-based, exclusive)
+
+### Notes
+
+- Works correctly with multibyte characters (e.g., Arabic, emojis)
+- Only available on iOS when using `uiTextView={true}`
+- The event fires even when selection is cleared (`start === end`), including
+  when the library clears it itself on a tap outside the text view
+- The event fires on every selection-edge adjustment — dragging a selection
+  handle to extend by a few characters will fire many times. Consumers driving
+  expensive work off this event should debounce
+
 ## Contributing
 
 Contributions are always welcome - and encouraged. Please note however that it might take

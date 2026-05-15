@@ -39,6 +39,35 @@ const CUSTOM_FONT_PARAGRAPH =
   'fringilla tristique. Morbi mattis ullamcorper velit. ' +
   'Last line goes here with descenders: gypsy jumping pyramid pygmy.'
 
+function SelectionChangeDemo() {
+  const [range, setRange] = React.useState<{start: number; end: number} | null>(
+    null,
+  )
+  const body = '😀😀 Hello 你好 مرحبا 🎉'
+  const selected = range ? body.substring(range.start, range.end) : null
+  return (
+    <View>
+      <RNText style={styles.selectionRangeLabel}>
+        {range
+          ? `start=${range.start} end=${range.end}`
+          : '(no selection events yet)'}
+      </RNText>
+      <RNText style={styles.selectionRangeLabel}>
+        substring: {selected != null ? `"${selected}"` : '(none)'}
+      </RNText>
+      <Text
+        selectable
+        uiTextView
+        style={styles.selectionBody}
+        onSelectionChange={e =>
+          setRange({start: e.nativeEvent.start, end: e.nativeEvent.end})
+        }>
+        {body}
+      </Text>
+    </View>
+  )
+}
+
 export default function App() {
   const [baseNumLines, setBaseNumLines] = React.useState(1)
   const [baseLayoutNumLines, setBaseLayoutNumLines] = React.useState(0)
@@ -652,6 +681,14 @@ export default function App() {
             </Text>
           </View>
 
+          <RNText style={styles.header}>onSelectionChange</RNText>
+          <View>
+            <RNText style={styles.subheader}>
+              UITextView. Select to see start/end.
+            </RNText>
+            <SelectionChangeDemo />
+          </View>
+
           <RNText style={styles.header}>Empty String</RNText>
 
           <View>
@@ -804,6 +841,13 @@ const styles = StyleSheet.create({
   },
   backgroundColor: {
     backgroundColor: 'yellow',
+  },
+  selectionRangeLabel: {
+    fontSize: 13,
+    color: '#444',
+  },
+  selectionBody: {
+    fontSize: 16,
   },
   customFontText: {
     fontFamily: 'Poppins',

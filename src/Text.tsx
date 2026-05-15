@@ -22,13 +22,26 @@ const textDefaults: TextProps = {
 
 const useTextAncestorContext = () => React.useContext(TextAncestorContext)
 
-function UITextViewChild({
-  style,
-  children,
-  ...rest
-}: TextProps & {
+/**
+ * Event fired by `onSelectionChange`. `start`/`end` are 0-based UTF-16 indices
+ * into the rendered string. `start === end` means the selection was cleared.
+ */
+export type SelectionChangeEvent = {
+  nativeEvent: {target: number; start: number; end: number}
+}
+
+type UITextViewProps = TextProps & {
   uiTextView?: boolean
-}) {
+  /**
+   * Fired when the native text selection changes. Only fires on iOS when
+   * `uiTextView` is true. Note: fires on every selection-edge adjustment
+   * (e.g. dragging a selection handle), so consumers driving expensive work
+   * off this event should debounce.
+   */
+  onSelectionChange?: (event: SelectionChangeEvent) => void
+}
+
+function UITextViewChild({style, children, ...rest}: UITextViewProps) {
   const [isAncestor, rootStyle] = useTextAncestorContext()
 
   // Flatten the styles, and apply the root styles when needed
@@ -92,11 +105,7 @@ function UITextViewChild({
   }
 }
 
-function UITextViewInner(
-  props: TextProps & {
-    uiTextView?: boolean
-  },
-) {
+function UITextViewInner(props: UITextViewProps) {
   const [isAncestor] = useTextAncestorContext()
 
   // Even if the uiTextView prop is set, we can still default to using
@@ -108,7 +117,7 @@ function UITextViewInner(
   return <UITextViewChild {...props} />
 }
 
-export function UITextView(props: TextProps & {uiTextView?: boolean}) {
+export function UITextView(props: UITextViewProps) {
   if (Platform.OS !== 'ios') {
     return <RNText {...props} />
   }
