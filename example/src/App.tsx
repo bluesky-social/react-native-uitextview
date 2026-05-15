@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import {
   Alert,
+  FlatList,
   Text as RNText,
   SafeAreaView,
   ScrollView,
@@ -9,6 +10,15 @@ import {
   View,
 } from 'react-native'
 import {UITextView as Text} from 'react-native-uitextview'
+
+// Recycling fixture for PR #46 test plan item 6. 100 selectable UITextViews in
+// a fixed-height FlatList — scroll to force cell recycling, then select text
+// in any visible row and tap outside to confirm the window-level recognizer
+// still wires up correctly after RNUITextView's prepareForRecycle.
+const RECYCLE_ITEMS = Array.from({length: 100}, (_, i) => ({
+  id: String(i),
+  text: `Row ${i}: selectable UITextView — long-press to select, then tap outside.`,
+}))
 
 // Regression fixture for #42 / PR #45. Poppins-Regular has typoLineGap=100
 // (per OS/2 table), so without the fix UITextView renders each line ~10% taller
@@ -656,6 +666,25 @@ export default function App() {
           </View>
 
           <RNText style={styles.fixtureHeader}>
+            #46 fixture — FlatList recycling
+          </RNText>
+          <RNText style={styles.fixtureLabel}>
+            Scroll, select a row, scroll it offscreen and back, then tap
+            outside. No crash, selection clears.
+          </RNText>
+          <View style={styles.recycleList}>
+            <FlatList
+              data={RECYCLE_ITEMS}
+              keyExtractor={item => item.id}
+              renderItem={({item}) => (
+                <Text selectable uiTextView style={styles.recycleRow}>
+                  {item.text}
+                </Text>
+              )}
+            />
+          </View>
+
+          <RNText style={styles.fixtureHeader}>
             #42 fixture — Poppins, lineGap=100/1000
           </RNText>
           <RNText style={styles.fixtureLabel}>Base RN-Text:</RNText>
@@ -791,5 +820,17 @@ const styles = StyleSheet.create({
   fixtureLabel: {
     fontSize: 13,
     fontWeight: '600',
+  },
+  recycleList: {
+    height: 400,
+    borderWidth: 1,
+    borderColor: 'red',
+  },
+  recycleRow: {
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: '#999',
+    fontSize: 14,
   },
 })
