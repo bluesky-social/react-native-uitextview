@@ -39,6 +39,14 @@ const CUSTOM_FONT_PARAGRAPH =
   'fringilla tristique. Morbi mattis ullamcorper velit. ' +
   'Last line goes here with descenders: gypsy jumping pyramid pygmy.'
 
+// Regression fixture for allowFontScaling={false}. Raise iOS Dynamic Type
+// (Settings > Accessibility > Display & Text Size > Larger Text). The `false`
+// rows should stay fixed while the `true` rows grow. Base RN Text and
+// RN-UITextView should match each other.
+const FONT_SCALING_PARAGRAPH =
+  'Dynamic Type check with a nested bold span. This paragraph should wrap ' +
+  'onto multiple lines so scaling differences are easy to spot.'
+
 function SelectionChangeDemo() {
   const [range, setRange] = React.useState<{start: number; end: number} | null>(
     null,
@@ -702,6 +710,53 @@ export default function App() {
             <Text style={styles.text} selectable uiTextView></Text>
           </View>
 
+          <RNText style={styles.fixtureHeader}>allowFontScaling fixture</RNText>
+          <RNText style={styles.fixtureLabel}>
+            Increase iOS Larger Text. The `allowFontScaling=false` rows should
+            stay fixed-size; the `true` rows should grow. Base RN-Text and
+            UITextView should match.
+          </RNText>
+          <RNText style={styles.fixtureLabel}>
+            Base RN-Text, allowFontScaling=false
+          </RNText>
+          <RNText
+            allowFontScaling={false}
+            style={[styles.fontScalingText, styles.fixtureBorder]}>
+            {FONT_SCALING_PARAGRAPH}{' '}
+            <RNText style={styles.fontBold}>Bold child.</RNText>
+          </RNText>
+          <RNText style={styles.fixtureLabel}>
+            Base RN-Text, allowFontScaling=true
+          </RNText>
+          <RNText
+            allowFontScaling
+            style={[styles.fontScalingText, styles.fixtureBorder]}>
+            {FONT_SCALING_PARAGRAPH}{' '}
+            <RNText style={styles.fontBold}>Bold child.</RNText>
+          </RNText>
+          <RNText style={styles.fixtureLabel}>
+            UITextView, allowFontScaling=false
+          </RNText>
+          <Text
+            allowFontScaling={false}
+            selectable
+            uiTextView
+            style={[styles.fontScalingText, styles.fixtureBorder]}>
+            {FONT_SCALING_PARAGRAPH}{' '}
+            <Text style={styles.fontBold}>Bold child.</Text>
+          </Text>
+          <RNText style={styles.fixtureLabel}>
+            UITextView, allowFontScaling=true
+          </RNText>
+          <Text
+            allowFontScaling
+            selectable
+            uiTextView
+            style={[styles.fontScalingText, styles.fixtureBorder]}>
+            {FONT_SCALING_PARAGRAPH}{' '}
+            <Text style={styles.fontBold}>Bold child.</Text>
+          </Text>
+
           <RNText style={styles.fixtureHeader}>
             #46 fixture — FlatList recycling
           </RNText>
@@ -848,6 +903,10 @@ const styles = StyleSheet.create({
   },
   selectionBody: {
     fontSize: 16,
+  },
+  fontScalingText: {
+    fontSize: 18,
+    lineHeight: 26,
   },
   customFontText: {
     fontFamily: 'Poppins',

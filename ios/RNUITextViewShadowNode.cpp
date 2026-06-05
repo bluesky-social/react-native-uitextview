@@ -31,25 +31,22 @@ Size RNUITextViewShadowNode::measureContent(
     auto baseTextAttributes = TextAttributes::defaultTextAttributes();
     baseTextAttributes.backgroundColor = baseProps.backgroundColor;
     baseTextAttributes.allowFontScaling = baseProps.allowFontScaling;
-    
-    Float fontSizeMultiplier = 1.0;
-    if (baseTextAttributes.allowFontScaling) {
-      fontSizeMultiplier = layoutContext.fontSizeMultiplier;
-    }
-    
+    // Match RN Text measurement/rendering by carrying the multiplier through
+    // TextAttributes instead of pre-scaling fontSize/lineHeight ourselves.
+    baseTextAttributes.fontSizeMultiplier = layoutContext.fontSizeMultiplier;
+
     auto baseAttributedString = AttributedString{};
+    baseAttributedString.setBaseTextAttributes(baseTextAttributes);
     const auto &children = getChildren();
     for (size_t i = 0; i < children.size(); i++) {
       const auto child = children[i].get();
       if (auto textViewChild = dynamic_cast<const RNUITextViewChildShadowNode *>(child)) {
         auto &props = textViewChild->getConcreteProps();
         auto fragment = AttributedString::Fragment{};
-        auto textAttributes = TextAttributes::defaultTextAttributes();
-
-        textAttributes.allowFontScaling = baseProps.allowFontScaling;
+        auto textAttributes = baseTextAttributes;
         textAttributes.backgroundColor = props.backgroundColor;
-        textAttributes.fontSize = props.fontSize * fontSizeMultiplier;
-        textAttributes.lineHeight = props.lineHeight * fontSizeMultiplier;
+        textAttributes.fontSize = props.fontSize;
+        textAttributes.lineHeight = props.lineHeight;
         textAttributes.foregroundColor = props.color;
         textAttributes.textShadowColor = props.shadowColor;
         textAttributes.textShadowOffset = props.shadowOffset;
