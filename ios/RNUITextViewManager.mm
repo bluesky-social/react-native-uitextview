@@ -1,7 +1,6 @@
 #import <React/RCTViewManager.h>
 #import <React/RCTUIManager.h>
 #import "RCTBridge.h"
-#import "Utils.h"
 
 @interface RNUITextViewManager : RCTViewManager
 @end

@@ -12,6 +12,20 @@
 
 using namespace facebook::react;
 
+static NSLineBreakMode RCTNSLineBreakModeFromEllipsizeMode(RNUITextViewEllipsizeMode ellipsizeMode)
+{
+  switch (ellipsizeMode) {
+    case RNUITextViewEllipsizeMode::Clip:
+      return NSLineBreakByClipping;
+    case RNUITextViewEllipsizeMode::Head:
+      return NSLineBreakByTruncatingHead;
+    case RNUITextViewEllipsizeMode::Tail:
+      return NSLineBreakByTruncatingTail;
+    case RNUITextViewEllipsizeMode::Middle:
+      return NSLineBreakByTruncatingMiddle;
+  }
+}
+
 @interface RNUITextView () <RCTRNUITextViewViewProtocol, UIGestureRecognizerDelegate, UITextViewDelegate>
 
 @end
@@ -42,8 +56,13 @@ using namespace facebook::react;
     _textView = [[UITextView alloc] init];
     _textView.scrollEnabled = false;
     _textView.editable = false;
+    _textView.selectable = false;
     _textView.textContainerInset = UIEdgeInsetsZero;
     _textView.textContainer.lineFragmentPadding = 0;
+    // Keep UIKit's initial state in sync with the Codegen prop default. Since
+    // both oldProps and newProps default to `tail`, updateProps will not apply
+    // this value on the first render.
+    _textView.textContainer.lineBreakMode = NSLineBreakByTruncatingTail;
     _textView.delegate = self;
     // Must match RCTTextLayoutManager, which measures with usesFontLeading = NO.
     _textView.layoutManager.usesFontLeading = NO;
@@ -147,7 +166,7 @@ using namespace facebook::react;
 
   __block std::vector<std::string> lines;
   const int maxLines = props.numberOfLines;
-  [_textView.layoutManager enumerateLineFragmentsForGlyphRange:NSMakeRange(0, convertedAttrString.string.length) usingBlock:^(CGRect rect,
+  [_textView.layoutManager enumerateLineFragmentsForGlyphRange:NSMakeRange(0, _textView.layoutManager.numberOfGlyphs) usingBlock:^(CGRect rect,
                                                                                               CGRect usedRect,
                                                                                               NSTextContainer * _Nonnull textContainer,
                                                                                               NSRange glyphRange,
@@ -188,15 +207,8 @@ using namespace facebook::react;
   }
 
   if (oldViewProps.ellipsizeMode != newViewProps.ellipsizeMode) {
-    if (newViewProps.ellipsizeMode == RNUITextViewEllipsizeMode::Head) {
-      _textView.textContainer.lineBreakMode = NSLineBreakMode::NSLineBreakByTruncatingHead;
-    } else if (newViewProps.ellipsizeMode == RNUITextViewEllipsizeMode::Middle) {
-      _textView.textContainer.lineBreakMode = NSLineBreakMode::NSLineBreakByTruncatingMiddle;
-    } else if (newViewProps.ellipsizeMode == RNUITextViewEllipsizeMode::Tail) {
-      _textView.textContainer.lineBreakMode = NSLineBreakMode::NSLineBreakByTruncatingTail;
-    } else if (newViewProps.ellipsizeMode == RNUITextViewEllipsizeMode::Clip) {
-      _textView.textContainer.lineBreakMode = NSLineBreakMode::NSLineBreakByClipping;
-    }
+    _textView.textContainer.lineBreakMode =
+        RCTNSLineBreakModeFromEllipsizeMode(newViewProps.ellipsizeMode);
   }
   
 
@@ -258,49 +270,68 @@ using namespace facebook::react;
   return [sender locationInView:_textView];
 }
 
-- (RNUITextViewChild*)getTouchChild:(CGPoint)location
+- (std::shared_ptr<const RNUITextViewChildEventEmitter>)getTouchEventEmitter:(CGPoint)location
 {
-  const auto charIndex = [_textView.layoutManager characterIndexForPoint:location
-                                                         inTextContainer:_textView.textContainer
-                                fractionOfDistanceBetweenInsertionPoints:nil
-  ];
+  CGFloat fraction;
+  const auto characterIndex = [_textView.layoutManager characterIndexForPoint:location
+                                                               inTextContainer:_textView.textContainer
+                                      fractionOfDistanceBetweenInsertionPoints:&fraction];
 
-  int currIndex = -1;
-  for (UIView* child in self.subviews) {
-    if (![child isKindOfClass:[RNUITextViewChild class]]) {
-      continue;
-    }
-
-    RNUITextViewChild* textChild = (RNUITextViewChild*)child;
-
-    // This is UTF16 code units!!
-    currIndex += textChild.text.length;
-
-    if (charIndex <= currIndex) {
-      return textChild;
-    }
+  const auto textLength = _textView.attributedText.length;
+  if (textLength == 0 || characterIndex == NSNotFound || characterIndex >= textLength) {
+    return nullptr;
   }
 
-  return nil;
+  const auto lastCharacterRange =
+      [_textView.attributedText.string rangeOfComposedCharacterSequenceAtIndex:textLength - 1];
+  if ((characterIndex == 0 && fraction <= 0) ||
+      (characterIndex >= lastCharacterRange.location && fraction >= 1)) {
+    return nullptr;
+  }
+
+  const auto glyphIndex = [_textView.layoutManager glyphIndexForCharacterAtIndex:characterIndex];
+  const auto lineUsedRect = [_textView.layoutManager lineFragmentUsedRectForGlyphAtIndex:glyphIndex
+                                                                           effectiveRange:nullptr];
+  const auto textContainerLocation = CGPointMake(
+      location.x - _textView.textContainerInset.left,
+      location.y - _textView.textContainerInset.top);
+  if (!CGRectContainsPoint(lineUsedRect, textContainerLocation)) {
+    return nullptr;
+  }
+
+  NSData *eventEmitterWrapper =
+      (NSData *)[_textView.attributedText attribute:RCTAttributedStringEventEmitterKey
+                                           atIndex:characterIndex
+                                    effectiveRange:nullptr];
+  const auto eventEmitter = RCTUnwrapEventEmitter(eventEmitterWrapper);
+  return std::dynamic_pointer_cast<const RNUITextViewChildEventEmitter>(eventEmitter);
 }
 
 - (void)handlePressIfNecessary:(UITapGestureRecognizer*)sender
 {
   const auto location = [self getLocationOfPress:sender];
-  const auto child = [self getTouchChild:location];
+  const auto eventEmitter = [self getTouchEventEmitter:location];
 
-  if (child) {
-    [child onPress];
+  if (eventEmitter) {
+    const auto eventTarget = eventEmitter->getEventTarget();
+    const auto target = eventTarget ? eventTarget->getTag() : 0;
+    eventEmitter->onPress(RNUITextViewChildEventEmitter::OnPress{target});
   }
 }
 
 - (void)handleLongPressIfNecessary:(UILongPressGestureRecognizer*)sender
 {
-  const auto location = [self getLocationOfPress:sender];
-  const auto child = [self getTouchChild:location];
+  if (sender.state != UIGestureRecognizerStateBegan) {
+    return;
+  }
 
-  if (child) {
-    [child onLongPress];
+  const auto location = [self getLocationOfPress:sender];
+  const auto eventEmitter = [self getTouchEventEmitter:location];
+
+  if (eventEmitter) {
+    const auto eventTarget = eventEmitter->getEventTarget();
+    const auto target = eventTarget ? eventTarget->getTag() : 0;
+    eventEmitter->onLongPress(RNUITextViewChildEventEmitter::OnLongPress{target});
   }
 }
 
