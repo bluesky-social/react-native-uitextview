@@ -1,5 +1,5 @@
 {
-  "name": "react-native-uitextview",
+  "name": "@bsky.app/react-native-uitextview",
   "version": "2.3.0",
   "description": "UITextView for React Native",
   "source": "./src/index.tsx",

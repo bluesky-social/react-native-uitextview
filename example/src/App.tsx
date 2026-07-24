@@ -9,7 +9,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
-import {UITextView as Text} from 'react-native-uitextview'
+import {UITextView as Text} from '@bsky.app/react-native-uitextview'
 
 // Recycling fixture for PR #46 test plan item 6. 100 selectable UITextViews in
 // a fixed-height FlatList — scroll to force cell recycling, then select text
