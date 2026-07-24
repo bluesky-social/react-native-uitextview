@@ -647,6 +647,58 @@ export default function App() {
             </Text>
           </View>
 
+          <View>
+            <RNText style={styles.subheader}>
+              UITextView, Bluesky emoji child shape
+            </RNText>
+            <RNText style={styles.fixtureLabel}>
+              Control (emoji remains in the string):
+            </RNText>
+            <Text style={[styles.text, styles.flexOne]} selectable uiTextView>
+              {'✅ '}
+              <Text
+                style={[styles.text, styles.coloredBlue, styles.underlined]}
+                onPress={() => onPress(4)}>
+                @thebulletin.org
+              </Text>
+              {' has been verified by '}
+              <Text
+                style={[styles.text, styles.coloredBlue, styles.underlined]}
+                onPress={() => onPress(5)}>
+                @bsky.app
+              </Text>
+              {'.'}
+            </Text>
+            <RNText style={styles.fixtureLabel}>
+              Bluesky shape (nested emoji and empty-string fragments):
+            </RNText>
+            <Text style={[styles.text, styles.flexOne]} selectable uiTextView>
+              {[
+                [
+                  '',
+                  <Text key="emoji" style={[styles.text, styles.systemFont]}>
+                    ✅
+                  </Text>,
+                  ' ',
+                ],
+                <Text
+                  key="first-mention"
+                  style={[styles.text, styles.coloredBlue, styles.underlined]}
+                  onPress={() => onPress(6)}>
+                  @thebulletin.org
+                </Text>,
+                ' has been verified by ',
+                <Text
+                  key="second-mention"
+                  style={[styles.text, styles.coloredBlue, styles.underlined]}
+                  onPress={() => onPress(7)}>
+                  @bsky.app
+                </Text>,
+                '.',
+              ]}
+            </Text>
+          </View>
+
           <RNText style={styles.header}>onTextLayout</RNText>
           <View>
             <RNText style={styles.subheader}>Base. Press to change</RNText>
@@ -839,6 +891,12 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
+  },
+  flexOne: {
+    flex: 1,
+  },
+  systemFont: {
+    fontFamily: 'System',
   },
   coloredBlue: {
     color: 'blue',

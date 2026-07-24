@@ -1,10 +1,20 @@
 #include "RNUITextViewShadowNode.h"
 #include "RNUITextViewChildShadowNode.h"
 #include <react/renderer/components/view/ViewShadowNode.h>
+#include <react/renderer/mounting/ShadowView.h>
 
 #include <cmath>
 
 namespace facebook::react {
+
+static ShadowView shadowViewFromShadowNode(const ShadowNode& shadowNode) {
+  auto shadowView = ShadowView{shadowNode};
+  // The attributed string only needs the component identity and event emitter.
+  // Dropping props and state avoids retaining the shadow tree through state.
+  shadowView.props = nullptr;
+  shadowView.state = nullptr;
+  return shadowView;
+}
 
 RNUITextViewShadowNode::RNUITextViewShadowNode(
    const ShadowNode& sourceShadowNode,
@@ -28,6 +38,25 @@ Size RNUITextViewShadowNode::measureContent(
       paragraphAttributes.ellipsizeMode = EllipsizeMode::Clip;
     }
 
+    const auto attributedString = getAttributedString(layoutContext);
+
+    TextLayoutContext textLayoutContext{
+      .pointScaleFactor = layoutContext.pointScaleFactor,
+      .surfaceId = getSurfaceId(),
+    };
+    const auto textLayoutManager = std::make_shared<const TextLayoutManager>(getContextContainer());
+
+    return textLayoutManager->measure(
+      AttributedStringBox{attributedString},
+      paragraphAttributes,
+      textLayoutContext,
+      layoutConstraints
+    ).size;
+}
+
+AttributedString RNUITextViewShadowNode::getAttributedString(
+  const LayoutContext& layoutContext) const {
+    const auto &baseProps = getConcreteProps();
     auto baseTextAttributes = TextAttributes::defaultTextAttributes();
     baseTextAttributes.backgroundColor = baseProps.backgroundColor;
     baseTextAttributes.allowFontScaling = baseProps.allowFontScaling;
@@ -111,29 +140,19 @@ Size RNUITextViewShadowNode::measureContent(
 
         fragment.string = props.text;
         fragment.textAttributes = textAttributes;
+        fragment.parentShadowView = shadowViewFromShadowNode(*textViewChild);
 
         baseAttributedString.appendFragment(std::move(fragment));
       }
     }
     
-    _attributedString = baseAttributedString;
-    
-    TextLayoutContext textLayoutContext{};
-    textLayoutContext.pointScaleFactor = layoutContext.pointScaleFactor;
-    const auto textLayoutManager = std::make_shared<const TextLayoutManager>(getContextContainer());
-        
-    return textLayoutManager->measure(
-      AttributedStringBox{baseAttributedString},
-      paragraphAttributes,
-      textLayoutContext,
-      layoutConstraints
-    ).size;
+    return baseAttributedString;
 }
 
 void RNUITextViewShadowNode::layout(LayoutContext layoutContext) {
   ensureUnsealed();
   setStateData(RNUITextViewStateReal{
-    _attributedString
+    getAttributedString(layoutContext)
   });
 }
 }

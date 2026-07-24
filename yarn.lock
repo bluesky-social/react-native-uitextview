@@ -2830,7 +2830,7 @@ __metadata:
     typescript: ^5.8.3
   peerDependencies:
     react: "*"
-    react-native: ">=0.80.0"
+    react-native: ">=0.81.5"
   languageName: unknown
   linkType: soft
 

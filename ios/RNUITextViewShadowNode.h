@@ -43,6 +43,6 @@ public:
       const LayoutConstraints& layoutConstraints) const override;
 
 private:
-  mutable AttributedString _attributedString;
+  AttributedString getAttributedString(const LayoutContext& layoutContext) const;
 };
 } // namespace facebook::React

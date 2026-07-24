@@ -1,6 +1,6 @@
 {
   "name": "@bsky.app/react-native-uitextview",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "UITextView for React Native",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
@@ -82,7 +82,7 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": ">=0.80.0"
+    "react-native": ">=0.81.5"
   },
   "workspaces": [
     "example"

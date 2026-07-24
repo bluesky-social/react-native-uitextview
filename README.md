@@ -39,10 +39,9 @@ block of text.
 > work the same as `2.x` and higher.
 
 > [!NOTE]
-> Version 2.0.0 of `@bsky.app/react-native-uitextview` is tested against and used in production with React Nave 0.79. No other versions
-> are officially supported. As there have been a number of changes to the text layout engine in the new architecture, things
-> may be broken if you are not using this version of React Native with this package. Generally, these problems are inside of
-> `RNUITextViewShadowNode.cpp`.
+> Version 2.4.0 of `@bsky.app/react-native-uitextview` is tested against React Native 0.86 and supports React Native 0.81.5 and newer.
+> React Native's new-architecture text layout APIs can change between releases; compatibility issues are most likely to arise
+> in `RNUITextViewShadowNode.cpp`.
 
 ```sh
 yarn add @bsky.app/react-native-uitextview
