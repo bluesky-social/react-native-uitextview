@@ -78,4 +78,4 @@ android/keystores/debug.keystore
 lib/
 
 Podfile.lock
-.xcode.env
+.xcode.env*
