@@ -39,13 +39,13 @@ block of text.
 > work the same as `2.x` and higher.
 
 > [!NOTE]
-> Version 2.0.0 of `react-native-uitextview` is tested against and used in production with React Nave 0.79. No other versions
+> Version 2.0.0 of `@bsky.app/react-native-uitextview` is tested against and used in production with React Nave 0.79. No other versions
 > are officially supported. As there have been a number of changes to the text layout engine in the new architecture, things
 > may be broken if you are not using this version of React Native with this package. Generally, these problems are inside of
 > `RNUITextViewShadowNode.cpp`.
 
 ```sh
-yarn add react-native-uitextview
+yarn add @bsky.app/react-native-uitextview
 cd ios
 pod install
 ```
@@ -64,7 +64,7 @@ for existing blocks of `Text`. However, there are a few limitations:
 ## Usage
 
 Usage of this component is the same as the base React Native `Text` component. It
-can be imported as `Text` from `react-native-uitextview`, so in most cases you only
+can be imported as `Text` from `@bsky.app/react-native-uitextview`, so in most cases you only
 need to replace your current `Text` import with this one.
 
 Aside from the few limitations above, all of the existing styles and props that you
@@ -73,7 +73,7 @@ will always be used. On iOS, the base React Native `Text` component will be used
 unless the `selectable` and the `uiTextView` props are both `true`.
 
 ```tsx
-import {UITextView as Text} from 'react-native-uitextview'
+import {UITextView as Text} from '@bsky.app/react-native-uitextview'
 
 function SomeView() {
   return (
@@ -127,7 +127,7 @@ the need for polling-based selection detection.
 ### Usage
 
 ```tsx
-import {UITextView as Text} from 'react-native-uitextview'
+import {UITextView as Text} from '@bsky.app/react-native-uitextview'
 
 function SelectableText() {
   const [selectedText, setSelectedText] = React.useState('')

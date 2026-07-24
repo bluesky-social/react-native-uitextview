@@ -1,5 +1,5 @@
 {
-  "name": "react-native-uitextview",
+  "name": "@bsky.app/react-native-uitextview",
   "version": "2.3.0",
   "description": "UITextView for React Native",
   "source": "./src/index.tsx",
@@ -11,6 +11,7 @@
     "android",
     "ios",
     "cpp",
+    "scripts",
     "*.podspec",
     "react-native.config.js",
     "!ios/build",
@@ -30,7 +31,7 @@
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
-    "prepare": "bob build",
+    "prepare": "node scripts/ensure-rnc-cli-executable.js && bob build",
     "release": "release-it"
   },
   "keywords": [

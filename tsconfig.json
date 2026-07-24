@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "react-native-uitextview": ["./src/index"]
+      "@bsky.app/react-native-uitextview": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

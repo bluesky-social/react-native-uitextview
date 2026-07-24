@@ -20,7 +20,7 @@ const project = (() => {
 module.exports = {
   dependencies: {
     // Help rn-cli find and autolink this library
-    'react-native-uitextview': {
+    '@bsky.app/react-native-uitextview': {
       root: __dirname,
     },
   },

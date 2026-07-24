@@ -2798,6 +2798,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@bsky.app/react-native-uitextview@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@bsky.app/react-native-uitextview@workspace:."
+  dependencies:
+    "@commitlint/config-conventional": ^19.6.0
+    "@eslint/compat": ^1.2.7
+    "@eslint/eslintrc": ^3.3.0
+    "@eslint/js": ^9.22.0
+    "@evilmartians/lefthook": ^1.5.0
+    "@react-native-community/cli": 20.1.0
+    "@react-native/babel-preset": 0.86.0
+    "@react-native/eslint-config": 0.86.0
+    "@react-native/jest-preset": 0.86.0
+    "@release-it/conventional-changelog": ^9.0.2
+    "@types/jest": ^29.5.5
+    "@types/react": ^19.2.0
+    commitlint: ^19.6.1
+    del-cli: ^5.1.0
+    eslint: ^9.22.0
+    eslint-config-prettier: ^10.1.1
+    eslint-plugin-prettier: ^5.2.3
+    jest: ^29.7.0
+    prettier: ^3.0.3
+    react: 19.2.3
+    react-native: 0.86.0
+    react-native-builder-bob: 0.43.0
+    react-native-test-app: 5.4.5
+    release-it: ^19.0.1
+    turbo: ^1.10.7
+    typescript: ^5.8.3
+  peerDependencies:
+    react: "*"
+    react-native: ">=0.80.0"
+  languageName: unknown
+  linkType: soft
+
 "@commitlint/cli@npm:^19.8.0":
   version: 19.8.0
   resolution: "@commitlint/cli@npm:19.8.0"
@@ -11854,42 +11890,6 @@ __metadata:
     react: 19.2.3
     react-native: 0.86.0
     react-native-monorepo-config: ^0.4.0
-  languageName: unknown
-  linkType: soft
-
-"react-native-uitextview@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "react-native-uitextview@workspace:."
-  dependencies:
-    "@commitlint/config-conventional": ^19.6.0
-    "@eslint/compat": ^1.2.7
-    "@eslint/eslintrc": ^3.3.0
-    "@eslint/js": ^9.22.0
-    "@evilmartians/lefthook": ^1.5.0
-    "@react-native-community/cli": 20.1.0
-    "@react-native/babel-preset": 0.86.0
-    "@react-native/eslint-config": 0.86.0
-    "@react-native/jest-preset": 0.86.0
-    "@release-it/conventional-changelog": ^9.0.2
-    "@types/jest": ^29.5.5
-    "@types/react": ^19.2.0
-    commitlint: ^19.6.1
-    del-cli: ^5.1.0
-    eslint: ^9.22.0
-    eslint-config-prettier: ^10.1.1
-    eslint-plugin-prettier: ^5.2.3
-    jest: ^29.7.0
-    prettier: ^3.0.3
-    react: 19.2.3
-    react-native: 0.86.0
-    react-native-builder-bob: 0.43.0
-    react-native-test-app: 5.4.5
-    release-it: ^19.0.1
-    turbo: ^1.10.7
-    typescript: ^5.8.3
-  peerDependencies:
-    react: "*"
-    react-native: ">=0.80.0"
   languageName: unknown
   linkType: soft
 
