@@ -55,7 +55,8 @@ Size RNUITextViewShadowNode::measureContent(
 }
 
 AttributedString RNUITextViewShadowNode::getAttributedString(
-  const LayoutContext& layoutContext) const {
+  const LayoutContext& layoutContext,
+  std::vector<RNUITextViewHighlightMetadata> *highlightMetadata) const {
     const auto &baseProps = getConcreteProps();
     auto baseTextAttributes = TextAttributes::defaultTextAttributes();
     baseTextAttributes.backgroundColor = baseProps.backgroundColor;
@@ -142,6 +143,18 @@ AttributedString RNUITextViewShadowNode::getAttributedString(
         fragment.textAttributes = textAttributes;
         fragment.parentShadowView = shadowViewFromShadowNode(*textViewChild);
 
+        if (highlightMetadata != nullptr && !props.highlightGroup.empty()) {
+          highlightMetadata->push_back(RNUITextViewHighlightMetadata{
+            fragment.parentShadowView.tag,
+            props.highlightGroup,
+            props.suppressHighlighting,
+            props.pressRetentionOffsetTop,
+            props.pressRetentionOffsetRight,
+            props.pressRetentionOffsetBottom,
+            props.pressRetentionOffsetLeft,
+          });
+        }
+
         baseAttributedString.appendFragment(std::move(fragment));
       }
     }
@@ -151,8 +164,10 @@ AttributedString RNUITextViewShadowNode::getAttributedString(
 
 void RNUITextViewShadowNode::layout(LayoutContext layoutContext) {
   ensureUnsealed();
+  auto highlightMetadata = std::vector<RNUITextViewHighlightMetadata>{};
   setStateData(RNUITextViewStateReal{
-    getAttributedString(layoutContext)
+    getAttributedString(layoutContext, &highlightMetadata),
+    std::move(highlightMetadata),
   });
 }
 }
