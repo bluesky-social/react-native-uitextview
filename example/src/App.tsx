@@ -622,26 +622,36 @@ export default function App() {
               style={styles.text}
               selectable
               uiTextView
-              onPress={() => onPress(1)}
-              onLongPress={() => onLongPress(1)}>
+              onPress={() => onPress(1)}>
               Press Me
+            </Text>
+            <Text
+              style={styles.text}
+              selectable
+              suppressHighlighting
+              uiTextView
+              onPress={() => onPress(1)}>
+              Press Me without a highlight
             </Text>
             <Text style={styles.text} selectable uiTextView>
               Portions of UITextView text:{' '}
               <Text
                 style={[styles.text, styles.coloredBlue, styles.underlined]}
-                onPress={() => onPress(1)}>
+                onPress={() => onPress(1)}
+                onLongPress={() => onLongPress(1)}>
                 Part One
               </Text>{' '}
               <Text
                 style={[styles.text, styles.coloredHsl, styles.underlined]}
-                onPress={() => onPress(2)}>
+                onPress={() => onPress(2)}
+                onLongPress={() => onLongPress(2)}>
                 Part Two
               </Text>{' '}
               <Text style={[styles.text]}>Emoji 😅😅😅😅</Text>P
               <Text
                 style={[styles.text, styles.coloredHex, styles.underlined]}
-                onPress={() => onPress(3)}>
+                onPress={() => onPress(3)}
+                onLongPress={() => onLongPress(3)}>
                 Part Three{' '}
               </Text>
             </Text>

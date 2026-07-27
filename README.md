@@ -117,6 +117,12 @@ add to a link.
 </Text>
 ```
 
+Pressable `UITextView` text uses the same rounded gray press highlight as
+React Native `Text`. The highlight appears immediately, remains visible for at
+least 130 ms on a quick tap, and covers non-pressable nested spans belonging to
+the same pressable parent. Set `suppressHighlighting` to disable the visual
+feedback without disabling `onPress` or `onLongPress`.
+
 ## Selection Detection
 
 `UITextView` supports native selection change events via the `onSelectionChange` callback.
