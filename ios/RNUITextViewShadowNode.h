@@ -24,6 +24,16 @@ struct RNUITextViewHighlightMetadata {
   Float pressRetentionOffsetLeft;
 };
 
+struct RNUITextViewAttachment {
+  const ShadowNode *shadowNode;
+  size_t fragmentIndex;
+};
+
+struct RNUITextViewContent {
+  AttributedString attributedString;
+  std::vector<RNUITextViewAttachment> attachments;
+};
+
 class RNUITextViewStateReal final {
  public:
   AttributedString attributedString;
@@ -57,8 +67,14 @@ public:
       const LayoutConstraints& layoutConstraints) const override;
 
 private:
+  RNUITextViewContent getContentWithMeasuredAttachments(
+      const LayoutContext& layoutContext,
+      const LayoutConstraints& layoutConstraints,
+      std::vector<RNUITextViewHighlightMetadata> *highlightMetadata = nullptr) const;
+
   AttributedString getAttributedString(
       const LayoutContext& layoutContext,
-      std::vector<RNUITextViewHighlightMetadata> *highlightMetadata = nullptr) const;
+      std::vector<RNUITextViewHighlightMetadata> *highlightMetadata = nullptr,
+      std::vector<RNUITextViewAttachment> *attachments = nullptr) const;
 };
 } // namespace facebook::React
