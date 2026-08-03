@@ -54,10 +54,6 @@ pod install
 React Native UITextView can - for the most part - be used as a drop-in replacement
 for existing blocks of `Text`. However, there are a few limitations:
 
-- Children of `UITextView` may only be other UITextView children (base `Text` children
-  will be converted to `UITextView` children, so you only need to adjust the wrapper).
-  This means that things like in-line images are not supported as they are in the base
-  React Native `Text` component.
 - A few styles have not yet been implemented, but all should be possible.
 
 ## Usage
@@ -114,6 +110,23 @@ add to a link.
     a link
   </Text>
   .
+</Text>
+```
+
+Inline views are also supported and participate in text measurement and wrapping:
+
+```tsx
+<Text selectable uiTextView>
+  Selectable text{' '}
+  <View
+    style={{
+      paddingHorizontal: 5,
+      paddingVertical: 2,
+      borderRadius: 999,
+      backgroundColor: '#e5e7eb',
+    }}>
+    <Text style={{fontSize: 12}}>1/3</Text>
+  </View>
 </Text>
 ```
 

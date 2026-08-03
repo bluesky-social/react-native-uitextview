@@ -98,6 +98,17 @@ export default function App() {
           <RNText style={styles.header}>React Native UITextView Example</RNText>
 
           <View>
+            <RNText style={styles.subheader}>UITextView, inline view</RNText>
+            <Text selectable uiTextView style={styles.text}>
+              Selectable text with an inline attachment{' '}
+              <View style={styles.inlineBadge}>
+                <RNText style={styles.inlineBadgeText}>1/3</RNText>
+              </View>{' '}
+              that wraps with the surrounding text.
+            </Text>
+          </View>
+
+          <View>
             <RNText style={styles.subheader}>
               Base RN-Text, not selectable:{' '}
             </RNText>
@@ -964,6 +975,17 @@ const styles = StyleSheet.create({
   },
   backgroundColor: {
     backgroundColor: 'yellow',
+  },
+  inlineBadge: {
+    paddingVertical: 2,
+    paddingHorizontal: 5,
+    borderRadius: 999,
+    backgroundColor: '#e5e7eb',
+  },
+  inlineBadgeText: {
+    color: '#334155',
+    fontSize: 12,
+    fontWeight: '500',
   },
   selectionRangeLabel: {
     fontSize: 13,
