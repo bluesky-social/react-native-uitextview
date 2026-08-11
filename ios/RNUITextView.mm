@@ -308,6 +308,10 @@ static NSLineBreakMode RCTNSLineBreakModeFromEllipsizeMode(RNUITextViewEllipsize
     _textView.selectable = newViewProps.selectable;
   }
 
+  if (oldViewProps.selectionColor != newViewProps.selectionColor) {
+    _textView.tintColor = RCTUIColorFromSharedColor(newViewProps.selectionColor);
+  }
+
   if (oldViewProps.allowFontScaling != newViewProps.allowFontScaling) {
     if (@available(iOS 11.0, *)) {
       _textView.adjustsFontForContentSizeCategory = newViewProps.allowFontScaling;

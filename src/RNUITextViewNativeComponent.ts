@@ -1,5 +1,6 @@
 import {
   type CodegenTypes,
+  type ColorValue,
   type ViewProps,
   codegenNativeComponent,
 } from 'react-native'
@@ -30,6 +31,7 @@ interface NativeProps extends ViewProps {
   allowFontScaling?: CodegenTypes.WithDefault<boolean, true>
   ellipsizeMode?: CodegenTypes.WithDefault<EllipsizeMode, 'tail'>
   selectable?: boolean
+  selectionColor?: ColorValue
   onTextLayout?: CodegenTypes.BubblingEventHandler<TextLayoutEvent>
   /**
    * Callback fired when the text selection changes.
