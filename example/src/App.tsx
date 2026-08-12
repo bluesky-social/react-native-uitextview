@@ -106,6 +106,16 @@ export default function App() {
               </View>{' '}
               that wraps with the surrounding text.
             </Text>
+            <RNText style={styles.subheader}>
+              Transformed inline view at end
+            </RNText>
+            <Text selectable uiTextView style={styles.text}>
+              This fixture verifies that a transformed attachment can extend
+              below the final line without being clipped{' '}
+              <View style={[styles.inlineBadge, styles.inlineBadgeOffset]}>
+                <RNText style={styles.inlineBadgeText}>3/3</RNText>
+              </View>
+            </Text>
           </View>
 
           <View>
@@ -986,6 +996,9 @@ const styles = StyleSheet.create({
     color: '#334155',
     fontSize: 12,
     fontWeight: '500',
+  },
+  inlineBadgeOffset: {
+    transform: [{translateY: 6}],
   },
   selectionRangeLabel: {
     fontSize: 13,
