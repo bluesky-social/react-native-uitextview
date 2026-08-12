@@ -150,7 +150,9 @@ static NSLineBreakMode RCTNSLineBreakModeFromEllipsizeMode(RNUITextViewEllipsize
 
     _view = [[UIView alloc] init];
     self.contentView = _view;
-    self.clipsToBounds = true;
+    // Match React Native's Paragraph component and allow transformed inline
+    // attachments to paint outside the measured text bounds. Explicit
+    // `overflow: hidden` styles are still handled by RCTViewComponentView.
 
     if (@available(iOS 16.0, *)) {
       // This component relies on NSLayoutManager for measurement, hit-testing,
