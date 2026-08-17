@@ -135,6 +135,7 @@ static NSLineBreakMode RCTNSLineBreakModeFromEllipsizeMode(RNUITextViewEllipsize
   CFTimeInterval _highlightActivationTime;
   NSUInteger _highlightGeneration;
   BOOL _suppressSelectionChange;
+  BOOL _textLayoutNeedsUpdate;
 }
 
 + (ComponentDescriptorProvider)componentDescriptorProvider
@@ -224,11 +225,20 @@ static NSLineBreakMode RCTNSLineBreakModeFromEllipsizeMode(RNUITextViewEllipsize
 - (void)layoutSubviews
 {
   [super layoutSubviews];
-  // _textView's frame is assigned inside drawRect, which only fires when
-  // state changes. Trigger a redraw whenever the host frame moves out from
-  // under it (rotation, parent relayout) so the text view resizes and
-  // onTextLayout re-fires with the new line wrapping.
+  // Keep the inner view in sync synchronously, like RCTParagraphComponentView.
+  // Deferring this to drawRect can leave UITextView at an intermediate width
+  // after a rotation because display invalidations may be coalesced.
   if (!CGRectEqualToRect(_textView.frame, _view.frame)) {
+    const NSRange savedRange = _textView.selectedRange;
+    _suppressSelectionChange = YES;
+    _textView.frame = _view.frame;
+    if (savedRange.location != NSNotFound &&
+        NSMaxRange(savedRange) <= _textView.attributedText.length) {
+      _textView.selectedRange = savedRange;
+    }
+    _suppressSelectionChange = NO;
+
+    _textLayoutNeedsUpdate = YES;
     [self setNeedsDisplay];
   }
 }
@@ -244,13 +254,11 @@ static NSLineBreakMode RCTNSLineBreakModeFromEllipsizeMode(RNUITextViewEllipsize
   const auto attrString = _state->getData().attributedString;
   const auto convertedAttrString = RCTNSAttributedStringFromAttributedString(attrString);
 
-  // Setting attributedText clears any active text selection, and re-assigning
-  // the frame triggers a layout flush that has the same effect. Bail out
-  // entirely when nothing actually changed so a JS-side state update made in
-  // response to onSelectionChange doesn't deselect what the user is selecting.
+  // Setting attributedText clears any active text selection. Bail out entirely
+  // when neither the text nor its layout changed so a JS-side state update made
+  // in response to onSelectionChange doesn't deselect what the user is selecting.
   const BOOL textChanged = ![_textView.attributedText isEqualToAttributedString:convertedAttrString];
-  const BOOL frameChanged = !CGRectEqualToRect(_textView.frame, _view.frame);
-  if (!textChanged && !frameChanged) {
+  if (!textChanged && !_textLayoutNeedsUpdate) {
     return;
   }
   if (textChanged) {
@@ -266,9 +274,7 @@ static NSLineBreakMode RCTNSLineBreakModeFromEllipsizeMode(RNUITextViewEllipsize
     }
     _suppressSelectionChange = NO;
   }
-  if (frameChanged) {
-    _textView.frame = _view.frame;
-  }
+  _textLayoutNeedsUpdate = NO;
 
   if (_activeHighlightGroup != nil) {
     [self updatePressHighlight];
