@@ -1,6 +1,6 @@
 {
   "name": "@bsky.app/react-native-uitextview",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "description": "UITextView for React Native",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
