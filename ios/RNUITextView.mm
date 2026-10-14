@@ -687,7 +687,10 @@ static NSLineBreakMode RCTNSLineBreakModeFromEllipsizeMode(RNUITextViewEllipsize
     _activePressHasLongPressHandler = sender.hasLongPressHandler;
     _longPressIsEligible = _activePressHasLongPressHandler;
     _activePressSuppressesHighlighting = suppressHighlighting;
-    _activePressRect = [self textRectForHighlightGroup:group];
+    // A press owned by the root Text stays alive anywhere inside the view.
+    _activePressRect = [group hasSuffix:@"r"]
+        ? _textView.bounds
+        : [self textRectForHighlightGroup:group];
     _activePressRetentionOffset = pressRetentionOffset;
     _pressActivationTime = CACurrentMediaTime();
 
@@ -770,10 +773,10 @@ static NSLineBreakMode RCTNSLineBreakModeFromEllipsizeMode(RNUITextViewEllipsize
 
   const auto lastCharacterRange =
       [_textView.attributedText.string rangeOfComposedCharacterSequenceAtIndex:textLength - 1];
-  if ((characterIndex == 0 && fraction <= 0) ||
-      (characterIndex >= lastCharacterRange.location && fraction >= 1)) {
-    return nullptr;
-  }
+  // The tap missed the text when it is before the first character, after the
+  // last one, or outside the glyphs of the nearest character's line.
+  auto missedGlyphs = (characterIndex == 0 && fraction <= 0) ||
+      (characterIndex >= lastCharacterRange.location && fraction >= 1);
 
   const auto glyphIndex = [_textView.layoutManager glyphIndexForCharacterAtIndex:characterIndex];
   const auto lineUsedRect = [_textView.layoutManager lineFragmentUsedRectForGlyphAtIndex:glyphIndex
@@ -781,16 +784,28 @@ static NSLineBreakMode RCTNSLineBreakModeFromEllipsizeMode(RNUITextViewEllipsize
   const auto textContainerLocation = CGPointMake(
       location.x - _textView.textContainerInset.left,
       location.y - _textView.textContainerInset.top);
-  if (!CGRectContainsPoint(lineUsedRect, textContainerLocation)) {
-    return nullptr;
-  }
+  missedGlyphs = missedGlyphs || !CGRectContainsPoint(lineUsedRect, textContainerLocation);
 
   NSData *eventEmitterWrapper =
       (NSData *)[_textView.attributedText attribute:RCTAttributedStringEventEmitterKey
                                            atIndex:characterIndex
                                     effectiveRange:nullptr];
-  const auto eventEmitter = RCTUnwrapEventEmitter(eventEmitterWrapper);
-  return std::dynamic_pointer_cast<const RNUITextViewChildEventEmitter>(eventEmitter);
+  const auto eventEmitter = std::dynamic_pointer_cast<const RNUITextViewChildEventEmitter>(
+      RCTUnwrapEventEmitter(eventEmitterWrapper));
+  if (missedGlyphs) {
+    // Links only respond on their glyphs. A handler set on the root Text
+    // itself (group id ends with 'r', see press.ts) owns the whole frame,
+    // like RN's Text, so blank space around its text still presses it.
+    const auto group = [self highlightGroupForEventEmitter:eventEmitter
+                                      suppressHighlighting:nullptr
+                                           hasPressHandler:nullptr
+                                       hasLongPressHandler:nullptr
+                                      pressRetentionOffset:nullptr];
+    if (![group hasSuffix:@"r"]) {
+      return nullptr;
+    }
+  }
+  return eventEmitter;
 }
 
 // MARK: - UITextViewDelegate
