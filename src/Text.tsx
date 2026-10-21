@@ -14,6 +14,8 @@ import {flattenStyles} from './util'
 type TextAncestorContextValue = PressContext & {
   isAncestor: boolean
   rootStyle: ViewStyle
+  paragraphMarkerEnd?: number
+  paragraphHangingIndent?: number
 }
 
 const TextAncestorContext = React.createContext<TextAncestorContextValue>({
@@ -39,6 +41,16 @@ export type SelectionChangeEvent = {
 type UITextViewProps = TextProps & {
   uiTextView?: boolean
   /**
+   * Right-aligned marker tab stop, in nonnegative points. Write list markers
+   * as `\t•\t` or `\t12.\t`. Inherited by nested text. iOS only.
+   */
+  paragraphMarkerEnd?: number
+  /**
+   * Left-aligned text tab stop and wrapped-line indent, in nonnegative points.
+   * Inherited by nested text. Applies to whole paragraphs on iOS only.
+   */
+  paragraphHangingIndent?: number
+  /**
    * Fired when the native text selection changes. Only fires on iOS when
    * `uiTextView` is true. Note: fires on every selection-edge adjustment
    * (e.g. dragging a selection handle), so consumers driving expensive work
@@ -47,16 +59,27 @@ type UITextViewProps = TextProps & {
   onSelectionChange?: (event: SelectionChangeEvent) => void
 }
 
-function UITextViewChild({style, children, ...rest}: UITextViewProps) {
+function UITextViewChild({
+  style,
+  children,
+  paragraphMarkerEnd: ownParagraphMarkerEnd,
+  paragraphHangingIndent: ownParagraphHangingIndent,
+  ...rest
+}: UITextViewProps) {
   const {
     isAncestor,
     rootStyle,
+    paragraphMarkerEnd: ancestorParagraphMarkerEnd,
+    paragraphHangingIndent: ancestorParagraphHangingIndent,
     highlightGroup: ancestorHighlightGroup,
     suppressHighlighting: ancestorSuppressHighlighting,
     pressRetentionOffset: ancestorPressRetentionOffset,
     onPress: ancestorOnPress,
     onLongPress: ancestorOnLongPress,
   } = useTextAncestorContext()
+  const paragraphMarkerEnd = ownParagraphMarkerEnd ?? ancestorParagraphMarkerEnd
+  const paragraphHangingIndent =
+    ownParagraphHangingIndent ?? ancestorParagraphHangingIndent
   const ownHighlightGroup = React.useId()
   const {
     highlightGroup,
@@ -93,6 +116,8 @@ function UITextViewChild({style, children, ...rest}: UITextViewProps) {
         value={{
           isAncestor: true,
           rootStyle: flattenedStyle,
+          paragraphMarkerEnd,
+          paragraphHangingIndent,
           highlightGroup,
           suppressHighlighting,
           pressRetentionOffset,
@@ -117,6 +142,8 @@ function UITextViewChild({style, children, ...rest}: UITextViewProps) {
                   style={flattenedStyle}
                   text={c.toString()}
                   {...rest}
+                  paragraphMarkerEnd={paragraphMarkerEnd}
+                  paragraphHangingIndent={paragraphHangingIndent}
                   highlightGroup={highlightGroup}
                   suppressHighlighting={suppressHighlighting}
                   pressRetentionOffsetTop={pressRetentionOffset?.top}
@@ -139,6 +166,8 @@ function UITextViewChild({style, children, ...rest}: UITextViewProps) {
         value={{
           isAncestor: true,
           rootStyle: flattenedStyle,
+          paragraphMarkerEnd,
+          paragraphHangingIndent,
           highlightGroup,
           suppressHighlighting,
           pressRetentionOffset,
@@ -155,6 +184,8 @@ function UITextViewChild({style, children, ...rest}: UITextViewProps) {
                 style={flattenedStyle}
                 text={c.toString()}
                 {...rest}
+                paragraphMarkerEnd={paragraphMarkerEnd}
+                paragraphHangingIndent={paragraphHangingIndent}
                 highlightGroup={highlightGroup}
                 suppressHighlighting={suppressHighlighting}
                 pressRetentionOffsetTop={pressRetentionOffset?.top}
@@ -181,14 +212,22 @@ function UITextViewInner(props: UITextViewProps) {
   // normal selection (i.e. base RN text) if the text doesn't need to be
   // selectable
   if ((!props.selectable || !props.uiTextView) && !isAncestor) {
-    return <RNText {...props} />
+    return <BaseText {...props} />
   }
   return <UITextViewChild {...props} />
 }
 
 export function UITextView(props: UITextViewProps) {
   if (Platform.OS !== 'ios') {
-    return <RNText {...props} />
+    return <BaseText {...props} />
   }
   return <UITextViewInner {...props} />
+}
+
+function BaseText({
+  paragraphMarkerEnd: _paragraphMarkerEnd,
+  paragraphHangingIndent: _paragraphHangingIndent,
+  ...props
+}: UITextViewProps) {
+  return <RNText {...props} />
 }

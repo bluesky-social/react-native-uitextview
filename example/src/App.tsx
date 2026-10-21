@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native'
 import {UITextView as Text} from '@bsky.app/react-native-uitextview'
+import {HangingIndentExample} from './HangingIndentExample'
 
 // Recycling fixture for PR #46 test plan item 6. 100 selectable UITextViews in
 // a fixed-height FlatList — scroll to force cell recycling, then select text
@@ -96,6 +97,8 @@ export default function App() {
       <ScrollView style={styles.scrollView}>
         <View style={styles.box}>
           <RNText style={styles.header}>React Native UITextView Example</RNText>
+
+          <HangingIndentExample />
 
           <View>
             <RNText style={styles.subheader}>UITextView, inline view</RNText>

@@ -136,6 +136,44 @@ least 130 ms on a quick tap, and covers non-pressable nested spans belonging to
 the same pressable parent. Set `suppressHighlighting` to disable the visual
 feedback without disabling `onPress` or `onLongPress`.
 
+### Selectable lists (iOS)
+
+Use `paragraphMarkerEnd` and `paragraphHangingIndent` on nested text to render
+lists inside one selectable `UITextView`. Both positions are nonnegative points
+from the text container's left edge:
+
+- `paragraphMarkerEnd` adds a right-aligned tab stop for the marker.
+- `paragraphHangingIndent` adds a left-aligned tab stop for the item text and
+  sets the indent for wrapped lines.
+
+Write each marker between two tabs, and end each item with a newline:
+
+```tsx
+<Text selectable uiTextView style={{fontSize: 18, lineHeight: 26}}>
+  {'A selectable answer:\n'}
+  <Text paragraphMarkerEnd={32} paragraphHangingIndent={44}>
+    {'\t•\tA bullet whose wrapped lines align with the item text.\n'}
+  </Text>
+  <Text paragraphMarkerEnd={32} paragraphHangingIndent={44}>
+    {'\t12.\tA numbered item with a right-aligned marker.\n'}
+  </Text>
+  <Text paragraphMarkerEnd={60} paragraphHangingIndent={72}>
+    {'\t•\tA nested item with a deeper indent.\n'}
+  </Text>
+</Text>
+```
+
+These props apply to every whole paragraph touched by the child's text, replace
+its default tab stops, and are inherited by nested text spans. Keep each item's
+paragraph settings consistent across its spans. Choose a marker position wide
+enough for the largest marker, followed by a larger text indent. Positions stay
+in points when Dynamic Type changes the font size. These props are ignored on
+web, Android, and when using the base React Native `Text` implementation.
+
+The example app includes bullets, multi-digit numbers, nested items, inline bold
+text, and controls to change width or remove the indents. It uses left-to-right
+text; right-to-left list layout is not covered by this example.
+
 ## Selection Detection
 
 `UITextView` supports native selection change events via the `onSelectionChange` callback.
