@@ -164,11 +164,16 @@ Write each marker between two tabs, and end each item with a newline:
 ```
 
 These props apply to every whole paragraph touched by the child's text, replace
-its default tab stops, and are inherited by nested text spans. Keep each item's
-paragraph settings consistent across its spans. Choose a marker position wide
-enough for the largest marker, followed by a larger text indent. Positions stay
-in points when Dynamic Type changes the font size. These props are ignored on
-web, Android, and when using the base React Native `Text` implementation.
+its default tab stops, and are inherited by nested text spans. A newline belongs
+to the paragraph before it, so a child beginning with `\n` also styles the
+preceding paragraph. Keep the separator at the end of the previous item when
+changing paragraph settings.
+
+Keep each item's paragraph settings consistent across its spans. Choose a marker
+position wide enough for the largest marker, followed by a larger text indent.
+Positions stay in points when Dynamic Type changes the font size. These props
+are ignored on web, Android, and when using the base React Native `Text`
+implementation.
 
 The example app includes bullets, multi-digit numbers, nested items, inline bold
 text, and controls to change width or remove the indents. It uses left-to-right

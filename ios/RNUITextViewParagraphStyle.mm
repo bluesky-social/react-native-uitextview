@@ -47,6 +47,12 @@ AttributedStringBox RNUITextViewAttributedStringBox(
     styledRanges.push_back({range, &style});
   }
 
+  // If React Native changes its conversion, mapped UTF-16 ranges may drift.
+  // Keep its unmodified attributed string rather than style incorrect ranges.
+  if (offset != nativeString.length) {
+    return RCTAttributedStringBoxFromNSAttributedString(nativeString);
+  }
+
   // Fragment ranges are ordered and disjoint. Walk paragraph boundaries once,
   // then sweep their intersections with those ranges. This bounds the work by
   // the text, fragment and native style-run counts, even when many rich spans
@@ -67,6 +73,7 @@ AttributedStringBox RNUITextViewAttributedStringBox(
       const auto &style = *styledRanges[i].style;
       // Preserve fragment-order precedence: every style replaces the tabs,
       // but only an explicitly valid hanging indent replaces headIndent.
+      // (markerEnd, hangingIndent) (32, 44) then (60, -1) leaves tab 60 and headIndent 44.
       tabStyle = &style;
       if (std::isfinite(style.hangingIndent) && style.hangingIndent >= 0) {
         headIndent = style.hangingIndent;

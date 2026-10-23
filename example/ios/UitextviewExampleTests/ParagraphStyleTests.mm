@@ -70,10 +70,11 @@ CGFloat markerEndX(UITextView *view, NSRange marker) {
   CGGlyph glyph = [view.layoutManager glyphAtIndex:glyphIndex];
   UIFont *font = [view.attributedText attribute:NSFontAttributeName
                                        atIndex:character effectiveRange:nullptr];
-  CTFontRef ctFont = CTFontCreateWithName((__bridge CFStringRef)font.fontName, font.pointSize, nullptr);
+  // Preserve the actual font face; private system font names do not round-trip
+  // through CTFontCreateWithName. UIFont keeps this borrowed reference alive.
+  CTFontRef ctFont = (__bridge CTFontRef)font;
   CGSize advance;
   CTFontGetAdvancesForGlyphs(ctFont, kCTFontOrientationHorizontal, &glyph, &advance, 1);
-  CFRelease(ctFont);
   return glyphX(view.layoutManager, glyphIndex) + advance.width;
 }
 
@@ -206,8 +207,10 @@ CGFloat markerEndX(UITextView *view, NSRange marker) {
   auto view = textView(native, 180);
   const auto unstyled = RNUITextViewAttributedStringBox(string, {});
   XCTAssertTrue(unstyled.getMode() == AttributedStringBox::Mode::Value);
-  view.attributedText = RCTNSAttributedStringFromAttributedStringBox(unstyled);
-  XCTAssertEqualObjects(view.attributedText, RCTNSAttributedStringFromAttributedString(string));
+  auto unstyledNative = RCTNSAttributedStringFromAttributedStringBox(unstyled);
+  // Compare converter output before UIKit substitutes fallback fonts for emoji.
+  XCTAssertEqualObjects(unstyledNative, RCTNSAttributedStringFromAttributedString(string));
+  view.attributedText = unstyledNative;
   XCTAssertEqualWithAccuracy(paragraphStyle(view.attributedText, item).headIndent, 0, 0.001);
 }
 
@@ -231,9 +234,44 @@ CGFloat markerEndX(UITextView *view, NSRange marker) {
     context.pointScaleFactor = scale;
     const auto measurement = manager.measure(
         RNUITextViewAttributedStringBox(string, styles), ParagraphAttributes{}, context, constraints);
-    auto view = textView(convert(string, styles), width.doubleValue);
+    auto native = convert(string, styles);
+    if (width.doubleValue == 180) {
+      // Keep the same tabs, fonts and attachments; only remove the wrapped-line
+      // indent. This long fixture must need extra lines when indented. If the
+      // converter drops headIndent, both measurements become identical.
+      NSMutableAttributedString *withoutIndent = [native mutableCopy];
+      [withoutIndent enumerateAttribute:NSParagraphStyleAttributeName
+                                inRange:NSMakeRange(0, withoutIndent.length)
+                                options:0
+                             usingBlock:^(NSParagraphStyle *style, NSRange range, BOOL *stop) {
+        NSMutableParagraphStyle *unindented =
+            style ? [style mutableCopy] : [NSMutableParagraphStyle new];
+        unindented.headIndent = 0;
+        [withoutIndent addAttribute:NSParagraphStyleAttributeName value:unindented range:range];
+      }];
+      const auto unindented = manager.measure(
+          RCTAttributedStringBoxFromNSAttributedString(withoutIndent),
+          ParagraphAttributes{}, context, constraints);
+      XCTAssertGreaterThan(measurement.size.height, unindented.size.height);
+    }
+    auto view = textView(native, width.doubleValue);
     const auto used = [view.layoutManager usedRectForTextContainer:view.textContainer];
     XCTAssertEqualWithAccuracy(measurement.size.height, used.size.height, 1.0 / scale);
+    const auto nestedStart = [view.attributedText.string rangeOfString:@"\t•"].location;
+    __block NSUInteger continuations = 0;
+    [view.layoutManager enumerateLineFragmentsForGlyphRange:
+        [view.layoutManager glyphRangeForTextContainer:view.textContainer]
+        usingBlock:^(CGRect rect, CGRect usedRect, NSTextContainer *container,
+                     NSRange glyphRange, BOOL *stop) {
+      const auto character = [view.layoutManager characterIndexForGlyphAtIndex:glyphRange.location];
+      if ([view.attributedText.string characterAtIndex:character] != '\t') {
+        continuations++;
+        const auto expectedIndent = character < nestedStart ? 44 : 72;
+        XCTAssertEqualWithAccuracy(glyphX(view.layoutManager, glyphRange.location),
+                                   expectedIndent, 1.0 / scale);
+      }
+    }];
+    XCTAssertGreaterThan(continuations, 0u);
     XCTAssertEqual(measurement.attachments.size(), 1u);
     if (measurement.attachments.size() != 1) {
       continue;
@@ -268,12 +306,6 @@ CGFloat markerEndX(UITextView *view, NSRange marker) {
     XCTAssertEqualWithAccuracy(style.minimumLineHeight, i % 2 == 0 ? 24 : 30, 0.001);
     XCTAssertEqual(style.tabStops.count, 2u);
   }
-  // Record native timings; a regression baseline can be configured in Xcode.
-  [self measureBlock:^{
-    @autoreleasepool {
-      convert(string, styles);
-    }
-  }];
 }
 
 @end

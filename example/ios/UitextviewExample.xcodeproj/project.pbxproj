@@ -7,14 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A11500000000000000000001 /* ParagraphStyleTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = A11500000000000000000002 /* ParagraphStyleTests.mm */; };
-		A11500000000000000000003 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A11500000000000000000004 /* XCTest.framework */; };
-		A11500000000000000000005 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A11500000000000000000006 /* CoreText.framework */; };
 		0C80B921A6F3F58F76C31292 /* libPods-UitextviewExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-UitextviewExample.a */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		6CEBDC0FF3E34827BE94D5A9 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 074B2343053E40FFBC0BDFF0 /* Poppins-Regular.ttf */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		A015CE1BE31696358A16EDD4 /* libPods-UitextviewExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 810B7C4DCA7DC1286A59B627 /* libPods-UitextviewExampleTests.a */; };
+		A11500000000000000000001 /* ParagraphStyleTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = A11500000000000000000002 /* ParagraphStyleTests.mm */; };
+		A11500000000000000000003 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A11500000000000000000004 /* XCTest.framework */; };
+		A11500000000000000000005 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A11500000000000000000006 /* CoreText.framework */; };
 		BCBBF2EA81181A6122897C5D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -29,10 +30,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A11500000000000000000002 /* ParagraphStyleTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ParagraphStyleTests.mm; sourceTree = "<group>"; };
-		A11500000000000000000004 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Developer/Library/Frameworks/XCTest.framework; sourceTree = SDKROOT; };
-		A11500000000000000000006 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		A11500000000000000000008 /* UitextviewExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UitextviewExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		074B2343053E40FFBC0BDFF0 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* UitextviewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UitextviewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = UitextviewExample/Images.xcassets; sourceTree = "<group>"; };
@@ -42,20 +39,18 @@
 		5709B34CF0A7D63546082F79 /* Pods-UitextviewExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UitextviewExample.release.xcconfig"; path = "Target Support Files/Pods-UitextviewExample/Pods-UitextviewExample.release.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-UitextviewExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UitextviewExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = UitextviewExample/AppDelegate.swift; sourceTree = "<group>"; };
+		810B7C4DCA7DC1286A59B627 /* libPods-UitextviewExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UitextviewExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = UitextviewExample/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A11500000000000000000002 /* ParagraphStyleTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ParagraphStyleTests.mm; sourceTree = "<group>"; };
+		A11500000000000000000004 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Developer/Library/Frameworks/XCTest.framework; sourceTree = SDKROOT; };
+		A11500000000000000000006 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		A11500000000000000000008 /* UitextviewExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UitextviewExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9E8346D2A722F7CDCAB4FAF /* Pods-UitextviewExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UitextviewExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-UitextviewExampleTests/Pods-UitextviewExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D50CAABBBFA88B6B98FBE40C /* Pods-UitextviewExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UitextviewExampleTests.release.xcconfig"; path = "Target Support Files/Pods-UitextviewExampleTests/Pods-UitextviewExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		A11500000000000000000009 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A11500000000000000000003 /* XCTest.framework in Frameworks */,
-				A11500000000000000000005 /* CoreText.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -64,17 +59,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A11500000000000000000009 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A11500000000000000000003 /* XCTest.framework in Frameworks */,
+				A11500000000000000000005 /* CoreText.framework in Frameworks */,
+				A015CE1BE31696358A16EDD4 /* libPods-UitextviewExampleTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A1150000000000000000000A /* UitextviewExampleTests */ = {
-			isa = PBXGroup;
-			children = (
-				A11500000000000000000002 /* ParagraphStyleTests.mm */,
-			);
-			path = UitextviewExampleTests;
-			sourceTree = "<group>";
-		};
 		13B07FAE1A68108700A75B9A /* UitextviewExample */ = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +91,7 @@
 				A11500000000000000000006 /* CoreText.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-UitextviewExample.a */,
+				810B7C4DCA7DC1286A59B627 /* libPods-UitextviewExampleTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -139,11 +137,21 @@
 			path = "";
 			sourceTree = "<group>";
 		};
+		A1150000000000000000000A /* UitextviewExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				A11500000000000000000002 /* ParagraphStyleTests.mm */,
+			);
+			path = UitextviewExampleTests;
+			sourceTree = "<group>";
+		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				3B4392A12AC88292D35C810B /* Pods-UitextviewExample.debug.xcconfig */,
 				5709B34CF0A7D63546082F79 /* Pods-UitextviewExample.release.xcconfig */,
+				B9E8346D2A722F7CDCAB4FAF /* Pods-UitextviewExampleTests.debug.xcconfig */,
+				D50CAABBBFA88B6B98FBE40C /* Pods-UitextviewExampleTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -155,6 +163,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A1150000000000000000000B /* Build configuration list for PBXNativeTarget "UitextviewExampleTests" */;
 			buildPhases = (
+				F65152CF8E2E27CC37EDBBF0 /* [CP] Check Pods Manifest.lock */,
 				A1150000000000000000000C /* Sources */,
 				A11500000000000000000009 /* Frameworks */,
 			);
@@ -311,22 +320,44 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UitextviewExample/Pods-UitextviewExample-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F65152CF8E2E27CC37EDBBF0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-UitextviewExampleTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A1150000000000000000000C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A11500000000000000000001 /* ParagraphStyleTests.mm in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F871A680F5B00A75B9A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1150000000000000000000C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A11500000000000000000001 /* ParagraphStyleTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,50 +372,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		A1150000000000000000000E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ENABLE_MODULES = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = uitextview.example.tests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UitextviewExample.app/UitextviewExample";
-			};
-			name = Debug;
-		};
-		A1150000000000000000000F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ENABLE_MODULES = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = uitextview.example.tests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UitextviewExample.app/UitextviewExample";
-			};
-			name = Release;
-		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-UitextviewExample.debug.xcconfig */;
@@ -607,18 +594,55 @@
 			};
 			name = Release;
 		};
+		A1150000000000000000000E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B9E8346D2A722F7CDCAB4FAF /* Pods-UitextviewExampleTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = uitextview.example.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UitextviewExample.app/UitextviewExample";
+			};
+			name = Debug;
+		};
+		A1150000000000000000000F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D50CAABBBFA88B6B98FBE40C /* Pods-UitextviewExampleTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = uitextview.example.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UitextviewExample.app/UitextviewExample";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A1150000000000000000000B /* Build configuration list for PBXNativeTarget "UitextviewExampleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A1150000000000000000000E /* Debug */,
-				A1150000000000000000000F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "UitextviewExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -633,6 +657,15 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1150000000000000000000B /* Build configuration list for PBXNativeTarget "UitextviewExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1150000000000000000000E /* Debug */,
+				A1150000000000000000000F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

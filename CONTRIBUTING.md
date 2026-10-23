@@ -115,10 +115,14 @@ starts UIKit without React or a Metro server. Normal app launches still run the
 example. The tests call the production attributed-string converter and React
 Native measurement code, check TextKit marker advances and wrapped-line positions,
 and cover UTF-16 ranges, paragraph boundaries, attachments, removing props, and a
-1,024-span paragraph with alternating line heights. Xcode records performance
-measurements for that stress case; set a baseline in Xcode to track regressions.
+1,024-span paragraph with alternating line heights. The stress case checks
+attribute correctness; it does not impose a performance regression threshold.
 These tests require Xcode/UIKit; JavaScript tests and
 an example bundle build do not establish native layout correctness.
+
+The example's CocoaPods codegen hook invokes `yarn`. If Yarn is available only
+through Corepack, run `corepack enable` before `bundle exec pod install` so the
+hook can find the executable.
 
 ### Commit message convention
 
