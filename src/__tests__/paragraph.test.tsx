@@ -25,11 +25,11 @@ it('passes paragraph props to text fragments and inherits them through nested sp
         paragraphMarkerEnd={32}
         paragraphHangingIndent={44}>
         {'\t•\tAn item with '}
-        <Text style={{fontWeight: 'bold'}}>bold text</Text>
+        <Text style={{fontWeight: 'bold'}}>{'bold text\n'}</Text>
         <Text paragraphMarkerEnd={60} paragraphHangingIndent={72}>
-          {'\n\t12.\tA nested item'}
+          {'\t12.\tA nested item\n'}
         </Text>
-        <Text paragraphHangingIndent={0}>{'\nUnindented text'}</Text>
+        <Text paragraphHangingIndent={0}>{'Unindented text'}</Text>
       </Text>,
     )
   })
@@ -43,9 +43,9 @@ it('passes paragraph props to text fragments and inherits them through nested sp
     ]),
   ).toEqual([
     ['\t•\tAn item with ', 32, 44],
-    ['bold text', 32, 44],
-    ['\n\t12.\tA nested item', 60, 72],
-    ['\nUnindented text', 32, 0],
+    ['bold text\n', 32, 44],
+    ['\t12.\tA nested item\n', 60, 72],
+    ['Unindented text', 32, 0],
   ])
   expect(renderer.root.findByType(RNUITextView).props).not.toHaveProperty(
     'paragraphMarkerEnd',
