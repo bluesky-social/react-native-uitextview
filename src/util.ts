@@ -34,6 +34,7 @@ function fontWeightToNativeProp(
       return 'ultraLight'
     case 200:
     case '200':
+    case 'thin':
       return 'ultraLight'
     case 300:
     case '300':
@@ -53,13 +54,13 @@ function fontWeightToNativeProp(
       return 'semibold'
     case 700:
     case '700':
-      return 'semibold'
+      return 'bold'
     case 800:
     case '800':
-      return 'bold'
     case 900:
     case '900':
     case 'heavy':
+    case 'black':
       return 'heavy'
     default:
       return 'normal'
