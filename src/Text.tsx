@@ -64,13 +64,18 @@ function UITextViewChild({style, children, ...rest}: UITextViewProps) {
     pressRetentionOffset,
     onPress,
     onLongPress,
-  } = resolvePressContext(ownHighlightGroup, rest, {
-    highlightGroup: ancestorHighlightGroup,
-    suppressHighlighting: ancestorSuppressHighlighting,
-    pressRetentionOffset: ancestorPressRetentionOffset,
-    onPress: ancestorOnPress,
-    onLongPress: ancestorOnLongPress,
-  })
+  } = resolvePressContext(
+    ownHighlightGroup,
+    rest,
+    {
+      highlightGroup: ancestorHighlightGroup,
+      suppressHighlighting: ancestorSuppressHighlighting,
+      pressRetentionOffset: ancestorPressRetentionOffset,
+      onPress: ancestorOnPress,
+      onLongPress: ancestorOnLongPress,
+    },
+    !isAncestor,
+  )
   // The native event currently contains only `target`, while TextProps types
   // these callbacks as full gesture events. Preserve the existing public type
   // and adapt it only at the private Codegen boundary.
