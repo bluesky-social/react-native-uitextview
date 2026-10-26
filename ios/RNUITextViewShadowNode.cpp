@@ -55,7 +55,7 @@ Size RNUITextViewShadowNode::measureContent(
     const auto textLayoutManager = std::make_shared<const TextLayoutManager>(getContextContainer());
 
     return textLayoutManager->measure(
-      AttributedStringBox{content.attributedString},
+      RNUITextViewAttributedStringBox(content.attributedString, content.paragraphStyles),
       paragraphAttributes,
       textLayoutContext,
       layoutConstraints
@@ -67,13 +67,15 @@ RNUITextViewContent RNUITextViewShadowNode::getContentWithMeasuredAttachments(
     const LayoutConstraints& layoutConstraints,
     std::vector<RNUITextViewHighlightMetadata> *highlightMetadata) const {
   auto attachments = std::vector<RNUITextViewAttachment>{};
+  auto paragraphStyles = std::vector<RNUITextViewParagraphStyle>{};
   auto attributedString =
-      getAttributedString(layoutContext, highlightMetadata, &attachments);
+      getAttributedString(layoutContext, highlightMetadata, &attachments, &paragraphStyles);
 
   if (attachments.empty()) {
     return RNUITextViewContent{
       std::move(attributedString),
       std::move(attachments),
+      std::move(paragraphStyles),
     };
   }
 
@@ -104,13 +106,15 @@ RNUITextViewContent RNUITextViewShadowNode::getContentWithMeasuredAttachments(
   return RNUITextViewContent{
     std::move(attributedString),
     std::move(attachments),
+    std::move(paragraphStyles),
   };
 }
 
 AttributedString RNUITextViewShadowNode::getAttributedString(
   const LayoutContext& layoutContext,
   std::vector<RNUITextViewHighlightMetadata> *highlightMetadata,
-  std::vector<RNUITextViewAttachment> *attachments) const {
+  std::vector<RNUITextViewAttachment> *attachments,
+  std::vector<RNUITextViewParagraphStyle> *paragraphStyles) const {
     const auto &baseProps = getConcreteProps();
     auto baseTextAttributes = TextAttributes::defaultTextAttributes();
     baseTextAttributes.backgroundColor = baseProps.backgroundColor;
@@ -209,6 +213,16 @@ AttributedString RNUITextViewShadowNode::getAttributedString(
           });
         }
 
+        if (paragraphStyles != nullptr && !props.text.empty() &&
+            ((std::isfinite(props.paragraphMarkerEnd) && props.paragraphMarkerEnd >= 0) ||
+             (std::isfinite(props.paragraphHangingIndent) && props.paragraphHangingIndent >= 0))) {
+          paragraphStyles->push_back(RNUITextViewParagraphStyle{
+            baseAttributedString.getFragments().size(),
+            props.paragraphMarkerEnd,
+            props.paragraphHangingIndent,
+          });
+        }
+
         baseAttributedString.appendFragment(std::move(fragment));
       } else if (attachments != nullptr) {
         auto fragment = AttributedString::Fragment{};
@@ -242,6 +256,7 @@ void RNUITextViewShadowNode::layout(LayoutContext layoutContext) {
   setStateData(RNUITextViewStateReal{
     content.attributedString,
     std::move(highlightMetadata),
+    content.paragraphStyles,
   });
 
   if (content.attachments.empty()) {
@@ -257,7 +272,7 @@ void RNUITextViewShadowNode::layout(LayoutContext layoutContext) {
   const auto textLayoutManager =
       std::make_shared<const TextLayoutManager>(getContextContainer());
   const auto measurement = textLayoutManager->measure(
-      AttributedStringBox{content.attributedString},
+      RNUITextViewAttributedStringBox(content.attributedString, content.paragraphStyles),
       paragraphAttributes,
       textLayoutContext,
       layoutConstraints);

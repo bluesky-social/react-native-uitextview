@@ -97,6 +97,33 @@ Remember to add tests for your change if possible. Run the unit tests by:
 yarn test
 ```
 
+The iOS example also has hosted native paragraph-layout tests. On macOS, after
+installing Yarn and CocoaPods dependencies, run from the repository root:
+
+```sh
+cd example/ios
+bundle exec pod install
+xcodebuild test -workspace UitextviewExample.xcworkspace \
+  -scheme UitextviewExample -configuration Debug \
+  -destination 'platform=iOS Simulator,name=iPhone 17' \
+  -only-testing:UitextviewExampleTests
+```
+
+Replace the simulator name with an installed device from `xcrun simctl list devices
+available`. The scheme sets `UITEXTVIEW_NATIVE_TESTS=1` for tests, so the host app
+starts UIKit without React or a Metro server. Normal app launches still run the
+example. The tests call the production attributed-string converter and React
+Native measurement code, check TextKit marker advances and wrapped-line positions,
+and cover UTF-16 ranges, paragraph boundaries, attachments, removing props, and a
+1,024-span paragraph with alternating line heights. The stress case checks
+attribute correctness; it does not impose a performance regression threshold.
+These tests require Xcode/UIKit; JavaScript tests and
+an example bundle build do not establish native layout correctness.
+
+The example's CocoaPods codegen hook invokes `yarn`. If Yarn is available only
+through Corepack, run `corepack enable` before `bundle exec pod install` so the
+hook can find the executable.
+
 ### Commit message convention
 
 We follow the [conventional commits specification](https://www.conventionalcommits.org/en) for our commit messages:
