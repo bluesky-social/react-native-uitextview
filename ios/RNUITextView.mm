@@ -252,7 +252,8 @@ static NSLineBreakMode RCTNSLineBreakModeFromEllipsizeMode(RNUITextViewEllipsize
   const auto &props = *std::static_pointer_cast<RNUITextViewProps const>(_props);
 
   const auto attrString = _state->getData().attributedString;
-  const auto convertedAttrString = RCTNSAttributedStringFromAttributedString(attrString);
+  const auto convertedAttrString = RCTNSAttributedStringFromAttributedStringBox(
+      RNUITextViewAttributedStringBox(attrString, _state->getData().paragraphStyles));
 
   // Setting attributedText clears any active text selection. Bail out entirely
   // when neither the text nor its layout changed so a JS-side state update made

@@ -10,11 +10,15 @@ export type SelectionChangeEvent = {
 
 type UITextViewProps = TextProps & {
   uiTextView?: boolean
+  paragraphMarkerEnd?: number
+  paragraphHangingIndent?: number
   onSelectionChange?: (event: SelectionChangeEvent) => void
 }
 
 export function UITextView({
   uiTextView: _uiTextView,
+  paragraphMarkerEnd: _paragraphMarkerEnd,
+  paragraphHangingIndent: _paragraphHangingIndent,
   onSelectionChange: _onSelectionChange,
   ...props
 }: UITextViewProps) {

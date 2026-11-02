@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RNUITextViewParagraphStyle.h"
 #include <react/renderer/components/RNUITextViewSpec/EventEmitters.h>
 #include <react/renderer/components/RNUITextViewSpec/Props.h>
 #include <react/renderer/components/view/ConcreteViewShadowNode.h>
@@ -32,12 +33,14 @@ struct RNUITextViewAttachment {
 struct RNUITextViewContent {
   AttributedString attributedString;
   std::vector<RNUITextViewAttachment> attachments;
+  std::vector<RNUITextViewParagraphStyle> paragraphStyles;
 };
 
 class RNUITextViewStateReal final {
  public:
   AttributedString attributedString;
   std::vector<RNUITextViewHighlightMetadata> highlightMetadata;
+  std::vector<RNUITextViewParagraphStyle> paragraphStyles;
 };
 
 class RNUITextViewShadowNode final : public ConcreteViewShadowNode<
@@ -75,6 +78,7 @@ private:
   AttributedString getAttributedString(
       const LayoutContext& layoutContext,
       std::vector<RNUITextViewHighlightMetadata> *highlightMetadata = nullptr,
-      std::vector<RNUITextViewAttachment> *attachments = nullptr) const;
+      std::vector<RNUITextViewAttachment> *attachments = nullptr,
+      std::vector<RNUITextViewParagraphStyle> *paragraphStyles = nullptr) const;
 };
 } // namespace facebook::React

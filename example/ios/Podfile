@@ -27,6 +27,10 @@ target 'UitextviewExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  target 'UitextviewExampleTests' do
+    inherit! :search_paths
+  end
+
 
   # Run Codegen during development for the example app.
   pre_install do |installer|
