@@ -252,7 +252,11 @@ static NSLineBreakMode RCTNSLineBreakModeFromEllipsizeMode(RNUITextViewEllipsize
   const auto &props = *std::static_pointer_cast<RNUITextViewProps const>(_props);
 
   const auto attrString = _state->getData().attributedString;
-  const auto convertedAttrString = RCTNSAttributedStringFromAttributedString(attrString);
+  // RN's Text centres each line's glyphs within lineHeight (RCTTextLayoutManager applies this when it
+  // draws); without it the text sits at the bottom of its lines, a few points lower than RN Text.
+  NSMutableAttributedString *convertedAttrString =
+      [RCTNSAttributedStringFromAttributedString(attrString) mutableCopy];
+  RCTApplyBaselineOffset(convertedAttrString);
 
   // Setting attributedText clears any active text selection. Bail out entirely
   // when neither the text nor its layout changed so a JS-side state update made
