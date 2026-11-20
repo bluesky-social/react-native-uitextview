@@ -164,6 +164,18 @@ static NSLineBreakMode RCTNSLineBreakModeFromEllipsizeMode(RNUITextViewEllipsize
       _textView = [[UITextView alloc] init];
     }
     _textView.scrollEnabled = false;
+    // UITextView is a UIScrollView, so UIKit treats it as one when it overlaps
+    // a safe area: it insets the text and, on iOS 26+, draws a scroll edge
+    // effect (a progressive blur) over the overlapping lines. Neither makes
+    // sense for non-scrolling text, and the blur can get stuck when an
+    // ancestor moves the view with a transform.
+    _textView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    if (@available(iOS 26.0, *)) {
+      _textView.topEdgeEffect.hidden = YES;
+      _textView.leftEdgeEffect.hidden = YES;
+      _textView.bottomEdgeEffect.hidden = YES;
+      _textView.rightEdgeEffect.hidden = YES;
+    }
     _textView.editable = false;
     _textView.selectable = false;
     _textView.textContainerInset = UIEdgeInsetsZero;
