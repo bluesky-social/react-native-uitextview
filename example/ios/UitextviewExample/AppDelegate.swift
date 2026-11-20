@@ -21,6 +21,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
+    if ProcessInfo.processInfo.environment["UITEXTVIEW_NATIVE_TESTS"] == "1" {
+      // Hosted UIKit tests exercise native layout without starting Metro/React.
+      window = UIWindow(frame: UIScreen.main.bounds)
+      window?.rootViewController = UIViewController()
+      window?.makeKeyAndVisible()
+      return true
+    }
+
     let delegate = ReactNativeDelegate()
     let factory = RCTReactNativeFactory(delegate: delegate)
     delegate.dependencyProvider = RCTAppDependencyProvider()

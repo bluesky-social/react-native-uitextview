@@ -5,6 +5,8 @@ it('uses React Native Text on web without forwarding native-only props', () => {
   const element = UITextView({
     children: 'Hello',
     uiTextView: true,
+    paragraphMarkerEnd: 24,
+    paragraphHangingIndent: 36,
     onSelectionChange: jest.fn(),
     testID: 'text',
   })
