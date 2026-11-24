@@ -49,6 +49,10 @@ cd ios
 pod install
 ```
 
+Swift Package Manager is also supported for apps using React Native's SPM autolinking (React Native 0.87 and newer). The
+library ships its own `ios/Package.swift`, so after installing the package just run `npx react-native spm update` in place
+of `pod install`.
+
 ## Limitations
 
 React Native UITextView can - for the most part - be used as a drop-in replacement
