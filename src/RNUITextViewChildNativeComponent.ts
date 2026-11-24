@@ -39,6 +39,10 @@ interface NativeProps extends ViewProps {
   textDecorationStyle?: CodegenTypes.WithDefault<TextDecorationStyle, 'solid'>
   textDecorationColor?: ColorValue
   textAlign?: CodegenTypes.WithDefault<TextAlign, 'auto'>
+  /** Right-aligned marker tab stop in points; -1 leaves it unset. */
+  paragraphMarkerEnd?: CodegenTypes.WithDefault<CodegenTypes.Float, -1>
+  /** Left-aligned text tab stop and wrapped-line indent; -1 leaves it unset. */
+  paragraphHangingIndent?: CodegenTypes.WithDefault<CodegenTypes.Float, -1>
   shadowRadius?: CodegenTypes.WithDefault<CodegenTypes.Float, 0>
   /** Internal identifier used to highlight all fragments in a pressable Text. */
   highlightGroup?: string
