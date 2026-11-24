@@ -8,7 +8,7 @@
 #import <react/renderer/components/RNUITextViewSpec/EventEmitters.h>
 #import <react/renderer/components/RNUITextViewSpec/Props.h>
 #import <react/renderer/components/RNUITextViewSpec/RCTComponentViewHelpers.h>
-#import "RCTFabricComponentsPlugins.h"
+#import <React/RCTFabricComponentsPlugins.h>
 
 #include <cmath>
 
