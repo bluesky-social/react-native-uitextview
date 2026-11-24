@@ -16,6 +16,8 @@
     "react-native.config.js",
     "!ios/build",
     "!android/build",
+    "!ios/generated",
+    "!android/generated",
     "!android/gradle",
     "!android/gradlew",
     "!android/gradlew.bat",
@@ -149,6 +151,9 @@
       "ios": "ios/generated"
     }
   },
+  "swiftpmConfig": {
+    "name": "react-native-uitextview"
+  },
   "create-react-native-library": {
     "languages": "kotlin-objc",
     "type": "fabric-view",
@@ -173,7 +178,9 @@
       ],
       [
         "typescript",
-        {}
+        {
+          "project": "tsconfig.build.json"
+        }
       ],
       "codegen"
     ]
