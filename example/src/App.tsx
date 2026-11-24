@@ -47,6 +47,12 @@ const FONT_SCALING_PARAGRAPH =
   'Dynamic Type check with a nested bold span. This paragraph should wrap ' +
   'onto multiple lines so scaling differences are easy to spot.'
 
+// Regression fixture for #37. With a lineHeight taller than the font's own line,
+// base RN Text centres each line's glyphs in it. RN-UITextView is drawn on top at
+// the same spot (blue over red): the two should line up, not sit apart.
+const LINE_HEIGHT_PARAGRAPH =
+  'First line, tall lineHeight\nSecond line, same style'
+
 function SelectionChangeDemo() {
   const [range, setRange] = React.useState<{start: number; end: number} | null>(
     null,
@@ -96,6 +102,23 @@ export default function App() {
       <ScrollView style={styles.scrollView}>
         <View style={styles.box}>
           <RNText style={styles.header}>React Native UITextView Example</RNText>
+
+          <View>
+            <RNText style={styles.subheader}>
+              lineHeight (#37): red = base RN Text, blue = RN-UITextView on top
+            </RNText>
+            <View style={styles.lineHeightOverlay}>
+              <RNText style={[styles.lineHeightText, styles.lineHeightBase]}>
+                {LINE_HEIGHT_PARAGRAPH}
+              </RNText>
+              <Text
+                selectable
+                uiTextView
+                style={[styles.lineHeightText, styles.lineHeightTop]}>
+                {LINE_HEIGHT_PARAGRAPH}
+              </Text>
+            </View>
+          </View>
 
           <View>
             <RNText style={styles.subheader}>UITextView, inline view</RNText>
@@ -888,6 +911,23 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
     paddingHorizontal: 10,
+  },
+  lineHeightOverlay: {
+    backgroundColor: '#eeeeee',
+  },
+  lineHeightText: {
+    fontSize: 16,
+    lineHeight: 36,
+  },
+  lineHeightBase: {
+    color: 'red',
+  },
+  lineHeightTop: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    color: 'rgba(0, 0, 255, 0.7)',
   },
   box: {
     gap: 20,
